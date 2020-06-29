@@ -30,6 +30,12 @@
     <ClCompile Include="StartScene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Map-Pic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Control.h">
@@ -39,6 +45,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="StartScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Map-Pic.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
