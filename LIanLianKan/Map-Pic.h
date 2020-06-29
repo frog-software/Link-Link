@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   Map-Pic.h
+ * \brief  Map类和Pic类的声明
+ * 在此头文件声明Map类和Pic类
+ * \author FrogDar
+ * \date   June 2020
+ *********************************************************************/
 #pragma once
 #include<vector>
 #include<list>
@@ -49,7 +56,12 @@ public:
     bool operator<(const Pic& b);
 };
 
+/*地图大小上限*/
 const int N = 100;
+
+/**
+ * 地图类.
+ */
 class Map{
 private:
     /**

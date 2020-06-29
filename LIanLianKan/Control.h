@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   Control.h
+ * \brief  Control类声明
+ * Control类的声明所在头文件
+ *
+ * \author FrogDar
+ * \date   June 2020
+ *********************************************************************/
 #pragma once
 #include "Scene.h"
 #include "SDL.h"

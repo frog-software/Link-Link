@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   Control.cpp
+ * \brief  Control类的定义
+ * Control类的函数定义
+ * \author FrogDar
+ * \date   June 2020
+ *********************************************************************/
 #include "Control.h"
 #include "StartScene.h"
 #include <SDL.h>
@@ -11,26 +18,40 @@
 namespace fs = std::filesystem;
 extern Control* now;
 
-
-Control::Control(int _width, int _height)
+/**
+ * Control类的有参构造函数.
+ * 创建一个width*height大小的窗口
+ * \param _width 窗口宽度
+ * \param _height 窗口高度
+ */
+Control::Control(int _width, int _height) :width{ _width }, height{ _height }, scene{ nullptr }
 {
+	/*初始化随机数种子*/
 	std::srand((int)time(NULL));
-	width = _width;
-	height = _height;
+	/*初始化SDL信息*/
 	SDL_Init(SDL_INIT_EVERYTHING);
-
+	/*初始化窗口信息*/
 	window = SDL_CreateWindow("Link Up", 100, 100, width, height, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	//Mix_Init(127);
 	//Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_CHANNELS, 2048);
+	/*初始化SDL的字体拓展*/
 	TTF_Init();
-	scene = nullptr;
 }
 
+/**
+ * Control类的无参构造函数.
+ *
+ */
 Control::Control() : Control{ 1366, 768 }
 {
 }
 
+/**
+ * Control类的析构函数.
+ * 处理指针问题
+ *
+ */
 Control::~Control()
 {
 	for (auto i : Textures)
@@ -48,17 +69,28 @@ Control::~Control()
 	scene = nullptr;
 }
 
+/**
+ * 主循环.
+ * 程序控制逻辑的主体部分
+ */
 void Control::mainLoop()
 {
+	/*加载程序资源文件（图片、音频*/
 //	Initmywavs(fs::path{ "./Sound" });
 //	Initmywavs(fs::path{ "./Music" });
 	Initmypngs(fs::path{ "./Pic" });
 
+	/*初始界面为StartScene*/
 	this->scene = new StartScene();
+
+	/*用户是否选择退出*/
 	bool quit = false;
+	/*用户操作的事件*/
 	SDL_Event e;
+
 	while (!quit)
 	{
+		/*记录当前时间（为了控制帧率*/
 		Uint64 start = SDL_GetPerformanceCounter();
 		if (SDL_PollEvent(&e) != 0)
 		{
@@ -78,18 +110,36 @@ void Control::mainLoop()
 			scene->update();
 			SDL_RenderPresent(renderer);
 		}
-		//控制帧率为60
+		/*为控制帧率为60，手动delay剩余的时间*/
+
+		/*记录当前时间*/
 		Uint64 end = SDL_GetPerformanceCounter();
 		float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
+		/*16.666f约等于60fps*/
 		if (elapsedMS < 16.666f)
 			SDL_Delay(floor(16.666f - elapsedMS));
 	}
 }
+
+/**
+ * 获取Control类当前的Renderer.
+ *
+ * \return Renderer的指针
+ */
 SDL_Renderer* Control::getRenderer()
 {
 	return renderer;
 }
 
+/**
+ * 绘制一张图片.
+ *
+ * \param path 图片的路径
+ * \param x 绘制点的横坐标
+ * \param y 绘制点的纵坐标
+ * \param width 需要绘制的图片宽度
+ * \param height 需要绘制的图片的高度
+ */
 void Control::putImage(std::string path, int x, int y, int width, int height)
 {
 	if (Textures[path] == nullptr)
@@ -103,13 +153,31 @@ void Control::putImage(std::string path, int x, int y, int width, int height)
 	SDL_RenderCopy(renderer, texture, NULL, &box);
 }
 
+/**
+ * 播放音乐path共cnt次.
+ * 只支持wav格式的音乐
+ * \param path 音乐的路径
+ * \param cnt 播放次数，-1为背景音乐
+ */
 void Control::playSound(std::string path, int cnt)
 {
 	Mix_PlayChannel(-1, Sounds[path], 0);
 }
-
+/**
+ * 获取随机数.
+ *
+ * \return 一个随机数
+ */
 int Control::getRand() { return std::rand(); }
 
+/**
+ * 输出文字信息.
+ * 在(x,y)处输出字号为size的内容c
+ * \param x 横坐标
+ * \param y 纵坐标
+ * \param c 输出内容
+ * \param size 字号大小
+ */
 void Control::xyprintf(int x, int y, const char* c, int size = 20)
 {
 	if (Fonts.find(size) == Fonts.end())
@@ -126,6 +194,11 @@ void Control::xyprintf(int x, int y, const char* c, int size = 20)
 	SDL_FreeSurface(surface);
 }
 
+/**
+ * 加载png资源.
+ * 自动递归操作，cpp17标准
+ * \param strPath 加载的文件夹
+ */
 void Control::Initmypngs(fs::path strPath)
 {
 	for (auto& fe : fs::directory_iterator(strPath))
@@ -142,6 +215,12 @@ void Control::Initmypngs(fs::path strPath)
 				now->putImage(fp.generic_string().c_str(), 0, 0, 100, 100);
 	}
 }
+
+/**
+ * 加载wav资源.
+ * 自动递归操作，cpp17标准
+ * \param strPath 加载的文件夹
+ */
 void Control::Initmywavs(fs::path strPath)
 {
 	for (auto& fe : fs::directory_iterator(strPath))
