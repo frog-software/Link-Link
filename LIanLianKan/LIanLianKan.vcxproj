@@ -144,12 +144,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Control.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map-Pic.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Control.h" />
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Map-Pic.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="StartScene.h" />
   </ItemGroup>
