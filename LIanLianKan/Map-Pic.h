@@ -39,4 +39,7 @@ public:
     bool isMatch(Pic* a, Pic* b);
     bool anyMatch();
     void draw();
+    void drawMatchedLine(Pic* start, Pic* end);
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1);
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2);
 };
