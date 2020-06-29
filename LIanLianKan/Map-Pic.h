@@ -89,7 +89,8 @@ public:
     bool anyMatch();
     /*绘制地图*/
     void draw();
-    void drawMatchedLine(Pic* start, Pic* end);
-    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1);
-    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2);
+    /*三个重载函数，根据参数个数绘制连接线*/
+    void drawMatchedLine(Pic* start, Pic* end); //起点和终点在同一直线上
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1);  //起点和终点之间拐弯一次，corner1为拐弯点pic
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2);//起点和终点之间拐弯两次，corner1、2为拐弯点pic
 };

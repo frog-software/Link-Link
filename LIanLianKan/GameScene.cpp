@@ -14,6 +14,7 @@ GameScene::~GameScene()
 void GameScene::update()
 {
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
+	/*≤‚ ‘µ„*/
 	Pic* a = new Pic(1, 1, 2);
 	Pic* b = new Pic(2, 2, 4);
 	Pic* c1 = new Pic(3, 4, 2);
