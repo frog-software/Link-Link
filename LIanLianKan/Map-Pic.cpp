@@ -55,7 +55,7 @@ void Pic::draw()
 {
     char* s = new char[100];
     sprintf_s(s, 100, "[%2d]", kind);
-    now->xyprintf(x * 20, y * 30, s, 20);
+    now->xyprintf(x * 40, y * 30, s, 20);
 }
 
 bool Pic::operator<(const Pic& b)
