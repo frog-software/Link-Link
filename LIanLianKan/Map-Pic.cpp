@@ -102,7 +102,3 @@ void Map::draw()
 {
     for (auto p : map)p->draw();
 }
-
-
-
-
