@@ -89,4 +89,7 @@ public:
     bool anyMatch();
     /*ªÊ÷∆µÿÕº*/
     void draw();
+    void drawMatchedLine(Pic* start, Pic* end);
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1);
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2);
 };
