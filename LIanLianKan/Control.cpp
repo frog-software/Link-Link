@@ -67,10 +67,6 @@ void Control::mainLoop()
 			{
 				quit = true;
 			}
-			if (e.type == SDL_KEYDOWN)
-			{
-				scene->onKey(e.key.keysym.sym);
-			}
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
 				scene->onMouse(e.button.x, e.button.y);
