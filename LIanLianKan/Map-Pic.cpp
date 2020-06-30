@@ -118,7 +118,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
     if (a->getX() == b->getX()) {
         bool flag = true; // 假设没有障碍
         for (int i = std::min(a->getY(), b->getY()) + 1; i < std::max(a->getY(), b->getY()); i++) {
-            if (true == map[(i - 1) * n + (a->getX() - 1)]->getIsVisible()) {
+            if (true == map[(a->getX() - 1) * n + (i - 1)]->getIsVisible()) {
                 flag = false;
             }
         }
@@ -131,7 +131,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
     else if (a->getY() == b->getY()) {
         bool flag = true; // 假设没有障碍
         for (int i = std::min(a->getX(), b->getX()) + 1; i < std::max(a->getX(), b->getX()); i++) {
-            if (true == map[(a->getY() - 1) * n + (i - 1)]->getIsVisible()) {
+            if (true == map[(i - 1) * n + (a->getY() - 1)]->getIsVisible()) {
                 flag = false;
             }
         }
@@ -153,11 +153,11 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
         while (true) {
             now = now + dir;
             // 判断是否越界
-            if (now.first == -1 || now.first == n || now.second == -1 || now.second == m) {
+            if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
                 break;
             }
-            // (i,j)元素在map中的(j-1)*n+(i-1)处
-            Pic* now_pic = map[(now.second - 1) * n + (now.first - 1)];
+            // (i,j)元素在map中的(i-1)*n+(j-1)处
+            Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
             if (false == now_pic->getIsVisible()) {
                 a_accessible.push_back(now);
             }
@@ -172,11 +172,11 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
         while (true) {
             now = now + dir;
             // 判断是否越界
-            if (now.first == -1 || now.first == n || now.second == -1 || now.second == m) {
+            if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
                 break;
             }
             // (i,j)元素在map中的(j-1)*n+(i-1)处
-            Pic* now_pic = map[(now.second - 1) * n + (now.first - 1)];
+            Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
             if (false == now_pic->getIsVisible()) {
                 b_accessible.push_back(now);
             }
@@ -191,7 +191,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
         for (auto b_ : b_accessible)
             if (a_ == b_) {
                 if (erase)
-                    drawMatchedLine(a, b, map[(a_.second - 1) * n + (a_.first - 1)]);
+                    drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)]);
                 return true;
             }
 
@@ -203,7 +203,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
             if (a_.first == b_.first) {
                 flag = true; // 假设无障碍
                 for (int i = std::min(a_.second, b_.second) + 1; i < std::max(a_.second, b_.second); i++) {
-                    if (true == map[(i - 1) * n + (a_.first - 1)]->getIsVisible()) {
+                    if (true == map[(a_.first - 1) * n + (i - 1)]->getIsVisible()) {
                         flag = false;
                     }
                 }
@@ -211,7 +211,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
             else if (a_.second == b_.second) {
                 flag = true; // 假设无障碍
                 for (int i = std::min(a_.first, b_.first) + 1; i < std::max(a_.first, b_.first); i++) {
-                    if (true == map[(a_.second - 1) * n + (i - 1)]->getIsVisible()) {
+                    if (true == map[(i - 1) * n + (a_.second - 1)]->getIsVisible()) {
                         flag = false;
                     }
                 }
@@ -219,7 +219,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 
             if (flag == true) {
                 if (erase)
-                    drawMatchedLine(a, b, map[(a_.second - 1) * n + (a_.first - 1)], map[(b_.second - 1) * n + (b_.first - 1)]);
+                    drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)], map[(b_.first - 1) * n + (b_.second - 1)]);
                 return true;
             }
         }
