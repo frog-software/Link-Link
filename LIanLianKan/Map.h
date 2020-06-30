@@ -69,6 +69,8 @@ public:
 	std::vector<Pic*>map;
 	/*构建m*n的地图*/
 	Map(int _m, int _n);
+
+	~Map();
 	/*重新更新matchedlist*/
 	void updateMatchedlist();
 	void updateMatchedlist(Pic*);
