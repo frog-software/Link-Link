@@ -75,7 +75,7 @@ void Pic::setIsStroke(bool isStroke)
 
 bool Pic::getValid() const
 {
-	return kind && isVisible;
+    return kind > 0 && isVisible == true;
 }
 
 /**
@@ -99,6 +99,6 @@ void Pic::draw()
  */
 bool Pic::operator<(const Pic& b)
 {
-	if (this->x != b.x)return this->x < b.x;
-	else return this->y < b.y;
+	if (this->x != b.x)return this->x > b.x;
+	else return this->y > b.y;
 }

@@ -9,138 +9,108 @@
 
 #include "Map.h"
 #include "Control.h"
+#include <algorithm>
 extern Control* now;
 
 
-
-std::pair<int, int> operator+(std::pair<int, int> op1, std::pair<int, int> op2)
-{
-	return std::pair{ op1.first + op2.first, op1.second + op2.second };
+void Map::getAcross(Pic* aa, std::vector<Pic*>& v) {
+	Pic* a = nullptr;
+	a = aa;
+	while (getPicup(a) != nullptr && getPicup(a)->getIsVisible() == false) {
+		a = getPicup(a);
+		v.push_back(a);
+	}
+	a = aa;
+	while (getPicdown(a) != nullptr && getPicdown(a)->getIsVisible() == false) {
+		a = getPicdown(a);
+		v.push_back(a);
+	}
+	a = aa;
+	while (getPicleft(a) != nullptr && getPicleft(a)->getIsVisible() == false) {
+		a = getPicleft(a);
+		v.push_back(a);
+	}
+	a = aa;
+	while (getPicright(a) != nullptr && getPicright(a)->getIsVisible() == false) {
+		a = getPicright(a);
+		v.push_back(a);
+	}
 }
 
-/**
- * 获取某Pic的上方Pic.
- *
- * \param a Pic对象
- * \return  Pic上方的Pic，无则nullptr
- */
+
 bool Map::canMatch(Pic* a, Pic* b, bool erase)
 {
+	if (a == nullptr || b == nullptr)
+	{
+		printf("出现nullptr\n");
+		return false;
+	}
+	if (a->getValid() == false || b->getValid() == false)
+		return false;
 	if (a->getKind() != b->getKind())
 		return false;
-
-	// ①直接连接的情况
-	if (a->getX() == b->getX()) {
-		bool flag = true; // 假设没有障碍
-		for (int i = std::min(a->getY(), b->getY()) + 1; i < std::max(a->getY(), b->getY()); i++) {
-			if (true == map[(a->getX() - 1) * n + (i - 1)]->getIsVisible()) {
-				flag = false;
-			}
-		}
-		if (true == flag) {
-			if (erase)
-				connect_line = new ConnectLine(a, b);
-			return true;
-		}
-	}
-	else if (a->getY() == b->getY()) {
-		bool flag = true; // 假设没有障碍
-		for (int i = std::min(a->getX(), b->getX()) + 1; i < std::max(a->getX(), b->getX()); i++) {
-			if (true == map[(i - 1) * n + (a->getY() - 1)]->getIsVisible()) {
-				flag = false;
-			}
-		}
-		if (true == flag) {
-			if (erase)
-				connect_line = new ConnectLine(a, b);
-			return true;
-		}
-	}
-
-	// 存a,b可以直接访问到的坐标
-	std::list<std::pair<int, int>> a_accessible;
-	std::list<std::pair<int, int>> b_accessible;
-	// 上、右、下、左 四个方向
-	std::list<std::pair<int, int>> direction{ std::pair {0,-1},std::pair {1,0},std::pair {0,1},std::pair {-1,0} };
-	// 找到a可以直接访问到的坐标(十字)
-	for (auto dir : direction) {
-		std::pair now{ a->getX(),a->getY() };
-		while (true) {
-			now = now + dir;
-			// 判断是否越界
-			if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
-				break;
-			}
-			// (i,j)元素在map中的(i-1)*n+(j-1)处
-			Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
-			if (false == now_pic->getIsVisible()) {
-				a_accessible.push_back(now);
-			}
-			else {
-				break;
-			}
-		}
-	}
-	// 找到b可以直接访问到的坐标(十字)
-	for (auto dir : direction) {
-		std::pair now{ b->getX(),b->getY() };
-		while (true) {
-			now = now + dir;
-			// 判断是否越界
-			if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
-				break;
-			}
-			// (i,j)元素在map中的(j-1)*n+(i-1)处
-			Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
-			if (false == now_pic->getIsVisible()) {
-				b_accessible.push_back(now);
-			}
-			else {
-				break;
-			}
-		}
-	}
-
-	// ②拐一次的情况
-	for (auto a_ : a_accessible)
-		for (auto b_ : b_accessible)
-			if (a_ == b_) {
+	if (a == b)return false;
+	std::vector<Pic*>access_a;
+	std::vector<Pic*>access_b;
+	getAcross(a, access_a);
+	getAcross(b, access_b);
+	if (access_a.size() == 0 || access_b.size() == 0)return false;
+	//printf("%d %d %d %d\n", a->getX(), a->getY(), b->getX(), b->getY());
+	for (auto i : access_a)
+		for (auto j : access_b)
+			if (i == j) {
 				if (erase)
-					connect_line = new ConnectLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)]);
+					connect_line = new ConnectLine{ a,b,i };
 				return true;
 			}
-
-	// ③拐两次的情况
-	for (auto a_ : a_accessible) {
-		for (auto b_ : b_accessible) {
-			// 能否连成直线的标记
-			bool flag = false;
-			if (a_.first == b_.first) {
-				flag = true; // 假设无障碍
-				for (int i = std::min(a_.second, b_.second) + 1; i < std::max(a_.second, b_.second); i++) {
-					if (true == map[(a_.first - 1) * n + (i - 1)]->getIsVisible()) {
+	for (auto i : access_a)
+		for (auto j : access_b)
+			if (i->getX() == j->getX()) {
+				Pic* begin; Pic* end;
+				if (i->getY() < j->getY()) {
+					begin = i; end = j;
+				}
+				else {
+					begin = j; end = i;
+				}
+				bool flag = true;
+				do {
+					begin = getPicright(begin);
+					if (begin->getIsVisible() == true) {
 						flag = false;
+						break;
 					}
+				} while (begin != end);
+				if (flag == true) {
+					if (erase)
+						connect_line = new ConnectLine{ a,b,i,j };
+					return true;
 				}
 			}
-			else if (a_.second == b_.second) {
-				flag = true; // 假设无障碍
-				for (int i = std::min(a_.first, b_.first) + 1; i < std::max(a_.first, b_.first); i++) {
-					if (true == map[(i - 1) * n + (a_.second - 1)]->getIsVisible()) {
+			else if (i->getY() == j->getY()) {
+				Pic* begin; Pic* end;
+				if (i->getX() < j->getX()) {
+					begin = i; end = j;
+				}
+				else {
+					begin = j; end = i;
+				}
+				bool flag = true;
+				do {
+					begin = getPicdown(begin);
+					if (begin->getIsVisible() == true) {
 						flag = false;
+						break;
 					}
+				} while (begin != end);
+				if (flag == true) {
+					if (erase)
+						connect_line = new ConnectLine{ a,b,i,j };
+					return true;
 				}
 			}
-
-			if (flag == true) {
-				if (erase)
-					connect_line = new ConnectLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)], map[(b_.first - 1) * n + (b_.second - 1)]);
-				return true;
-			}
-		}
-	}
-
 	return false;
+
 }
 
 /**
@@ -149,7 +119,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
  * \param _m  地图行数
  * \param _n  地图列数
  */
-Map::Map(int _m, int _n) :m{ _m }, n{ _n }
+Map::Map(int _m, int _n) :m{ _m + 2 }, n{ _n + 2 }
 {
 	/*
 	每种图形需要成对出现
@@ -157,14 +127,37 @@ Map::Map(int _m, int _n) :m{ _m }, n{ _n }
 	实现成对出现
 	*/
 	int t{ 0 };
-	for (int i = 1; i <= m; i++)
-		for (int j = 1; j <= n; j++) {
+	for (int i = 1; i <= _m; i++)
+		for (int j = 1; j <= _n; j++) {
 			if (t > 0)t = -t;
 			else t = now->getRand() % 20 + 1;
 			map.push_back(new Pic{ abs(t),i,j });
 		}
+	for (int i = 0; i < m; i++) {
+		map.push_back(new Pic{ -1,i,0 });
+		map.back()->setIsVisible(false);
+	}
+	for (int i = 0; i < m; i++) {
+		map.push_back(new Pic{ -1,i,_n + 1 });
+		map.back()->setIsVisible(false);
+	}
+	for (int i = 1; i < n - 1; i++) {
+		map.push_back(new Pic{ -1,0,i });
+		map.back()->setIsVisible(false);
+	}
+	for (int i = 1; i < n - 1; i++) {
+		map.push_back(new Pic{ -1,_m + 1,i });
+		map.back()->setIsVisible(false);
+	}
+	for (unsigned int i = 0; i < map.size(); i++)
+		for (unsigned int j = 0; j < map.size(); j++)
+			if ((*map[j]) < (*map[i]))
+				std::swap(map[i], map[j]);
+
+	printf("test\n");
 	RandomOrder();
 }
+
 /**
  * 更新匹配列表（全体）.
  * 枚举所有点对，一一判断其是否能够进行匹配
@@ -173,10 +166,15 @@ void Map::updateMatchedlist()
 {
 	matchedlist.clear();
 	for (unsigned int i = 0; i < map.size(); i++)
-		for (unsigned int j = i + 1; j < map.size(); j++)
-			if (map[i]->getValid() && map[j]->getValid() && canMatch(map[i], map[j], false))
-				matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
+		if (map[i]->getValid())
+			for (unsigned int j = i + 1; j < map.size(); j++)
+				if (map[j]->getValid())
+					if (canMatch(map[i], map[j], false))
+						matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
+
 	matchedlist.unique();
+	for (auto i : matchedlist)
+		printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());
 }
 
 /**
@@ -196,6 +194,7 @@ void Map::updateMatchedlist(Pic* a)
 			if (j->getValid() && i != j && canMatch(i, j, false))
 				matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
 	matchedlist.unique();
+
 }
 
 /**
@@ -246,9 +245,6 @@ void Map::RandomOrder()
 		}
 	}
 
-	// update map
-	draw();
-
 	// update matched list
 	updateMatchedlist();
 }
@@ -287,11 +283,16 @@ void Map::draw()
 	for (auto p : map)p->draw();
 }
 
-
+/**
+ * 获取某Pic的上方Pic.
+ *
+ * \param a Pic对象
+ * \return  Pic上方的Pic，无则nullptr
+ */
 Pic* Map::getPicup(Pic* a)
 {
-	if (a->getX() == 1) return nullptr;
-	return map[n * (a->getX() - 2) + a->getY() - 1];
+	if (a->getX() == 0) return nullptr;
+	return map[n * (a->getX() - 1) + a->getY()];
 }
 
 /**
@@ -302,8 +303,8 @@ Pic* Map::getPicup(Pic* a)
  */
 Pic* Map::getPicdown(Pic* a)
 {
-	if (a->getY() == m) return nullptr;
-	return map[n * (a->getX()) + a->getY() - 1];
+	if (a->getX() == m - 1) return nullptr;
+	return map[n * (a->getX() + 1) + a->getY()];
 }
 
 /**
@@ -314,8 +315,8 @@ Pic* Map::getPicdown(Pic* a)
  */
 Pic* Map::getPicleft(Pic* a)
 {
-	if (a->getY() == 1)return nullptr;
-	return map[n * (a->getX() - 1) + a->getY() - 2];
+	if (a->getY() == 0)return nullptr;
+	return map[n * (a->getX()) + a->getY() - 1];
 }
 
 /**
@@ -326,8 +327,8 @@ Pic* Map::getPicleft(Pic* a)
  */
 Pic* Map::getPicright(Pic* a)
 {
-	if (a->getY() == n)return nullptr;
-	return map[n * (a->getX() - 1) + a->getY()];
+	if (a->getY() == n - 1)return nullptr;
+	return map[n * (a->getX()) + a->getY() + 1];
 }
 
 void Map::setConnectLine(ConnectLine* line_)

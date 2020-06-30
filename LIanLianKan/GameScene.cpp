@@ -34,7 +34,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
 	if (linearMousePositionOnMap >= 0)
 	{
-		map->Map::map[linearMousePositionOnMap]->setIsVisible(false);
+		map->map[linearMousePositionOnMap]->setIsVisible(false);
 	}
 }
 

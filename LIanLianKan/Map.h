@@ -35,18 +35,14 @@ private:
 	 * 图片大小.
 	 */
 
-	 /**
-	  * 存储地图中的图标.
-	  * 利用指针的方式
-	  * 排序之后，位置(x,y)对应[(x-1)*n+y-1]
-	  */
- 
+
+
 	 /**
 	   * 存储配对元素的连接线.
 	  */
 	ConnectLine* connect_line;
 
-	std::vector<Pic*>map;
+
 	/**
 	 * 存储地图中可以匹配的序列.
 	 * 利用list+pair
@@ -64,6 +60,12 @@ private:
 	Pic* getPicleft(Pic* a);
 	Pic* getPicright(Pic* a);
 public:
+	/**
+	 * 存储地图中的图标.
+	 * 利用指针的方式
+	* 排序之后，位置(x,y)对应[x*n+y]
+	*/
+	std::vector<Pic*>map;
 	/*构建m*n的地图*/
 	Map(int _m, int _n);
 	/*重新更新matchedlist*/
@@ -80,4 +82,6 @@ public:
 	bool anyMatch();
 	/*绘制地图*/
 	void draw();
+	/*获取Pic十字链路的可用Pic*/
+	void getAcross(Pic* aa, std::vector<Pic*>& v);
 };
