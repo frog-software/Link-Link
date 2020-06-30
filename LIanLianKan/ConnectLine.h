@@ -33,5 +33,5 @@ public:
     ~ConnectLine();
     void geneLine_rect(Pic* s, Pic* e,int index);
     void drawLine(Control* now);
-    int cnt = 10;
+    int cnt = 5;
 };
