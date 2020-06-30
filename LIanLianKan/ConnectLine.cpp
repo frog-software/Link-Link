@@ -66,26 +66,26 @@ void ConnectLine::geneLine_rect(Pic* s, Pic* e, int index)
 			line_rect[index].x = x2;
 			line_rect[index].y = y2;
 			line_rect[index].w = 5;
-			line_rect[index].h = y1 - y2;
+			line_rect[index].h = y1 - y2 + 5;
 		}
 		else {
 			line_rect[index].x = x1;
 			line_rect[index].y = y1;
 			line_rect[index].w = 5;
-			line_rect[index].h = y2 - y1;
+			line_rect[index].h = y2 - y1 + 5;
 		}
 	}
 	else {//y坐标相等，线段水平方向
 		if (x1 - x2 > 0) {
 			line_rect[index].x = x2;
 			line_rect[index].y = y2;
-			line_rect[index].w = x1 - x2;
+			line_rect[index].w = x1 - x2 + 5;
 			line_rect[index].h = 5;
 		}
 		else {
 			line_rect[index].x = x1;
 			line_rect[index].y = y1;
-			line_rect[index].w = x2 - x1;
+			line_rect[index].w = x2 - x1 + 5;
 			line_rect[index].h = 5;
 		}
 
