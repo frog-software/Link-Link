@@ -103,6 +103,12 @@ std::pair<int, int> operator+(std::pair<int, int> op1, std::pair<int, int> op2)
     return std::pair{ op1.first + op2.first, op1.second + op2.second };
 }
 
+/**
+ * 获取某Pic的上方Pic.
+ *
+ * \param a Pic对象
+ * \return  Pic上方的Pic，无则nullptr
+ */
 bool Map::canMatch(Pic* a, Pic* b, bool erase)
 {
     if (a->getKind() != b->getKind())
@@ -113,7 +119,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
         bool flag = true; // 假设没有障碍
         for (int i = std::min(a->getY(), b->getY()) + 1; i < std::max(a->getY(), b->getY()); i++) {
             if (true == map[(i - 1) * n + (a->getX() - 1)]->getIsVisible()) {
-                flag == false;
+                flag = false;
             }
         }
         if (true == flag) {
@@ -126,7 +132,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
         bool flag = true; // 假设没有障碍
         for (int i = std::min(a->getX(), b->getX()) + 1; i < std::max(a->getX(), b->getX()); i++) {
             if (true == map[(a->getY() - 1) * n + (i - 1)]->getIsVisible()) {
-                flag == false;
+                flag = false;
             }
         }
         if (true == flag) {
@@ -198,7 +204,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
                 flag = true; // 假设无障碍
                 for (int i = std::min(a_.second, b_.second) + 1; i < std::max(a_.second, b_.second); i++) {
                     if (true == map[(i - 1) * n + (a_.first - 1)]->getIsVisible()) {
-                        flag == false;
+                        flag = false;
                     }
                 }
             }
@@ -206,7 +212,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
                 flag = true; // 假设无障碍
                 for (int i = std::min(a_.first, b_.first) + 1; i < std::max(a_.first, b_.first); i++) {
                     if (true == map[(a_.second - 1) * n + (i - 1)]->getIsVisible()) {
-                        flag == false;
+                        flag = false;
                     }
                 }
             }
@@ -251,8 +257,8 @@ Map::Map(int _m, int _n) :m{ _m }, n{ _n }
 void Map::updateMatchedlist()
 {
     matchedlist.clear();
-    for (int i = 0; i < map.size(); i++)
-        for (int j = i + 1; j < map.size(); j++)
+    for (unsigned int i = 0; i < map.size(); i++)
+        for (unsigned int j = i + 1; j < map.size(); j++)
             if (map[i]->getValid() && map[j]->getValid() && canMatch(map[i], map[j], false))
                 matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
     matchedlist.unique();
@@ -372,7 +378,7 @@ void Map::drawMatchedLine(Pic* start, Pic* end)
 {
     /*x1,x2,y1,y2：起终点的坐标，len：线段长度。默认start在end的左侧*/
 
-    int x1,x2,y1,y2,len;
+    int x1,x2,y1,y2;
     x1 = start->getX() * Pic::width;
     y1 = start->getY() * Pic::height;
     x2 = end->getX() * Pic::width;
@@ -428,16 +434,8 @@ void Map::drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2)
     drawMatchedLine(corner2, end);
 }
 
-/**
- * 获取某Pic的上方Pic.
- *
- * \param a Pic对象
- * \return  Pic上方的Pic，无则nullptr
- */
-bool Map::canMatch(Pic*, Pic*, bool)
-{
-	return false;
-}
+
+
 Pic* Map::getPicup(Pic* a)
 {
     if (a->getX() == 1) return nullptr;
