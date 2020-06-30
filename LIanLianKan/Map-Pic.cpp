@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Map-Pic.cpp
- * \brief  MapÀàºÍPicÀàµÄ¶¨ÒåÎÄ¼ş
- * MapÀàºÍPicÀàÖĞ¸÷¸ö³ÉÔ±ÊåÊåµÄÊµÏÖ
+ * \brief  Mapç±»å’ŒPicç±»çš„å®šä¹‰æ–‡ä»¶
+ * Mapç±»å’ŒPicç±»ä¸­å„ä¸ªæˆå‘˜å”å”çš„å®ç°
  * \author FrogDar
  * \date   June 2020
  *********************************************************************/
@@ -14,14 +14,14 @@ int Pic::width = 40;
 int Pic::height = 30;
 
 /**
- * .PicÀàµÄ¹¹Ôìº¯Êı
- * ´«ÈëÍ¼±êÀàĞÍÓë×ø±êĞÅÏ¢
- * Ä¬ÈÏ¿É¼û¡¢Ä¬ÈÏÎŞ±ß¿ò
- * \param _kind µ±Ç°Í¼±êµÄÀàĞÍ £¨0±íÊ¾ÕÏ°­
- * \param _x ÔÚµØÍ¼ÖĞµÄµÚ¼¸ĞĞ
- * \param _y ÔÚµØÍ¼ÖĞµÄµÚ¼¸ÁĞ
+ * .Picç±»çš„æ„é€ å‡½æ•°
+ * ä¼ å…¥å›¾æ ‡ç±»å‹ä¸åæ ‡ä¿¡æ¯
+ * é»˜è®¤å¯è§ã€é»˜è®¤æ— è¾¹æ¡†
+ * \param _kind å½“å‰å›¾æ ‡çš„ç±»å‹ ï¼ˆ0è¡¨ç¤ºéšœç¢
+ * \param _x åœ¨åœ°å›¾ä¸­çš„ç¬¬å‡ è¡Œ
+ * \param _y åœ¨åœ°å›¾ä¸­çš„ç¬¬å‡ åˆ—
  */
-Pic::Pic(int _kind,int _x,int _y) :x{ _x }, y{ _y }, isVisible{ true }, isStroke{ false },kind{ _kind }
+Pic::Pic(int _kind, int _x, int _y) :x{ _x }, y{ _y }, isVisible{ true }, isStroke{ false }, kind{ _kind }
 {
 }
 
@@ -76,8 +76,8 @@ bool Pic::getValid() const
 }
 
 /**
- * »æ»­Í¼±ê.
- * Õı³£À´ËµÊÇ»æ»­Ò»ÕÅÍ¼Æ¬£¬ÕâÀïÊÇÁÙÊ±Ğ´·¨Êä³öÊı×Ö
+ * ç»˜ç”»å›¾æ ‡.
+ * æ­£å¸¸æ¥è¯´æ˜¯ç»˜ç”»ä¸€å¼ å›¾ç‰‡ï¼Œè¿™é‡Œæ˜¯ä¸´æ—¶å†™æ³•è¾“å‡ºæ•°å­—
  */
 void Pic::draw()
 {
@@ -87,10 +87,10 @@ void Pic::draw()
 }
 
 /**
- * ÖØÔØĞ¡ÓÚÔËËã·û.
- * ÎªÁË¿ÉÒÔÅÅĞò
- * \param b ÓëÖ®Ïà±È½ÏµÄÍ¼±ê
- * \return °´×ø±ê´óĞ¡ÅÅĞò
+ * é‡è½½å°äºè¿ç®—ç¬¦.
+ * ä¸ºäº†å¯ä»¥æ’åº
+ * \param b ä¸ä¹‹ç›¸æ¯”è¾ƒçš„å›¾æ ‡
+ * \return æŒ‰åæ ‡å¤§å°æ’åº
  */
 bool Pic::operator<(const Pic& b)
 {
@@ -98,18 +98,142 @@ bool Pic::operator<(const Pic& b)
     else return this->y < b.y;
 }
 
+std::pair<int, int> operator+(std::pair<int, int> op1, std::pair<int, int> op2)
+{
+    return std::pair{ op1.first + op2.first, op1.second + op2.second };
+}
+
+bool Map::canMatch(Pic* a, Pic* b, bool erase)
+{
+    if (a->getKind() != b->getKind())
+        return false;
+
+    // â‘ ç›´æ¥è¿æ¥çš„æƒ…å†µ
+    if (a->getX() == b->getX()) {
+        bool flag = true; // å‡è®¾æ²¡æœ‰éšœç¢
+        for (int i = std::min(a->getY(), b->getY()) + 1; i < std::max(a->getY(), b->getY()); i++) {
+            if (true == map[(i - 1) * n + (a->getX() - 1)]->getIsVisible()) {
+                flag == false;
+            }
+        }
+        if (true == flag) {
+            if (erase)
+                drawMatchedLine(a, b);
+            return true;
+        }
+    }
+    else if (a->getY() == b->getY()) {
+        bool flag = true; // å‡è®¾æ²¡æœ‰éšœç¢
+        for (int i = std::min(a->getX(), b->getX()) + 1; i < std::max(a->getX(), b->getX()); i++) {
+            if (true == map[(a->getY() - 1) * n + (i - 1)]->getIsVisible()) {
+                flag == false;
+            }
+        }
+        if (true == flag) {
+            if (erase)
+                drawMatchedLine(a, b);
+            return true;
+        }
+    }
+
+    // å­˜a,bå¯ä»¥ç›´æ¥è®¿é—®åˆ°çš„åæ ‡
+    std::list<std::pair<int, int>> a_accessible;
+    std::list<std::pair<int, int>> b_accessible;
+    // ä¸Šã€å³ã€ä¸‹ã€å·¦ å››ä¸ªæ–¹å‘
+    std::list<std::pair<int, int>> direction{ std::pair {0,-1},std::pair {1,0},std::pair {0,1},std::pair {-1,0} };
+    // æ‰¾åˆ°aå¯ä»¥ç›´æ¥è®¿é—®åˆ°çš„åæ ‡(åå­—)
+    for (auto dir : direction) {
+        std::pair now{ a->getX(),a->getY() };
+        while (true) {
+            now = now + dir;
+            // åˆ¤æ–­æ˜¯å¦è¶Šç•Œ
+            if (now.first == -1 || now.first == n || now.second == -1 || now.second == m) {
+                break;
+            }
+            // (i,j)å…ƒç´ åœ¨mapä¸­çš„(j-1)*n+(i-1)å¤„
+            Pic* now_pic = map[(now.second - 1) * n + (now.first - 1)];
+            if (false == now_pic->getIsVisible()) {
+                a_accessible.push_back(now);
+            }
+            else {
+                break;
+            }
+        }
+    }
+    // æ‰¾åˆ°bå¯ä»¥ç›´æ¥è®¿é—®åˆ°çš„åæ ‡(åå­—)
+    for (auto dir : direction) {
+        std::pair now{ b->getX(),b->getY() };
+        while (true) {
+            now = now + dir;
+            // åˆ¤æ–­æ˜¯å¦è¶Šç•Œ
+            if (now.first == -1 || now.first == n || now.second == -1 || now.second == m) {
+                break;
+            }
+            // (i,j)å…ƒç´ åœ¨mapä¸­çš„(j-1)*n+(i-1)å¤„
+            Pic* now_pic = map[(now.second - 1) * n + (now.first - 1)];
+            if (false == now_pic->getIsVisible()) {
+                b_accessible.push_back(now);
+            }
+            else {
+                break;
+            }
+        }
+    }
+
+    // â‘¡æ‹ä¸€æ¬¡çš„æƒ…å†µ
+    for (auto a_ : a_accessible)
+        for (auto b_ : b_accessible)
+            if (a_ == b_) {
+                if (erase)
+                    drawMatchedLine(a, b, map[(a_.second - 1) * n + (a_.first - 1)]);
+                return true;
+            }
+
+    // â‘¢æ‹ä¸¤æ¬¡çš„æƒ…å†µ
+    for (auto a_ : a_accessible) {
+        for (auto b_ : b_accessible) {
+            // èƒ½å¦è¿æˆç›´çº¿çš„æ ‡è®°
+            bool flag = false;
+            if (a_.first == b_.first) {
+                flag = true; // å‡è®¾æ— éšœç¢
+                for (int i = std::min(a_.second, b_.second) + 1; i < std::max(a_.second, b_.second); i++) {
+                    if (true == map[(i - 1) * n + (a_.first - 1)]->getIsVisible()) {
+                        flag == false;
+                    }
+                }
+            }
+            else if (a_.second == b_.second) {
+                flag = true; // å‡è®¾æ— éšœç¢
+                for (int i = std::min(a_.first, b_.first) + 1; i < std::max(a_.first, b_.first); i++) {
+                    if (true == map[(a_.second - 1) * n + (i - 1)]->getIsVisible()) {
+                        flag == false;
+                    }
+                }
+            }
+
+            if (flag == true) {
+                if (erase)
+                    drawMatchedLine(a, b, map[(a_.second - 1) * n + (a_.first - 1)], map[(b_.second - 1) * n + (b_.first - 1)]);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 /**
- * µØÍ¼ÀàµÄ¹¹Ôìº¯Êı
- * Éú³ÉÒ»¸ömĞĞnÁĞµÄµØÍ¼
- * \param _m  µØÍ¼ĞĞÊı
- * \param _n  µØÍ¼ÁĞÊı
+ * åœ°å›¾ç±»çš„æ„é€ å‡½æ•°
+ * ç”Ÿæˆä¸€ä¸ªmè¡Œnåˆ—çš„åœ°å›¾
+ * \param _m  åœ°å›¾è¡Œæ•°
+ * \param _n  åœ°å›¾åˆ—æ•°
  */
-Map::Map(int _m, int _n):m{_m},n{_n}
+Map::Map(int _m, int _n) :m{ _m }, n{ _n }
 {
     /*
-    Ã¿ÖÖÍ¼ĞÎĞèÒª³É¶Ô³öÏÖ
-    ËùÒÔÀûÓÃÕıÊı±ä¸ºÊı£¬¸ºÊı±äĞÂµÄÕıÊıµÄ·½·¨
-    ÊµÏÖ³É¶Ô³öÏÖ
+    æ¯ç§å›¾å½¢éœ€è¦æˆå¯¹å‡ºç°
+    æ‰€ä»¥åˆ©ç”¨æ­£æ•°å˜è´Ÿæ•°ï¼Œè´Ÿæ•°å˜æ–°çš„æ­£æ•°çš„æ–¹æ³•
+    å®ç°æˆå¯¹å‡ºç°
     */
     int t{ 0 };
     for (int i = 1; i <= m; i++)
@@ -117,13 +241,12 @@ Map::Map(int _m, int _n):m{_m},n{_n}
             if (t > 0)t = -t;
             else t = now->getRand() % 20 + 1;
             map.push_back(new Pic{ abs(t),i,j });
-
         }
     RandomOrder();
 }
 /**
- * ¸üĞÂÆ¥ÅäÁĞ±í£¨È«Ìå£©.
- * Ã¶¾ÙËùÓĞµã¶Ô£¬Ò»Ò»ÅĞ¶ÏÆäÊÇ·ñÄÜ¹»½øĞĞÆ¥Åä
+ * æ›´æ–°åŒ¹é…åˆ—è¡¨ï¼ˆå…¨ä½“ï¼‰.
+ * æšä¸¾æ‰€æœ‰ç‚¹å¯¹ï¼Œä¸€ä¸€åˆ¤æ–­å…¶æ˜¯å¦èƒ½å¤Ÿè¿›è¡ŒåŒ¹é…
  */
 void Map::updateMatchedlist()
 {
@@ -136,9 +259,9 @@ void Map::updateMatchedlist()
 }
 
 /**
- * ¸üĞÂÆ¥ÅäÁĞ±í£¨Í¨¹ıÒ»¸öPic.
- * ¸üĞÂPicµÄËÄÖÜËùÓĞÓĞĞ§µãµÄÆ¥ÅäĞÅÏ¢
- * \param a Í¨¹ı¸ÃÎ»ÖÃ¸üĞÂÆ¥ÅäÁĞ±í
+ * æ›´æ–°åŒ¹é…åˆ—è¡¨ï¼ˆé€šè¿‡ä¸€ä¸ªPic.
+ * æ›´æ–°Picçš„å››å‘¨æ‰€æœ‰æœ‰æ•ˆç‚¹çš„åŒ¹é…ä¿¡æ¯
+ * \param a é€šè¿‡è¯¥ä½ç½®æ›´æ–°åŒ¹é…åˆ—è¡¨
  */
 void Map::updateMatchedlist(Pic* a)
 {
@@ -155,9 +278,9 @@ void Map::updateMatchedlist(Pic* a)
 }
 
 /**
- * Ëæ»úÅÅÁĞ
+ * éšæœºæ’åˆ—
  *
- * ÖØĞÂÅÅÁĞËùÓĞPicµÄÎ»ÖÃ²¢Éú³ÉĞÂµÄMatchedList *
+ * é‡æ–°æ’åˆ—æ‰€æœ‰Picçš„ä½ç½®å¹¶ç”Ÿæˆæ–°çš„MatchedList *
  */
 void Map::RandomOrder()
 {
@@ -211,11 +334,11 @@ void Map::RandomOrder()
 }
 
 /**
- * .ÅĞ¶ÏÊÇ·ñÄÜ¹»Á¬½Ó
- * Í¨¹ıMatchedlistÅĞ¶ÏÁ½¸öÍ¼±êÊÇ·ñÄÜ¹»¡°Á¬Á¬¿´¡±
- * \param a Í¼±ê1
- * \param b Í¼±ê2
- * \return  ÊÇ·ñÄÜ¹»Æ¥Åä
+ * .åˆ¤æ–­æ˜¯å¦èƒ½å¤Ÿè¿æ¥
+ * é€šè¿‡Matchedliståˆ¤æ–­ä¸¤ä¸ªå›¾æ ‡æ˜¯å¦èƒ½å¤Ÿâ€œè¿è¿çœ‹â€
+ * \param a å›¾æ ‡1
+ * \param b å›¾æ ‡2
+ * \return  æ˜¯å¦èƒ½å¤ŸåŒ¹é…
  */
 bool Map::isMatch(Pic* a, Pic* b)
 {
@@ -226,9 +349,9 @@ bool Map::isMatch(Pic* a, Pic* b)
 }
 
 /**
- * ÅĞ¶ÏµØÍ¼ÖĞÊÇ·ñ»¹ÄÜ½øĞĞÆ¥Åä.
- * Í¨¹ıÅĞ¶ÏmatchedlistÊÇ·ñÎª¿Õ¾Í¿ÉÒÔÖªµÀµØÍ¼ÖĞÊÇ·ñ»¹ÄÜÆ¥Åä
- * \return ÄÜ·ñÆ¥Åä
+ * åˆ¤æ–­åœ°å›¾ä¸­æ˜¯å¦è¿˜èƒ½è¿›è¡ŒåŒ¹é….
+ * é€šè¿‡åˆ¤æ–­matchedlistæ˜¯å¦ä¸ºç©ºå°±å¯ä»¥çŸ¥é“åœ°å›¾ä¸­æ˜¯å¦è¿˜èƒ½åŒ¹é…
+ * \return èƒ½å¦åŒ¹é…
  */
 bool Map::anyMatch()
 {
@@ -236,8 +359,8 @@ bool Map::anyMatch()
 }
 
 /**
- * »æ»­µØÍ¼.
- * »æ»­µØÍ¼ÖĞµÄÃ¿Ò»¸öÍ¼±ê
+ * ç»˜ç”»åœ°å›¾.
+ * ç»˜ç”»åœ°å›¾ä¸­çš„æ¯ä¸€ä¸ªå›¾æ ‡
  */
 void Map::draw()
 {
@@ -247,14 +370,16 @@ void Map::draw()
 
 void Map::drawMatchedLine(Pic* start, Pic* end)
 {
-    /*x1,x2,y1,y2£ºÆğÖÕµãµÄ×ø±ê£¬len£ºÏß¶Î³¤¶È¡£Ä¬ÈÏstartÔÚendµÄ×ó²à*/
+    /*x1,x2,y1,y2ï¼šèµ·ç»ˆç‚¹çš„åæ ‡ï¼Œlenï¼šçº¿æ®µé•¿åº¦ã€‚é»˜è®¤startåœ¨endçš„å·¦ä¾§*/
+
     int x1,x2,y1,y2,len;
     x1 = start->getX() * Pic::width;
     y1 = start->getY() * Pic::height;
     x2 = end->getX() * Pic::width;
     y2 = end->getY() * Pic::height;
+
     SDL_Rect line_rect;
-    if (x1 == x2) { //x×ø±êÏàµÈ£¬Ïß¶Î´¹Ö±·½Ïò
+    if (x1 == x2) { //xåæ ‡ç›¸ç­‰ï¼Œçº¿æ®µå‚ç›´æ–¹å‘
         if (y1 - y2 > 0) {
             line_rect.x = x2;
             line_rect.y = y2;
@@ -271,7 +396,7 @@ void Map::drawMatchedLine(Pic* start, Pic* end)
         SDL_Rect* pline = &line_rect;
         SDL_RenderFillRect(now->getRenderer(), pline);
     }
-    else {//y×ø±êÏàµÈ£¬Ïß¶ÎË®Æ½·½Ïò
+    else {//yåæ ‡ç›¸ç­‰ï¼Œçº¿æ®µæ°´å¹³æ–¹å‘
         if (x1 - x2 > 0) {
             line_rect.x = x2;
             line_rect.y = y2;
@@ -296,7 +421,7 @@ void Map::drawMatchedLine(Pic* start, Pic* end, Pic* corner1)
     drawMatchedLine(corner1, end);
 }
 
-void Map::drawMatchedLine(Pic* start,Pic* end,Pic* corner1, Pic* corner2)
+void Map::drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2)
 {
     drawMatchedLine(start, corner1);
     drawMatchedLine(corner1, corner2);
@@ -304,10 +429,10 @@ void Map::drawMatchedLine(Pic* start,Pic* end,Pic* corner1, Pic* corner2)
 }
 
 /**
- * »ñÈ¡Ä³PicµÄÉÏ·½Pic.
+ * è·å–æŸPicçš„ä¸Šæ–¹Pic.
  *
- * \param a Pic¶ÔÏó
- * \return  PicÉÏ·½µÄPic£¬ÎŞÔònullptr
+ * \param a Picå¯¹è±¡
+ * \return  Picä¸Šæ–¹çš„Picï¼Œæ— åˆ™nullptr
  */
 bool Map::canMatch(Pic*, Pic*, bool)
 {
@@ -320,10 +445,10 @@ Pic* Map::getPicup(Pic* a)
 }
 
 /**
- * »ñÈ¡Ä³PicµÄÏÂ·½Pic.
+ * è·å–æŸPicçš„ä¸‹æ–¹Pic.
  *
- * \param a Pic¶ÔÏó
- * \return  PicÏÂ·½µÄPic£¬ÎŞÔònullptr
+ * \param a Picå¯¹è±¡
+ * \return  Picä¸‹æ–¹çš„Picï¼Œæ— åˆ™nullptr
  */
 Pic* Map::getPicdown(Pic* a)
 {
@@ -332,10 +457,10 @@ Pic* Map::getPicdown(Pic* a)
 }
 
 /**
- * »ñÈ¡Ä³PicµÄ×ó²àPic.
+ * è·å–æŸPicçš„å·¦ä¾§Pic.
  *
- * \param a Pic¶ÔÏó
- * \return  Pic×ó²àµÄPic£¬ÎŞÔònullptr
+ * \param a Picå¯¹è±¡
+ * \return  Picå·¦ä¾§çš„Picï¼Œæ— åˆ™nullptr
  */
 Pic* Map::getPicleft(Pic* a)
 {
@@ -344,10 +469,10 @@ Pic* Map::getPicleft(Pic* a)
 }
 
 /**
- * »ñÈ¡Ä³PicµÄÓÒ²àPic.
+ * è·å–æŸPicçš„å³ä¾§Pic.
  *
- * \param a Pic¶ÔÏó
- * \return  PicÓÒ²àµÄPic£¬ÎŞÔònullptr
+ * \param a Picå¯¹è±¡
+ * \return  Picå³ä¾§çš„Picï¼Œæ— åˆ™nullptr
  */
 Pic* Map::getPicright(Pic* a)
 {

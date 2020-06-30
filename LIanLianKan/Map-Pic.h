@@ -1,37 +1,37 @@
 /*****************************************************************//**
  * \file   Map-Pic.h
- * \brief  MapÀàºÍPicÀàµÄÉùÃ÷
- * ÔÚ´ËÍ·ÎÄ¼şÉùÃ÷MapÀàºÍPicÀà
+ * \brief  Mapç±»å’ŒPicç±»çš„å£°æ˜
+ * åœ¨æ­¤å¤´æ–‡ä»¶å£°æ˜Mapç±»å’ŒPicç±»
  * \author FrogDar
  * \date   June 2020
  *********************************************************************/
 #pragma once
 #include<vector>
 #include<list>
-/**
- * Í¼±êÀà.
- * ´æ´¢Ã¿Ò»¸öĞ¡Í¼±êµÄĞÅÏ¢
- */
-class Pic{
+ /**
+  * å›¾æ ‡ç±».
+  * å­˜å‚¨æ¯ä¸€ä¸ªå°å›¾æ ‡çš„ä¿¡æ¯
+  */
+class Pic {
 private:
     /**
-     * Í¼±êÔÚµØÍ¼ÖĞµÄ×ø±ê.
+     * å›¾æ ‡åœ¨åœ°å›¾ä¸­çš„åæ ‡.
      */
     int x, y;
     /**
-     * Í¼±êµÄÀàĞÍ.
-     * 0ÎªÕÏ°­Îï
-     * ÆäËûÊı×Ö¶ÔÓ¦Ä³ÖÖ¿ÉÒÔÏû³ıµÄ·½¿é
+     * å›¾æ ‡çš„ç±»å‹.
+     * 0ä¸ºéšœç¢ç‰©
+     * å…¶ä»–æ•°å­—å¯¹åº”æŸç§å¯ä»¥æ¶ˆé™¤çš„æ–¹å—
      */
     int kind;
     /**
-     * ÊÇ·ñ¿É¼û.
-     * Ò»¶ÔÍ¼±ê±»Ïû³ıºóÒªÉèÖÃÎª²»¿É¼û
+     * æ˜¯å¦å¯è§.
+     * ä¸€å¯¹å›¾æ ‡è¢«æ¶ˆé™¤åè¦è®¾ç½®ä¸ºä¸å¯è§
      */
     bool isVisible;
     /**
-     * Íâ±ßÊÇ·ñÓĞ±ß¿ò.
-     * ±»Ñ¡ÖĞÊ±£¬ĞèÒª¿ªÆô±ß¿òÒÔÊ¾ËûÈË
+     * å¤–è¾¹æ˜¯å¦æœ‰è¾¹æ¡†.
+     * è¢«é€‰ä¸­æ—¶ï¼Œéœ€è¦å¼€å¯è¾¹æ¡†ä»¥ç¤ºä»–äºº
      */
     bool isStroke;
 public:
@@ -61,55 +61,60 @@ public:
 };
 
 
-/*µØÍ¼´óĞ¡ÉÏÏŞ*/
+/*åœ°å›¾å¤§å°ä¸Šé™*/
 const int N = 100;
 
 /**
- * µØÍ¼Àà.
+ * åœ°å›¾ç±».
  */
-class Map{
+class Map {
 private:
     /**
-     * µØÍ¼´óĞ¡.
+     * åœ°å›¾å¤§å°.
      */
     int m, n;
     /**
-     * Í¼Æ¬´óĞ¡.
+     * å›¾ç‰‡å¤§å°.
      */
 
     /**
-     * ´æ´¢µØÍ¼ÖĞµÄÍ¼±ê.
-     * ÀûÓÃÖ¸ÕëµÄ·½Ê½
-     * ÅÅĞòÖ®ºó£¬Î»ÖÃ(x,y)¶ÔÓ¦[(x-1)*n+y-1]
+     * å­˜å‚¨åœ°å›¾ä¸­çš„å›¾æ ‡.
+     * åˆ©ç”¨æŒ‡é’ˆçš„æ–¹å¼
+     * æ’åºä¹‹åï¼Œä½ç½®(x,y)å¯¹åº”[(x-1)*n+y-1]
      */
     std::vector<Pic*>map;
     /**
-     * ´æ´¢µØÍ¼ÖĞ¿ÉÒÔÆ¥ÅäµÄĞòÁĞ.
-     * ÀûÓÃlist+pair
+     * å­˜å‚¨åœ°å›¾ä¸­å¯ä»¥åŒ¹é…çš„åºåˆ—.
+     * åˆ©ç”¨list+pair
      */
 
     std::list<std::pair<Pic*, Pic*> >matchedlist;
-    bool canMatch(Pic*, Pic*, bool);
+
+    /**
+     * åˆ¤æ–­aï¼Œbæ˜¯å¦å¯ä»¥æ¶ˆé™¤ï¼Œeraseè¡¨ç¤ºæ˜¯å¦è¦æ¶ˆé™¤
+     */
+    bool canMatch(Pic* a, Pic* b, bool erase);
+  
     Pic* getPicup(Pic* a);
     Pic* getPicdown(Pic* a);
     Pic* getPicleft(Pic* a);
     Pic* getPicright(Pic* a);
 public:
-    /*¹¹½¨m*nµÄµØÍ¼*/
+    /*æ„å»ºm*nçš„åœ°å›¾*/
     Map(int _m, int _n);
-    /*ÖØĞÂ¸üĞÂmatchedlist*/
+    /*é‡æ–°æ›´æ–°matchedlist*/
     void updateMatchedlist();
     void updateMatchedlist(Pic*);
-    /*ÖØĞÂÅÅĞò*/
+    /*é‡æ–°æ’åº*/
     void RandomOrder();
-    /*ÊÇ·ñ¡°Á¬Á¬¿´¡±*/
+    /*æ˜¯å¦â€œè¿è¿çœ‹â€*/
     bool isMatch(Pic* a, Pic* b);
-    /*µØÍ¼ÖĞÊÇ·ñÄÜ¹»Á¬*/
+    /*åœ°å›¾ä¸­æ˜¯å¦èƒ½å¤Ÿè¿*/
     bool anyMatch();
-    /*»æÖÆµØÍ¼*/
+    /*ç»˜åˆ¶åœ°å›¾*/
     void draw();
-    /*Èı¸öÖØÔØº¯Êı£¬¸ù¾İ²ÎÊı¸öÊı»æÖÆÁ¬½ÓÏß*/
-    void drawMatchedLine(Pic* start, Pic* end); //ÆğµãºÍÖÕµãÔÚÍ¬Ò»Ö±ÏßÉÏ
-    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1);  //ÆğµãºÍÖÕµãÖ®¼ä¹ÕÍäÒ»´Î£¬corner1Îª¹ÕÍäµãpic
-    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2);//ÆğµãºÍÖÕµãÖ®¼ä¹ÕÍäÁ½´Î£¬corner1¡¢2Îª¹ÕÍäµãpic
+    /*ä¸‰ä¸ªé‡è½½å‡½æ•°ï¼Œæ ¹æ®å‚æ•°ä¸ªæ•°ç»˜åˆ¶è¿æ¥çº¿*/
+    void drawMatchedLine(Pic* start, Pic* end); //èµ·ç‚¹å’Œç»ˆç‚¹åœ¨åŒä¸€ç›´çº¿ä¸Š
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1);  //èµ·ç‚¹å’Œç»ˆç‚¹ä¹‹é—´æ‹å¼¯ä¸€æ¬¡ï¼Œcorner1ä¸ºæ‹å¼¯ç‚¹pic
+    void drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2);//èµ·ç‚¹å’Œç»ˆç‚¹ä¹‹é—´æ‹å¼¯ä¸¤æ¬¡ï¼Œcorner1ã€2ä¸ºæ‹å¼¯ç‚¹pic
 };
