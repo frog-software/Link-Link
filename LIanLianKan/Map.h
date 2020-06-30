@@ -58,6 +58,8 @@ private:
 	Pic* getPicdown(Pic* a);
 	Pic* getPicleft(Pic* a);
 	Pic* getPicright(Pic* a);
+	/*获取Pic十字链路的可用Pic*/
+	void getAcross(Pic* aa, std::vector<Pic*>& v);
 public:
 	/**
 	 * 存储地图中的图标.
@@ -81,6 +83,5 @@ public:
 	bool anyMatch();
 	/*绘制地图*/
 	void draw();
-	/*获取Pic十字链路的可用Pic*/
-	void getAcross(Pic* aa, std::vector<Pic*>& v);
+
 };
