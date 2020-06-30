@@ -46,6 +46,17 @@ ConnectLine::ConnectLine(Pic* start_, Pic* end_, Pic* corner1_, Pic* corner2_)
 	geneLine_rect(corner2, end, 2);
 }
 
+ConnectLine::~ConnectLine()
+{
+	start->setIsVisible(false);
+	delete start;
+	end->setIsVisible(false);
+	delete end;
+	delete corner1;
+	delete corner2;
+}
+
+
 /*根据输入的起终点，计算line_rect结构体里绘制矩形的绝对坐标，index表示矩形数组的下标*/
 void ConnectLine::geneLine_rect(Pic* s, Pic* e, int index)
 {

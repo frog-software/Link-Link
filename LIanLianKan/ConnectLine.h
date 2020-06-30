@@ -30,6 +30,7 @@ public:
     ConnectLine(Pic* start_, Pic* end_); //起点和终点在同一直线上
     ConnectLine(Pic* start_, Pic* end_, Pic* corner1_);  //起点和终点之间拐弯一次，corner1为拐弯点
     ConnectLine(Pic* start_, Pic* end_, Pic* corner1_, Pic* corner2_); //起点和终点之间拐弯两次，corner1、2为拐弯点
+    ~ConnectLine();
     void geneLine_rect(Pic* s, Pic* e,int index); 
     void drawLine(Control* now);
     int cnt = 60;
