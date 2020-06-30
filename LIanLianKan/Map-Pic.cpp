@@ -9,6 +9,10 @@
 #include "Map-Pic.h"
 #include "Control.h"
 extern Control* now;
+
+int Pic::width = 40;
+int Pic::height = 30;
+
 /**
  * .Pic类的构造函数
  * 传入图标类型与坐标信息
@@ -115,8 +119,6 @@ Map::Map(int _m, int _n):m{_m},n{_n}
             map.push_back(new Pic{ abs(t),i,j });
 
         }
-    Pic::width = 40;
-    Pic::height = 40;
     RandomOrder();
 }
 /**
@@ -262,6 +264,10 @@ void Map::drawMatchedLine(Pic* start,Pic* end,Pic* corner1, Pic* corner2)
  * \param a Pic对象
  * \return  Pic上方的Pic，无则nullptr
  */
+bool Map::canMatch(Pic*, Pic*, bool)
+{
+	return false;
+}
 Pic* Map::getPicup(Pic* a)
 {
     if (a->getX() == 1) return nullptr;

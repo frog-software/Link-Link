@@ -60,6 +60,7 @@ public:
     static int width, height;
 };
 
+
 /*地图大小上限*/
 const int N = 100;
 
