@@ -66,6 +66,11 @@ void Pic::setIsStroke(bool isStroke)
     this->isStroke = isStroke;
 }
 
+bool Pic::getValid() const
+{
+    return kind && isVisible;
+}
+
 /**
  * 绘画图标.
  * 正常来说是绘画一张图片，这里是临时写法输出数字
@@ -112,6 +117,39 @@ Map::Map(int _m, int _n):m{_m},n{_n}
         }
     RandomOrder();
 }
+/**
+ * 更新匹配列表（全体）.
+ * 枚举所有点对，一一判断其是否能够进行匹配
+ */
+void Map::updateMatchedlist()
+{
+    matchedlist.clear();
+    for (int i = 0; i < map.size(); i++)
+        for (int j = i + 1; j < map.size(); j++)
+            if (map[i]->getValid() && map[j]->getValid() && canMatch(map[i], map[j], false))
+                matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
+    matchedlist.unique();
+}
+
+/**
+ * 更新匹配列表（通过一个Pic.
+ * 更新Pic的四周所有有效点的匹配信息
+ * \param a 通过该位置更新匹配列表
+ */
+void Map::updateMatchedlist(Pic* a)
+{
+    std::vector<Pic*>v;
+    if (getPicup(a) != nullptr && getPicup(a)->getValid())v.push_back(getPicup(a));
+    if (getPicdown(a) != nullptr && getPicdown(a)->getValid())v.push_back(getPicdown(a));
+    if (getPicleft(a) != nullptr && getPicleft(a)->getValid())v.push_back(getPicleft(a));
+    if (getPicright(a) != nullptr && getPicright(a)->getValid())v.push_back(getPicright(a));
+    for (auto i : v)
+        for (auto j : map)
+            if (j->getValid() && i != j && canMatch(i, j, false))
+                matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
+    matchedlist.unique();
+}
+
 /**
  * 随机排列
  *
@@ -215,4 +253,52 @@ void Map::drawMatchedLine(Pic* start,Pic* end,Pic* corner1, Pic* corner2)
     drawMatchedLine(start, corner1);
     drawMatchedLine(corner1, corner2);
     drawMatchedLine(corner2, end);
+}
+
+/**
+ * 获取某Pic的上方Pic.
+ *
+ * \param a Pic对象
+ * \return  Pic上方的Pic，无则nullptr
+ */
+Pic* Map::getPicup(Pic* a)
+{
+    if (a->getX() == 1) return nullptr;
+    return map[n * (a->getX() - 2) + a->getY() - 1];
+}
+
+/**
+ * 获取某Pic的下方Pic.
+ *
+ * \param a Pic对象
+ * \return  Pic下方的Pic，无则nullptr
+ */
+Pic* Map::getPicdown(Pic* a)
+{
+    if (a->getY == m) return nullptr;
+    return map[n * (a->getX()) + a->getY() - 1];
+}
+
+/**
+ * 获取某Pic的左侧Pic.
+ *
+ * \param a Pic对象
+ * \return  Pic左侧的Pic，无则nullptr
+ */
+Pic* Map::getPicleft(Pic* a)
+{
+    if (a->getY() == 1)return nullptr;
+    return map[n * (a->getX() - 1) + a->getY() - 2];
+}
+
+/**
+ * 获取某Pic的右侧Pic.
+ *
+ * \param a Pic对象
+ * \return  Pic右侧的Pic，无则nullptr
+ */
+Pic* Map::getPicright(Pic* a)
+{
+    if (a->getY() == n)return nullptr;
+    return map[n * (a->getX() - 1) + a->getY()];
 }
