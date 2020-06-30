@@ -79,7 +79,7 @@ void Pic::draw()
 {
     char* s = new char[100];
     sprintf_s(s, 100, "[%2d]", kind);
-    now->xyprintf(x * 40, y * 30, s, 20);
+    now->xyprintf(x * width, y * height, s, 20);
 }
 
 /**
@@ -115,6 +115,8 @@ Map::Map(int _m, int _n):m{_m},n{_n}
             map.push_back(new Pic{ abs(t),i,j });
 
         }
+    Pic::width = 40;
+    Pic::height = 40;
     RandomOrder();
 }
 /**
@@ -195,16 +197,15 @@ void Map::draw()
     for (auto p : map)p->draw();
 }
 
-#define picwidth 40
-#define picheight 30
+
 void Map::drawMatchedLine(Pic* start, Pic* end)
 {
     /*x1,x2,y1,y2：起终点的坐标，len：线段长度。默认start在end的左侧*/
     int x1,x2,y1,y2,len;
-    x1 = start->getX() * picwidth;
-    y1 = start->getY() * picheight;
-    x2 = end->getX() * picwidth;
-    y2 = end->getY() * picheight;
+    x1 = start->getX() * Pic::width;
+    y1 = start->getY() * Pic::height;
+    x2 = end->getX() * Pic::width;
+    y2 = end->getY() * Pic::height;
     SDL_Rect line_rect;
     if (x1 == x2) { //x坐标相等，线段垂直方向
         if (y1 - y2 > 0) {
@@ -275,7 +276,7 @@ Pic* Map::getPicup(Pic* a)
  */
 Pic* Map::getPicdown(Pic* a)
 {
-    if (a->getY == m) return nullptr;
+    if (a->getY() == m) return nullptr;
     return map[n * (a->getX()) + a->getY() - 1];
 }
 

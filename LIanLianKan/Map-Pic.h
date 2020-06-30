@@ -56,6 +56,8 @@ public:
     void draw();
 
     bool operator<(const Pic& b);
+
+    static int width, height;
 };
 
 /*地图大小上限*/
@@ -70,6 +72,10 @@ private:
      * 地图大小.
      */
     int m, n;
+    /**
+     * 图片大小.
+     */
+
     /**
      * 存储地图中的图标.
      * 利用指针的方式
