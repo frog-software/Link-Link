@@ -22,6 +22,8 @@ private:
     Pic* corner2;
     /*连接线用矩形绘制，储存连接线的矩形信息*/
     SDL_Rect line_rect[3]{ 0 };
+    /*倒计时*/
+    
 public:
     /*三个重载函数，根据参数个数确定连接线数量*/
     ConnectLine();
@@ -30,5 +32,5 @@ public:
     ConnectLine(Pic* start_, Pic* end_, Pic* corner1_, Pic* corner2_); //起点和终点之间拐弯两次，corner1、2为拐弯点
     void geneLine_rect(Pic* s, Pic* e,int index); 
     void drawLine(Control* now);
-
+    int cnt = 60;
 };

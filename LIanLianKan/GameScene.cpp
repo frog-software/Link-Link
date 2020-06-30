@@ -7,6 +7,12 @@ extern Control* now;
 GameScene::GameScene(int m, int n)
 {
 	map = new Map{ m,n };
+	/*以下为测试画线是否正常的代码*/
+	Pic* a = new Pic(1, 1, 2);
+	Pic* b = new Pic(2, 2, 4);
+	Pic* c1 = new Pic(3, 4, 2);
+	Pic* c2 = new Pic(3, 4, 4);
+	map->setConnectLine(new ConnectLine(a, b, c1, c2));
 }
 
 GameScene::~GameScene()
@@ -17,15 +23,16 @@ GameScene::~GameScene()
 void GameScene::update()
 {
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
-	/*以下为测试画线是否正常的代码*/
-	Pic* a = new Pic(1, 1, 2);
-	Pic* b = new Pic(2, 2, 4);
-	Pic* c1 = new Pic(3, 4, 2);
-	Pic* c2 = new Pic(3, 4, 4);
-	ConnectLine* testline = new ConnectLine(a, b, c1, c2);
-	map->setConnectLine(testline);
-	map->getConnectLine()->drawLine(now);
-	/*测试结束*/
+
+	if (map->getConnectLine() != nullptr) {
+		map->getConnectLine()->drawLine(now);
+		map->getConnectLine()->cnt--;
+		if(map->getConnectLine()->cnt==0){
+			delete map->getConnectLine();
+			map->setConnectLine(nullptr);
+		}
+	}
+
 	map-> draw();
 }
 
