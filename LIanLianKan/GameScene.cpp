@@ -18,7 +18,7 @@ void GameScene::update()
 	Pic* b = new Pic(2, 2, 4);
 	Pic* c1 = new Pic(3, 4, 2);
 	Pic* c2 = new Pic(3, 4, 4);
-	map->drawMatchedLine(a,b,c1,c2);
+	map->drawMatchedLine(a, b, c1, c2);
 	map->draw();
 }
 

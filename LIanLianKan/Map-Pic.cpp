@@ -27,52 +27,52 @@ Pic::Pic(int _kind, int _x, int _y) :x{ _x }, y{ _y }, isVisible{ true }, isStro
 
 int Pic::getX() const
 {
-    return x;
+	return x;
 }
 
 void Pic::setX(int x)
 {
-    this->x = x;
+	this->x = x;
 }
 
 int Pic::getY() const
 {
-    return y;
+	return y;
 }
 
 void Pic::setY(int y)
 {
-    this->y = y;
+	this->y = y;
 }
 
 int Pic::getKind() const
 {
-    return kind;
+	return kind;
 }
 
 bool Pic::getIsVisible() const
 {
-    return isVisible;
+	return isVisible;
 }
 
 void Pic::setIsVisible(bool isVisible)
 {
-    this->isVisible = isVisible;
+	this->isVisible = isVisible;
 }
 
 bool Pic::getIsStroke() const
 {
-    return isStroke;
+	return isStroke;
 }
 
 void Pic::setIsStroke(bool isStroke)
 {
-    this->isStroke = isStroke;
+	this->isStroke = isStroke;
 }
 
 bool Pic::getValid() const
 {
-    return kind && isVisible;
+	return kind && isVisible;
 }
 
 /**
@@ -81,9 +81,9 @@ bool Pic::getValid() const
  */
 void Pic::draw()
 {
-    char* s = new char[100];
-    sprintf_s(s, 100, "[%2d]", kind);
-    now->xyprintf(x * width, y * height, s, 20);
+	char* s = new char[100];
+	sprintf_s(s, 100, "[%2d]", kind);
+	now->xyprintf(x * width, y * height, s, 20);
 }
 
 /**
@@ -94,13 +94,13 @@ void Pic::draw()
  */
 bool Pic::operator<(const Pic& b)
 {
-    if (this->x != b.x)return this->x < b.x;
-    else return this->y < b.y;
+	if (this->x != b.x)return this->x < b.x;
+	else return this->y < b.y;
 }
 
 std::pair<int, int> operator+(std::pair<int, int> op1, std::pair<int, int> op2)
 {
-    return std::pair{ op1.first + op2.first, op1.second + op2.second };
+	return std::pair{ op1.first + op2.first, op1.second + op2.second };
 }
 
 /**
@@ -111,121 +111,121 @@ std::pair<int, int> operator+(std::pair<int, int> op1, std::pair<int, int> op2)
  */
 bool Map::canMatch(Pic* a, Pic* b, bool erase)
 {
-    if (a->getKind() != b->getKind())
-        return false;
+	if (a->getKind() != b->getKind())
+		return false;
 
-    // ①直接连接的情况
-    if (a->getX() == b->getX()) {
-        bool flag = true; // 假设没有障碍
-        for (int i = std::min(a->getY(), b->getY()) + 1; i < std::max(a->getY(), b->getY()); i++) {
-            if (true == map[(a->getX() - 1) * n + (i - 1)]->getIsVisible()) {
-                flag = false;
-            }
-        }
-        if (true == flag) {
-            if (erase)
-                drawMatchedLine(a, b);
-            return true;
-        }
-    }
-    else if (a->getY() == b->getY()) {
-        bool flag = true; // 假设没有障碍
-        for (int i = std::min(a->getX(), b->getX()) + 1; i < std::max(a->getX(), b->getX()); i++) {
-            if (true == map[(i - 1) * n + (a->getY() - 1)]->getIsVisible()) {
-                flag = false;
-            }
-        }
-        if (true == flag) {
-            if (erase)
-                drawMatchedLine(a, b);
-            return true;
-        }
-    }
+	// ①直接连接的情况
+	if (a->getX() == b->getX()) {
+		bool flag = true; // 假设没有障碍
+		for (int i = std::min(a->getY(), b->getY()) + 1; i < std::max(a->getY(), b->getY()); i++) {
+			if (true == map[(a->getX() - 1) * n + (i - 1)]->getIsVisible()) {
+				flag = false;
+			}
+		}
+		if (true == flag) {
+			if (erase)
+				drawMatchedLine(a, b);
+			return true;
+		}
+	}
+	else if (a->getY() == b->getY()) {
+		bool flag = true; // 假设没有障碍
+		for (int i = std::min(a->getX(), b->getX()) + 1; i < std::max(a->getX(), b->getX()); i++) {
+			if (true == map[(i - 1) * n + (a->getY() - 1)]->getIsVisible()) {
+				flag = false;
+			}
+		}
+		if (true == flag) {
+			if (erase)
+				drawMatchedLine(a, b);
+			return true;
+		}
+	}
 
-    // 存a,b可以直接访问到的坐标
-    std::list<std::pair<int, int>> a_accessible;
-    std::list<std::pair<int, int>> b_accessible;
-    // 上、右、下、左 四个方向
-    std::list<std::pair<int, int>> direction{ std::pair {0,-1},std::pair {1,0},std::pair {0,1},std::pair {-1,0} };
-    // 找到a可以直接访问到的坐标(十字)
-    for (auto dir : direction) {
-        std::pair now{ a->getX(),a->getY() };
-        while (true) {
-            now = now + dir;
-            // 判断是否越界
-            if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
-                break;
-            }
-            // (i,j)元素在map中的(i-1)*n+(j-1)处
-            Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
-            if (false == now_pic->getIsVisible()) {
-                a_accessible.push_back(now);
-            }
-            else {
-                break;
-            }
-        }
-    }
-    // 找到b可以直接访问到的坐标(十字)
-    for (auto dir : direction) {
-        std::pair now{ b->getX(),b->getY() };
-        while (true) {
-            now = now + dir;
-            // 判断是否越界
-            if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
-                break;
-            }
-            // (i,j)元素在map中的(j-1)*n+(i-1)处
-            Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
-            if (false == now_pic->getIsVisible()) {
-                b_accessible.push_back(now);
-            }
-            else {
-                break;
-            }
-        }
-    }
+	// 存a,b可以直接访问到的坐标
+	std::list<std::pair<int, int>> a_accessible;
+	std::list<std::pair<int, int>> b_accessible;
+	// 上、右、下、左 四个方向
+	std::list<std::pair<int, int>> direction{ std::pair {0,-1},std::pair {1,0},std::pair {0,1},std::pair {-1,0} };
+	// 找到a可以直接访问到的坐标(十字)
+	for (auto dir : direction) {
+		std::pair now{ a->getX(),a->getY() };
+		while (true) {
+			now = now + dir;
+			// 判断是否越界
+			if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
+				break;
+			}
+			// (i,j)元素在map中的(i-1)*n+(j-1)处
+			Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
+			if (false == now_pic->getIsVisible()) {
+				a_accessible.push_back(now);
+			}
+			else {
+				break;
+			}
+		}
+	}
+	// 找到b可以直接访问到的坐标(十字)
+	for (auto dir : direction) {
+		std::pair now{ b->getX(),b->getY() };
+		while (true) {
+			now = now + dir;
+			// 判断是否越界
+			if (now.first == 0 || now.first == m + 1 || now.second == 0 || now.second == n + 1) {
+				break;
+			}
+			// (i,j)元素在map中的(j-1)*n+(i-1)处
+			Pic* now_pic = map[(now.first - 1) * n + (now.second - 1)];
+			if (false == now_pic->getIsVisible()) {
+				b_accessible.push_back(now);
+			}
+			else {
+				break;
+			}
+		}
+	}
 
-    // ②拐一次的情况
-    for (auto a_ : a_accessible)
-        for (auto b_ : b_accessible)
-            if (a_ == b_) {
-                if (erase)
-                    drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)]);
-                return true;
-            }
+	// ②拐一次的情况
+	for (auto a_ : a_accessible)
+		for (auto b_ : b_accessible)
+			if (a_ == b_) {
+				if (erase)
+					drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)]);
+				return true;
+			}
 
-    // ③拐两次的情况
-    for (auto a_ : a_accessible) {
-        for (auto b_ : b_accessible) {
-            // 能否连成直线的标记
-            bool flag = false;
-            if (a_.first == b_.first) {
-                flag = true; // 假设无障碍
-                for (int i = std::min(a_.second, b_.second) + 1; i < std::max(a_.second, b_.second); i++) {
-                    if (true == map[(a_.first - 1) * n + (i - 1)]->getIsVisible()) {
-                        flag = false;
-                    }
-                }
-            }
-            else if (a_.second == b_.second) {
-                flag = true; // 假设无障碍
-                for (int i = std::min(a_.first, b_.first) + 1; i < std::max(a_.first, b_.first); i++) {
-                    if (true == map[(i - 1) * n + (a_.second - 1)]->getIsVisible()) {
-                        flag = false;
-                    }
-                }
-            }
+	// ③拐两次的情况
+	for (auto a_ : a_accessible) {
+		for (auto b_ : b_accessible) {
+			// 能否连成直线的标记
+			bool flag = false;
+			if (a_.first == b_.first) {
+				flag = true; // 假设无障碍
+				for (int i = std::min(a_.second, b_.second) + 1; i < std::max(a_.second, b_.second); i++) {
+					if (true == map[(a_.first - 1) * n + (i - 1)]->getIsVisible()) {
+						flag = false;
+					}
+				}
+			}
+			else if (a_.second == b_.second) {
+				flag = true; // 假设无障碍
+				for (int i = std::min(a_.first, b_.first) + 1; i < std::max(a_.first, b_.first); i++) {
+					if (true == map[(i - 1) * n + (a_.second - 1)]->getIsVisible()) {
+						flag = false;
+					}
+				}
+			}
 
-            if (flag == true) {
-                if (erase)
-                    drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)], map[(b_.first - 1) * n + (b_.second - 1)]);
-                return true;
-            }
-        }
-    }
+			if (flag == true) {
+				if (erase)
+					drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)], map[(b_.first - 1) * n + (b_.second - 1)]);
+				return true;
+			}
+		}
+	}
 
-    return false;
+	return false;
 }
 
 /**
@@ -236,19 +236,19 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
  */
 Map::Map(int _m, int _n) :m{ _m }, n{ _n }
 {
-    /*
-    每种图形需要成对出现
-    所以利用正数变负数，负数变新的正数的方法
-    实现成对出现
-    */
-    int t{ 0 };
-    for (int i = 1; i <= m; i++)
-        for (int j = 1; j <= n; j++) {
-            if (t > 0)t = -t;
-            else t = now->getRand() % 20 + 1;
-            map.push_back(new Pic{ abs(t),i,j });
-        }
-    RandomOrder();
+	/*
+	每种图形需要成对出现
+	所以利用正数变负数，负数变新的正数的方法
+	实现成对出现
+	*/
+	int t{ 0 };
+	for (int i = 1; i <= m; i++)
+		for (int j = 1; j <= n; j++) {
+			if (t > 0)t = -t;
+			else t = now->getRand() % 20 + 1;
+			map.push_back(new Pic{ abs(t),i,j });
+		}
+	RandomOrder();
 }
 /**
  * 更新匹配列表（全体）.
@@ -256,12 +256,12 @@ Map::Map(int _m, int _n) :m{ _m }, n{ _n }
  */
 void Map::updateMatchedlist()
 {
-    matchedlist.clear();
-    for (unsigned int i = 0; i < map.size(); i++)
-        for (unsigned int j = i + 1; j < map.size(); j++)
-            if (map[i]->getValid() && map[j]->getValid() && canMatch(map[i], map[j], false))
-                matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
-    matchedlist.unique();
+	matchedlist.clear();
+	for (unsigned int i = 0; i < map.size(); i++)
+		for (unsigned int j = i + 1; j < map.size(); j++)
+			if (map[i]->getValid() && map[j]->getValid() && canMatch(map[i], map[j], false))
+				matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
+	matchedlist.unique();
 }
 
 /**
@@ -271,16 +271,16 @@ void Map::updateMatchedlist()
  */
 void Map::updateMatchedlist(Pic* a)
 {
-    std::vector<Pic*>v;
-    if (getPicup(a) != nullptr && getPicup(a)->getValid())v.push_back(getPicup(a));
-    if (getPicdown(a) != nullptr && getPicdown(a)->getValid())v.push_back(getPicdown(a));
-    if (getPicleft(a) != nullptr && getPicleft(a)->getValid())v.push_back(getPicleft(a));
-    if (getPicright(a) != nullptr && getPicright(a)->getValid())v.push_back(getPicright(a));
-    for (auto i : v)
-        for (auto j : map)
-            if (j->getValid() && i != j && canMatch(i, j, false))
-                matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
-    matchedlist.unique();
+	std::vector<Pic*>v;
+	if (getPicup(a) != nullptr && getPicup(a)->getValid())v.push_back(getPicup(a));
+	if (getPicdown(a) != nullptr && getPicdown(a)->getValid())v.push_back(getPicdown(a));
+	if (getPicleft(a) != nullptr && getPicleft(a)->getValid())v.push_back(getPicleft(a));
+	if (getPicright(a) != nullptr && getPicright(a)->getValid())v.push_back(getPicright(a));
+	for (auto i : v)
+		for (auto j : map)
+			if (j->getValid() && i != j && canMatch(i, j, false))
+				matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
+	matchedlist.unique();
 }
 
 /**
@@ -290,53 +290,52 @@ void Map::updateMatchedlist(Pic* a)
  */
 void Map::RandomOrder()
 {
-    // used to store the index of all visible objects
-    std::vector <int> visibleObjIdx;
+	// used to store the index of all visible objects
+	std::vector <int> visibleObjIdx;
 
-    // store the index of all visible objects
-    for (size_t i = 0; i < map.size(); i++)
-    {
-        if (map[i]->getIsVisible())
-        {
-            visibleObjIdx.push_back(i);
-        }
-    }
+	// store the index of all visible objects
+	for (size_t i = 0; i < map.size(); i++)
+	{
+		if (map[i]->getIsVisible())
+		{
+			visibleObjIdx.push_back(i);
+		}
+	}
 
-    // if there is no more than 2 objects left,
-    // then there is no need for a rearrangement.
-    if (visibleObjIdx.size() > 2)
-    {
-        for (size_t i = 0; i < visibleObjIdx.size(); i++)
-        {
-            Pic* tmpPic = nullptr;
+	// if there is no more than 2 objects left,
+	// then there is no need for a rearrangement.
+	if (visibleObjIdx.size() > 2)
+	{
+		for (size_t i = 0; i < visibleObjIdx.size(); i++)
+		{
+			Pic* tmpPic = nullptr;
 
-            // generate two random numbers to determine which objects to swap
-            int randomIdx1 = now->getRand() % visibleObjIdx.size();
-            int randomIdx2 = now->getRand() % visibleObjIdx.size();
-            int tmpX, tmpY;
+			// generate two random numbers to determine which objects to swap
+			int randomIdx1 = now->getRand() % visibleObjIdx.size();
+			int randomIdx2 = now->getRand() % visibleObjIdx.size();
+			int tmpX, tmpY;
 
-            // swap X and Y
-            tmpX = map[visibleObjIdx[randomIdx1]]->getX();
-            map[visibleObjIdx[randomIdx1]]->setX(map[visibleObjIdx[randomIdx2]]->getX());
-            map[visibleObjIdx[randomIdx2]]->setX(tmpX);
+			// swap X and Y
+			tmpX = map[visibleObjIdx[randomIdx1]]->getX();
+			map[visibleObjIdx[randomIdx1]]->setX(map[visibleObjIdx[randomIdx2]]->getX());
+			map[visibleObjIdx[randomIdx2]]->setX(tmpX);
 
-            tmpY = map[visibleObjIdx[randomIdx1]]->getY();
-            map[visibleObjIdx[randomIdx1]]->setY(map[visibleObjIdx[randomIdx2]]->getY());
-            map[visibleObjIdx[randomIdx2]]->setY(tmpY);
+			tmpY = map[visibleObjIdx[randomIdx1]]->getY();
+			map[visibleObjIdx[randomIdx1]]->setY(map[visibleObjIdx[randomIdx2]]->getY());
+			map[visibleObjIdx[randomIdx2]]->setY(tmpY);
 
-            // swap the indexes of two objects
-            tmpPic = map[visibleObjIdx[randomIdx1]];
-            map[visibleObjIdx[randomIdx1]] = map[visibleObjIdx[randomIdx2]];
-            map[visibleObjIdx[randomIdx2]] = tmpPic;
+			// swap the indexes of two objects
+			tmpPic = map[visibleObjIdx[randomIdx1]];
+			map[visibleObjIdx[randomIdx1]] = map[visibleObjIdx[randomIdx2]];
+			map[visibleObjIdx[randomIdx2]] = tmpPic;
+		}
+	}
 
-        }
-    }
+	// update map
+	draw();
 
-    // update map
-    draw();
-
-    // update matched list
-    updateMatchedlist();
+	// update matched list
+	updateMatchedlist();
 }
 
 /**
@@ -348,10 +347,10 @@ void Map::RandomOrder()
  */
 bool Map::isMatch(Pic* a, Pic* b)
 {
-    auto p{ std::pair<Pic*,Pic*>{a,b} };
-    for (auto i : matchedlist)
-        if (i == p)return true;
-    return false;
+	auto p{ std::pair<Pic*,Pic*>{a,b} };
+	for (auto i : matchedlist)
+		if (i == p)return true;
+	return false;
 }
 
 /**
@@ -361,7 +360,7 @@ bool Map::isMatch(Pic* a, Pic* b)
  */
 bool Map::anyMatch()
 {
-    return !matchedlist.empty();
+	return !matchedlist.empty();
 }
 
 /**
@@ -370,76 +369,73 @@ bool Map::anyMatch()
  */
 void Map::draw()
 {
-    for (auto p : map)p->draw();
+	for (auto p : map)p->draw();
 }
-
 
 void Map::drawMatchedLine(Pic* start, Pic* end)
 {
-    /*x1,x2,y1,y2：起终点的坐标，len：线段长度。默认start在end的左侧*/
+	/*x1,x2,y1,y2：起终点的坐标，len：线段长度。默认start在end的左侧*/
 
-    int x1,x2,y1,y2;
-    x1 = start->getX() * Pic::width;
-    y1 = start->getY() * Pic::height;
-    x2 = end->getX() * Pic::width;
-    y2 = end->getY() * Pic::height;
+	int x1, x2, y1, y2;
+	x1 = start->getX() * Pic::width;
+	y1 = start->getY() * Pic::height;
+	x2 = end->getX() * Pic::width;
+	y2 = end->getY() * Pic::height;
 
-    SDL_Rect line_rect;
-    if (x1 == x2) { //x坐标相等，线段垂直方向
-        if (y1 - y2 > 0) {
-            line_rect.x = x2;
-            line_rect.y = y2;
-            line_rect.w = 5;
-            line_rect.h = y1 - y2;
-        }
-        else {
-            line_rect.x = x1;
-            line_rect.y = y1;
-            line_rect.w = 5;
-            line_rect.h = y2 - y1;
-        }
-        SDL_SetRenderDrawColor(now->getRenderer(), 0, 74, 140, 255);
-        SDL_Rect* pline = &line_rect;
-        SDL_RenderFillRect(now->getRenderer(), pline);
-    }
-    else {//y坐标相等，线段水平方向
-        if (x1 - x2 > 0) {
-            line_rect.x = x2;
-            line_rect.y = y2;
-            line_rect.w = x1 - x2;
-            line_rect.h = 5;
-        }
-        else {
-            line_rect.x = x1;
-            line_rect.y = y1;
-            line_rect.w = x2 - x1;
-            line_rect.h = 5;
-        }
-        SDL_SetRenderDrawColor(now->getRenderer(), 0, 74, 140, 255);
-        SDL_Rect* pline = &line_rect;
-        SDL_RenderFillRect(now->getRenderer(), pline);
-    }
+	SDL_Rect line_rect;
+	if (x1 == x2) { //x坐标相等，线段垂直方向
+		if (y1 - y2 > 0) {
+			line_rect.x = x2;
+			line_rect.y = y2;
+			line_rect.w = 5;
+			line_rect.h = y1 - y2;
+		}
+		else {
+			line_rect.x = x1;
+			line_rect.y = y1;
+			line_rect.w = 5;
+			line_rect.h = y2 - y1;
+		}
+		SDL_SetRenderDrawColor(now->getRenderer(), 0, 74, 140, 255);
+		SDL_Rect* pline = &line_rect;
+		SDL_RenderFillRect(now->getRenderer(), pline);
+	}
+	else {//y坐标相等，线段水平方向
+		if (x1 - x2 > 0) {
+			line_rect.x = x2;
+			line_rect.y = y2;
+			line_rect.w = x1 - x2;
+			line_rect.h = 5;
+		}
+		else {
+			line_rect.x = x1;
+			line_rect.y = y1;
+			line_rect.w = x2 - x1;
+			line_rect.h = 5;
+		}
+		SDL_SetRenderDrawColor(now->getRenderer(), 0, 74, 140, 255);
+		SDL_Rect* pline = &line_rect;
+		SDL_RenderFillRect(now->getRenderer(), pline);
+	}
 }
 
 void Map::drawMatchedLine(Pic* start, Pic* end, Pic* corner1)
 {
-    drawMatchedLine(start, corner1);
-    drawMatchedLine(corner1, end);
+	drawMatchedLine(start, corner1);
+	drawMatchedLine(corner1, end);
 }
 
 void Map::drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2)
 {
-    drawMatchedLine(start, corner1);
-    drawMatchedLine(corner1, corner2);
-    drawMatchedLine(corner2, end);
+	drawMatchedLine(start, corner1);
+	drawMatchedLine(corner1, corner2);
+	drawMatchedLine(corner2, end);
 }
-
-
 
 Pic* Map::getPicup(Pic* a)
 {
-    if (a->getX() == 1) return nullptr;
-    return map[n * (a->getX() - 2) + a->getY() - 1];
+	if (a->getX() == 1) return nullptr;
+	return map[n * (a->getX() - 2) + a->getY() - 1];
 }
 
 /**
@@ -450,8 +446,8 @@ Pic* Map::getPicup(Pic* a)
  */
 Pic* Map::getPicdown(Pic* a)
 {
-    if (a->getY() == m) return nullptr;
-    return map[n * (a->getX()) + a->getY() - 1];
+	if (a->getY() == m) return nullptr;
+	return map[n * (a->getX()) + a->getY() - 1];
 }
 
 /**
@@ -462,8 +458,8 @@ Pic* Map::getPicdown(Pic* a)
  */
 Pic* Map::getPicleft(Pic* a)
 {
-    if (a->getY() == 1)return nullptr;
-    return map[n * (a->getX() - 1) + a->getY() - 2];
+	if (a->getY() == 1)return nullptr;
+	return map[n * (a->getX() - 1) + a->getY() - 2];
 }
 
 /**
@@ -474,6 +470,6 @@ Pic* Map::getPicleft(Pic* a)
  */
 Pic* Map::getPicright(Pic* a)
 {
-    if (a->getY() == n)return nullptr;
-    return map[n * (a->getX() - 1) + a->getY()];
+	if (a->getY() == n)return nullptr;
+	return map[n * (a->getX() - 1) + a->getY()];
 }
