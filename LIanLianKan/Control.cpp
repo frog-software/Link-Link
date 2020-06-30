@@ -164,12 +164,29 @@ void Control::playSound(int channel, std::string path, int cnt)
 {
 	Mix_PlayChannel(channel, Sounds[path], 0);
 }
-void Control::setVolume(int channel, int n) {
-	if (0 == n)Mix_Volume(channel, 0);
-	if (1 == n)Mix_Volume(channel, (int)0.25 * MIX_MAX_VOLUME);
-	if (2 == n)Mix_Volume(channel, (int)0.50 * MIX_MAX_VOLUME);
-	if (3 == n)Mix_Volume(channel, (int)0.75 * MIX_MAX_VOLUME);
-	if (4 == n)Mix_Volume(channel, MIX_MAX_VOLUME);
+void Control::addVolume(int channel) {
+	if (1 == channel) {
+		volm1 += 0.25;
+		if (volm1 > 1)volm1 = 1;
+		Mix_Volume(channel, (int)(volm1 * MIX_MAX_VOLUME));
+	}
+	if (2 == channel) {
+		volm2 += 0.25;
+		if (volm2 > 1)volm2 = 1;
+		Mix_Volume(channel, (int)(volm2 * MIX_MAX_VOLUME));
+	}
+}
+void Control::decVolume(int channel) {
+	if (1 == channel) {
+		volm1 -= 0.25;
+		if (volm1 < 0)volm1 = 0;
+		Mix_Volume(channel, (int)(volm1 * MIX_MAX_VOLUME));
+	}
+	if (2 == channel) {
+		volm2 -= 0.25;
+		if (volm2 < 0)volm2 = 0;
+		Mix_Volume(channel, (int)(volm2 * MIX_MAX_VOLUME));
+	}
 }
 /**
  * 获取随机数.
