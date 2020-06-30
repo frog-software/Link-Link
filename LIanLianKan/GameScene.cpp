@@ -7,12 +7,7 @@ extern Control* now;
 GameScene::GameScene(int m, int n)
 {
 	map = new Map{ m,n };
-	/*以下为测试画线是否正常的代码*/
-	Pic* a = new Pic(1, 1, 2);
-	Pic* b = new Pic(2, 2, 4);
-	Pic* c1 = new Pic(3, 4, 2);
-	Pic* c2 = new Pic(3, 4, 4);
-	map->setConnectLine(new ConnectLine(a, b, c1, c2));
+		map->setConnectLine(nullptr);
 }
 
 GameScene::~GameScene()
