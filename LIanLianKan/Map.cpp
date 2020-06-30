@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Map.cpp
  * \brief  Map类定义文件
- * Map类和Pic类中各个成员叔叔的实现
+ * Map类和Pic类中各个成员函数的实现
  * \author FrogDar
  * @change 拆分Map和Pic类 by wht
  * \date   June 30 2020
