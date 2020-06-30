@@ -22,7 +22,7 @@ void GameScene::update()
 	Pic* b = new Pic(2, 2, 4);
 	Pic* c1 = new Pic(3, 4, 2);
 	Pic* c2 = new Pic(3, 4, 4);
-	ConnectLine* testline = new ConnectLine(a, b, c1, c1);
+	ConnectLine* testline = new ConnectLine(a, b, c1, c2);
 	map->setConnectLine(testline);
 	map->getConnectLine()->drawLine(now);
 	/*ฒโสิฝแส๘*/
