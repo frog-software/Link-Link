@@ -72,3 +72,4 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 
 	return ret;
 }
+
