@@ -46,7 +46,6 @@ private:
 	  */
 	ConnectLine* connect_line;
 
-	std::vector<Pic*>map;
 	/**
 	 * 存储地图中可以匹配的序列.
 	 * 利用list+pair
@@ -64,6 +63,7 @@ private:
 	Pic* getPicleft(Pic* a);
 	Pic* getPicright(Pic* a);
 public:
+	std::vector<Pic*>map;
 	/*构建m*n的地图*/
 	Map(int _m, int _n);
 	/*重新更新matchedlist*/
