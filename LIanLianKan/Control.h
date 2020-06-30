@@ -40,8 +40,9 @@ public:
 	void putImage(std::string path, int x, int y, int width, int height);
 	/*在channel频道播放音乐path一共cnt次，BGM为频道1，音效为频道2*/
 	void playSound(int channel, std::string path, int cnt = 1);
-	/*调节音量大小，0为0.0，1为0.25，2为0.5，3为0.75，其余为1.0*/
-	void setVolume(int channel, int n);
+	/*调节音量大小*/
+	void addVolume(int channel);
+	void decVolume(int channel);
 	/*在位置xy以字号size 输出内容c*/
 	void xyprintf(int x, int y, const char* c, int size);
 	/*获取一个随机数*/
