@@ -73,7 +73,7 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 	const int MAP_END_POSOTION_Y = 50 * (NUM_OF_VERTICAL_PICTURES);
 
 	int ln, col;
-	// return calue
+	// return value
 	int ret = -1;
 
 	if ((x >= MAP_START_POSOTION_X)
