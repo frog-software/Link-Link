@@ -14,6 +14,7 @@ extern Control* now;
 
 
 void Map::getAcross(Pic* aa, std::vector<Pic*>& v) {
+	v.push_back(aa);
 	Pic* a = nullptr;
 	a = aa;
 	while (getPicup(a) != nullptr && getPicup(a)->getIsVisible() == false) {
@@ -76,7 +77,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 				bool flag = true;
 				do {
 					begin = getPicright(begin);
-					if (begin->getIsVisible() == true) {
+					if (begin != end && begin->getIsVisible() == true) {
 						flag = false;
 						break;
 					}
@@ -98,7 +99,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 				bool flag = true;
 				do {
 					begin = getPicdown(begin);
-					if (begin->getIsVisible() == true) {
+					if (begin != end && begin->getIsVisible() == true) {
 						flag = false;
 						break;
 					}
@@ -171,8 +172,8 @@ void Map::updateMatchedlist()
 				if (map[j]->getValid())
 					if (canMatch(map[i], map[j], false))
 						matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
-
-	matchedlist.unique();
+	sort(matchedlist.begin(), matchedlist.end());
+	matchedlist.erase(unique(matchedlist.begin(),matchedlist.end()),matchedlist.end());
 	for (auto i : matchedlist)
 		printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());
 }
@@ -184,17 +185,28 @@ void Map::updateMatchedlist()
  */
 void Map::updateMatchedlist(Pic* a)
 {
+	/*删除和本图标有关的匹配*/
+	for (auto it = matchedlist.begin(); it != matchedlist.end();)
+		if (it->first == a || it->second == a)
+			it = matchedlist.erase(it);
+		else it++;
+
+	/*探寻本图标周边的点*/
 	std::vector<Pic*>v;
-	if (getPicup(a) != nullptr && getPicup(a)->getValid())v.push_back(getPicup(a));
-	if (getPicdown(a) != nullptr && getPicdown(a)->getValid())v.push_back(getPicdown(a));
-	if (getPicleft(a) != nullptr && getPicleft(a)->getValid())v.push_back(getPicleft(a));
-	if (getPicright(a) != nullptr && getPicright(a)->getValid())v.push_back(getPicright(a));
+	if (getPicup(a) != nullptr )v.push_back(getPicup(a));
+	if (getPicdown(a) != nullptr )v.push_back(getPicdown(a));
+	if (getPicleft(a) != nullptr)v.push_back(getPicleft(a));
+	if (getPicright(a) != nullptr)v.push_back(getPicright(a));
 	for (auto i : v)
+		if(i->getValid()&&i->getIsStroke()==false)
 		for (auto j : map)
 			if (j->getValid() && i != j && canMatch(i, j, false))
 				matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
-	matchedlist.unique();
-
+	sort(matchedlist.begin(), matchedlist.end());
+	matchedlist.erase(unique(matchedlist.begin(), matchedlist.end()), matchedlist.end());
+	printf("---------\n");
+	for (auto i : matchedlist)
+		printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());
 }
 
 /**
@@ -258,9 +270,22 @@ void Map::RandomOrder()
  */
 bool Map::isMatch(Pic* a, Pic* b)
 {
-	auto p{ std::pair<Pic*,Pic*>{a,b} };
-	for (auto i : matchedlist)
-		if (i == p)return true;
+	auto p{ std::pair<Pic*,Pic*>{a,b} }, q{ std::pair<Pic*,Pic*>{b,a} };
+	for (auto i = matchedlist.begin(); i != matchedlist.end(); i++)
+		if (*i == p || *i == q) {
+			this->canMatch(a, b, true);
+			a->setIsStroke(true);
+			b->setIsStroke(true);
+			a->setIsVisible(false);
+			b->setIsVisible(false);
+			updateMatchedlist(a);
+			updateMatchedlist(b);
+			/*	matchedlist.clear();
+				updateMatchedlist();*/
+			a->setIsVisible(true);
+			b->setIsVisible(true);
+			return true;
+		}
 	return false;
 }
 
@@ -333,6 +358,7 @@ Pic* Map::getPicright(Pic* a)
 
 void Map::setConnectLine(ConnectLine* line_)
 {
+	if (connect_line != nullptr)delete connect_line;
 	connect_line = line_;
 }
 

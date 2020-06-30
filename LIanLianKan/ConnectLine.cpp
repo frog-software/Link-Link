@@ -49,11 +49,7 @@ ConnectLine::ConnectLine(Pic* start_, Pic* end_, Pic* corner1_, Pic* corner2_)
 ConnectLine::~ConnectLine()
 {
 	start->setIsVisible(false);
-	delete start;
 	end->setIsVisible(false);
-	delete end;
-	delete corner1;
-	delete corner2;
 }
 
 

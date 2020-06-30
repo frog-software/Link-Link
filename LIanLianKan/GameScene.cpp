@@ -24,16 +24,17 @@ void GameScene::update()
 {
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
 
+	if (map->anyMatch() == false)map->RandomOrder();
+	map->draw();
+
 	if (map->getConnectLine() != nullptr) {
 		map->getConnectLine()->drawLine(now);
 		map->getConnectLine()->cnt--;
 		if(map->getConnectLine()->cnt==0){
-			delete map->getConnectLine();
 			map->setConnectLine(nullptr);
 		}
 	}
 
-	map-> draw();
 }
 
 void GameScene::onMouse(Sint32 x, Sint32 y)
@@ -41,7 +42,17 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
 	if (linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
-		map->map[linearMousePositionOnMap]->setIsStroke(true);
+		if(last==nullptr){
+			last = map->map[linearMousePositionOnMap];
+			last->setIsStroke(true);
+		}
+		else if(map->isMatch(last, map->map[linearMousePositionOnMap])==false){
+			last->setIsStroke(false);
+			last = map->map[linearMousePositionOnMap];
+			last->setIsStroke(true);
+		}else{
+			last = nullptr;
+		}
 	//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}
 }

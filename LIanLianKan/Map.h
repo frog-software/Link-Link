@@ -47,7 +47,7 @@ private:
 	 * 利用list+pair
 	 */
 
-	std::list<std::pair<Pic*, Pic*> >matchedlist;
+	std::vector<std::pair<Pic*, Pic*> >matchedlist;
 
 	/**
 	 * 判断a，b是否可以消除，erase表示是否要消除
