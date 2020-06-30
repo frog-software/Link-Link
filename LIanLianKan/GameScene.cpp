@@ -24,4 +24,5 @@ void GameScene::update()
 
 void GameScene::onMouse(Sint32 x, Sint32 y)
 {
+	 
 }

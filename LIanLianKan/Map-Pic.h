@@ -79,7 +79,7 @@ private:
 	 /**
 	  * 存储地图中的图标.
 	  * 利用指针的方式
-	  * 排序之后，位置(x,y)对应[(x-1)*n+y-1]
+	  * 排序之后，位置(x,y)对应[x*n+y]
 	  */
 	std::vector<Pic*>map;
 	/**
@@ -98,6 +98,7 @@ private:
 	Pic* getPicdown(Pic* a);
 	Pic* getPicleft(Pic* a);
 	Pic* getPicright(Pic* a);
+	void getAcross(Pic* aa, std::vector<Pic*>& v);
 public:
 	/*构建m*n的地图*/
 	Map(int _m, int _n);
