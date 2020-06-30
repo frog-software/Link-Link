@@ -42,17 +42,17 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 {
 	// how many pictures are there horizontally
-	const int NUM_OF_HORIZONTAL_PICTURES = 14;
+	const int NUM_OF_HORIZONTAL_PICTURES = 16;
 	// how many pictures are there vertically
-	const int NUM_OF_VERTICAL_PICTURES   = 11;
+	const int NUM_OF_VERTICAL_PICTURES = 13;
 
 	// consider the map as a rectangle
 	// this is the coordinate of the upper left corner
 	const int MAP_START_POSOTION_X = 50;
 	const int MAP_START_POSOTION_Y = 50;
 	// this is the coordinate of the lower right corner
-	const int MAP_END_POSOTION_X   = 50 * (NUM_OF_HORIZONTAL_PICTURES + 1);
-	const int MAP_END_POSOTION_Y   = 50 * (NUM_OF_VERTICAL_PICTURES   + 1);
+	const int MAP_END_POSOTION_X = 50 * (NUM_OF_HORIZONTAL_PICTURES);
+	const int MAP_END_POSOTION_Y = 50 * (NUM_OF_VERTICAL_PICTURES);
 
 	int ln, col;
 	// return calue
@@ -63,8 +63,8 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 		&& (x <= MAP_END_POSOTION_X)
 		&& (y <= MAP_END_POSOTION_Y))
 	{
-		ln  = (y - MAP_START_POSOTION_Y) / Pic::height; // line index
-		col = (x - MAP_START_POSOTION_X) / Pic::width ; // column index
+		ln = (y - MAP_START_POSOTION_Y) / Pic::height + 1; // line index
+		col = (x - MAP_START_POSOTION_X) / Pic::width + 1; // column index
 
 		// index in map to return
 		ret = col * NUM_OF_VERTICAL_PICTURES + ln;
