@@ -21,6 +21,7 @@ namespace fs = std::filesystem;
 class Control {
 private:
 	int width, height;
+	/*音量初始值0.5*/
 	double volm1{ 0.5 }, volm2{ 0.5 };
 	/*将要渲染的窗口*/
 	SDL_Window* window = NULL;
