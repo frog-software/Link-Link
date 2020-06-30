@@ -117,7 +117,7 @@ void Control::mainLoop()
 		float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
 		/*16.666f‘ºµ»”⁄60fps*/
 		if (elapsedMS < 16.666f)
-			SDL_Delay(floor(16.666f - elapsedMS));
+			SDL_Delay(static_cast<int>(floor(16.666f - elapsedMS)));
 	}
 }
 
