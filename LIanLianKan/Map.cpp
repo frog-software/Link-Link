@@ -270,18 +270,18 @@ void Map::RandomOrder()
  */
 bool Map::isMatch(Pic* a, Pic* b)
 {
-	auto p{ std::pair<Pic*,Pic*>{a,b} }, q{ std::pair<Pic*,Pic*>{b,a} };
-	for (auto i = matchedlist.begin(); i != matchedlist.end(); i++)
+	auto p{ std::pair<Pic*,Pic*>{a,b} },q{ std::pair<Pic*,Pic*>{b,a} };
+	for(auto i=matchedlist.begin();i!=matchedlist.end();i++)
 		if (*i == p || *i == q) {
 			this->canMatch(a, b, true);
 			a->setIsStroke(true);
 			b->setIsStroke(true);
 			a->setIsVisible(false);
 			b->setIsVisible(false);
-			updateMatchedlist(a);
-			updateMatchedlist(b);
-			/*	matchedlist.clear();
-				updateMatchedlist();*/
+		/*	updateMatchedlist(a);
+			updateMatchedlist(b);*/
+			matchedlist.clear();
+			updateMatchedlist();
 			a->setIsVisible(true);
 			b->setIsVisible(true);
 			return true;
