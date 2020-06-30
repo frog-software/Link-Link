@@ -42,7 +42,6 @@ private:
 	  */
 	ConnectLine* connect_line;
 
-
 	/**
 	 * 存储地图中可以匹配的序列.
 	 * 利用list+pair
