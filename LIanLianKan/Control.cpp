@@ -156,12 +156,37 @@ void Control::putImage(std::string path, int x, int y, int width, int height)
 /**
  * 播放音乐path共cnt次.
  * 只支持wav格式的音乐
+ * \param channel 音乐播放的频道
  * \param path 音乐的路径
  * \param cnt 播放次数，-1为背景音乐
  */
-void Control::playSound(std::string path, int cnt)
+void Control::playSound(int channel, std::string path, int cnt)
 {
-	Mix_PlayChannel(-1, Sounds[path], 0);
+	Mix_PlayChannel(channel, Sounds[path], 0);
+}
+void Control::addVolume(int channel) {
+	if (1 == channel) {
+		volm1 += 0.25;
+		if (volm1 > 1)volm1 = 1;
+		Mix_Volume(channel, (int)(volm1 * MIX_MAX_VOLUME));
+	}
+	if (2 == channel) {
+		volm2 += 0.25;
+		if (volm2 > 1)volm2 = 1;
+		Mix_Volume(channel, (int)(volm2 * MIX_MAX_VOLUME));
+	}
+}
+void Control::decVolume(int channel) {
+	if (1 == channel) {
+		volm1 -= 0.25;
+		if (volm1 < 0)volm1 = 0;
+		Mix_Volume(channel, (int)(volm1 * MIX_MAX_VOLUME));
+	}
+	if (2 == channel) {
+		volm2 -= 0.25;
+		if (volm2 < 0)volm2 = 0;
+		Mix_Volume(channel, (int)(volm2 * MIX_MAX_VOLUME));
+	}
 }
 /**
  * 获取随机数.
