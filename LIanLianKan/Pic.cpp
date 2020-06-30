@@ -80,15 +80,19 @@ bool Pic::getValid() const
 
 /**
  * 绘画图标.
- * 正常来说是绘画一张图片，这里是临时写法输出数字
+ * isVisible为false时不可见
+ * 否则
+ *   isStroke为true时有边框
+ *   isStroke为false时无边框
  */
 void Pic::draw()
 {
-	char* s = new char[100];
-	if (this->isVisible) sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
-	else sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
-	now->putImage(s, x * width, y * height, width, height);
-	delete[] s;
+    if (this->isVisible == false)return;
+    char* s = new char[100];
+    if (this->isStroke == false) sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
+    else sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
+    now->putImage(s, x * width, y * height, width, height);
+    delete[] s;
 }
 
 /**

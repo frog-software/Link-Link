@@ -6,6 +6,7 @@
 class GameScene :public Scene {
 private:
 	Map* map = nullptr;
+	Pic* last = nullptr;
 public:
 	GameScene(int m, int n);
 	~GameScene();

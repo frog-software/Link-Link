@@ -39,9 +39,10 @@ void GameScene::update()
 void GameScene::onMouse(Sint32 x, Sint32 y)
 {
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
-	if (linearMousePositionOnMap >= 0)
+	if (linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
-		map->map[linearMousePositionOnMap]->setIsVisible(false);
+		map->map[linearMousePositionOnMap]->setIsStroke(true);
+	//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}
 }
 
