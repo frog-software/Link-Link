@@ -10,8 +10,8 @@
 #include "Control.h"
 extern Control* now;
 
-int Pic::width = 40;
-int Pic::height = 30;
+int Pic::width = 50;
+int Pic::height = 50;
 
 /**
  * .Pic类的构造函数
@@ -82,8 +82,10 @@ bool Pic::getValid() const
 void Pic::draw()
 {
 	char* s = new char[100];
-	sprintf_s(s, 100, "[%2d]", kind);
-	now->xyprintf(x * width, y * height, s, 20);
+	if (this->isVisible) sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
+	else sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
+	now->putImage(s, x * width, y * height, width, height);
+	delete[] s;
 }
 
 /**
