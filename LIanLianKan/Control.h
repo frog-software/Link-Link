@@ -21,6 +21,7 @@ namespace fs = std::filesystem;
 class Control {
 private:
 	int width, height;
+	double volm1{ 0.5 }, volm2{ 0.5 };
 	/*将要渲染的窗口*/
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
