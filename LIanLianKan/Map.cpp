@@ -159,6 +159,13 @@ Map::Map(int _m, int _n) :m{ _m + 2 }, n{ _n + 2 }
 	RandomOrder();
 }
 
+Map::~Map()
+{
+	for (auto i : map)
+		delete i;
+
+}
+
 /**
  * 更新匹配列表（全体）.
  * 枚举所有点对，一一判断其是否能够进行匹配
