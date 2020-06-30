@@ -110,6 +110,7 @@ void Control::mainLoop()
 			scene->update();
 			SDL_RenderPresent(renderer);
 		}
+		
 		/*为控制帧率为60，手动delay剩余的时间*/
 
 		/*记录当前时间*/
