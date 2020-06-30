@@ -161,8 +161,53 @@ void Map::updateMatchedlist(Pic* a)
  */
 void Map::RandomOrder()
 {
-    /*to be continued*/
-    now->xyprintf(0, 0, "随机排列顺序的函数还没有写！", 20);
+    // used to store the index of all visible objects
+    std::vector <int> visibleObjIdx;
+
+    // store the index of all visible objects
+    for (size_t i = 0; i < map.size(); i++)
+    {
+        if (map[i]->getIsVisible())
+        {
+            visibleObjIdx.push_back(i);
+        }
+    }
+
+    // if there is no more than 2 objects left,
+    // then there is no need for a rearrangement.
+    if (visibleObjIdx.size() > 2)
+    {
+        for (size_t i = 0; i < visibleObjIdx.size(); i++)
+        {
+            Pic* tmpPic = nullptr;
+
+            // generate two random numbers to determine which objects to swap
+            int randomIdx1 = now->getRand() % visibleObjIdx.size();
+            int randomIdx2 = now->getRand() % visibleObjIdx.size();
+            int tmpX, tmpY;
+
+            // swap X and Y
+            tmpX = map[visibleObjIdx[randomIdx1]]->getX();
+            map[visibleObjIdx[randomIdx1]]->setX(map[visibleObjIdx[randomIdx2]]->getX());
+            map[visibleObjIdx[randomIdx2]]->setX(tmpX);
+
+            tmpY = map[visibleObjIdx[randomIdx1]]->getY();
+            map[visibleObjIdx[randomIdx1]]->setY(map[visibleObjIdx[randomIdx2]]->getY());
+            map[visibleObjIdx[randomIdx2]]->setY(tmpY);
+
+            // swap the indexes of two objects
+            tmpPic = map[visibleObjIdx[randomIdx1]];
+            map[visibleObjIdx[randomIdx1]] = map[visibleObjIdx[randomIdx2]];
+            map[visibleObjIdx[randomIdx2]] = tmpPic;
+
+        }
+    }
+
+    // update map
+    draw();
+
+    // update matched list
+    updateMatchedlist();
 }
 
 /**
