@@ -103,16 +103,26 @@ void Control::putImage(std::string path, int x, int y, int width, int height)
 	SDL_RenderCopy(renderer, texture, NULL, &box);
 }
 
-void Control::playSound(int channel, std::string path, int cnt)
+void Control::playSound(std::string path, int cnt)
 {
-	Mix_PlayChannel(channel, Sounds[path], 0);
+	Mix_PlayChannel(-1, Sounds[path], 0);
 }
-void Control::setVolume(int channel, int n) {
-	if (0 == n)Mix_Volume(channel, 0);
-	if (1 == n)Mix_Volume(channel, (int)0.25*MIX_MAX_VOLUME);
-	if (2 == n)Mix_Volume(channel, (int)0.50 * MIX_MAX_VOLUME);
-	if (3 == n)Mix_Volume(channel, (int)0.75 * MIX_MAX_VOLUME);
-	if (4 == n)Mix_Volume(channel, MIX_MAX_VOLUME);
+void Control::setVolume(int n) {
+	if (0 == n) {
+		Mix_Volume(-1, 0);
+	}
+	else if (1 == n) {
+		Mix_Volume(-1, 32);
+	}
+	else if (2 == n) {
+		Mix_Volume(-1, 64);
+	}
+	else if (3 == n) {
+		Mix_Volume(-1, 96);
+	}
+	else {
+		Mix_Volume(-1, MIX_MAX_VOLUME);
+	}
 }
 
 int Control::getRand() { return std::rand(); }
