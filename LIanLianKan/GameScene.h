@@ -1,7 +1,8 @@
 #pragma once
 
 #include"Scene.h"
-#include"Map-Pic.h"
+#include"Map.h"
+#include"Pic.h"
 class GameScene :public Scene {
 private:
 	Map* map = nullptr;

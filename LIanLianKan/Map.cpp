@@ -1,104 +1,17 @@
 /*****************************************************************//**
- * \file   Map-Pic.cpp
- * \brief  Map类和Pic类的定义文件
+ * \file   Map.cpp
+ * \brief  Map类定义文件
  * Map类和Pic类中各个成员叔叔的实现
  * \author FrogDar
- * \date   June 2020
+ * @change 拆分Map和Pic类 by wht
+ * \date   June 30 2020
  *********************************************************************/
 
-#include "Map-Pic.h"
+#include "Map.h"
 #include "Control.h"
 extern Control* now;
 
-int Pic::width = 50;
-int Pic::height = 50;
 
-/**
- * .Pic类的构造函数
- * 传入图标类型与坐标信息
- * 默认可见、默认无边框
- * \param _kind 当前图标的类型 （0表示障碍
- * \param _x 在地图中的第几行
- * \param _y 在地图中的第几列
- */
-Pic::Pic(int _kind, int _x, int _y) :x{ _x }, y{ _y }, isVisible{ true }, isStroke{ false }, kind{ _kind }
-{
-}
-
-int Pic::getX() const
-{
-	return x;
-}
-
-void Pic::setX(int x)
-{
-	this->x = x;
-}
-
-int Pic::getY() const
-{
-	return y;
-}
-
-void Pic::setY(int y)
-{
-	this->y = y;
-}
-
-int Pic::getKind() const
-{
-	return kind;
-}
-
-bool Pic::getIsVisible() const
-{
-	return isVisible;
-}
-
-void Pic::setIsVisible(bool isVisible)
-{
-	this->isVisible = isVisible;
-}
-
-bool Pic::getIsStroke() const
-{
-	return isStroke;
-}
-
-void Pic::setIsStroke(bool isStroke)
-{
-	this->isStroke = isStroke;
-}
-
-bool Pic::getValid() const
-{
-	return kind && isVisible;
-}
-
-/**
- * 绘画图标.
- * 正常来说是绘画一张图片，这里是临时写法输出数字
- */
-void Pic::draw()
-{
-	char* s = new char[100];
-	if (this->isVisible) sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
-	else sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
-	now->putImage(s, x * width, y * height, width, height);
-	delete[] s;
-}
-
-/**
- * 重载小于运算符.
- * 为了可以排序
- * \param b 与之相比较的图标
- * \return 按坐标大小排序
- */
-bool Pic::operator<(const Pic& b)
-{
-	if (this->x != b.x)return this->x < b.x;
-	else return this->y < b.y;
-}
 
 std::pair<int, int> operator+(std::pair<int, int> op1, std::pair<int, int> op2)
 {
@@ -126,7 +39,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 		}
 		if (true == flag) {
 			if (erase)
-				drawMatchedLine(a, b);
+				connect_line = new ConnectLine(a, b);
 			return true;
 		}
 	}
@@ -139,7 +52,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 		}
 		if (true == flag) {
 			if (erase)
-				drawMatchedLine(a, b);
+				connect_line = new ConnectLine(a, b);
 			return true;
 		}
 	}
@@ -193,7 +106,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 		for (auto b_ : b_accessible)
 			if (a_ == b_) {
 				if (erase)
-					drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)]);
+					connect_line = new ConnectLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)]);
 				return true;
 			}
 
@@ -221,7 +134,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 
 			if (flag == true) {
 				if (erase)
-					drawMatchedLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)], map[(b_.first - 1) * n + (b_.second - 1)]);
+					connect_line = new ConnectLine(a, b, map[(a_.first - 1) * n + (a_.second - 1)], map[(b_.first - 1) * n + (b_.second - 1)]);
 				return true;
 			}
 		}
@@ -374,65 +287,6 @@ void Map::draw()
 	for (auto p : map)p->draw();
 }
 
-void Map::drawMatchedLine(Pic* start, Pic* end)
-{
-	/*x1,x2,y1,y2：起终点的坐标，len：线段长度。默认start在end的左侧*/
-
-	int x1, x2, y1, y2;
-	x1 = start->getX() * Pic::width;
-	y1 = start->getY() * Pic::height;
-	x2 = end->getX() * Pic::width;
-	y2 = end->getY() * Pic::height;
-
-	SDL_Rect line_rect;
-	if (x1 == x2) { //x坐标相等，线段垂直方向
-		if (y1 - y2 > 0) {
-			line_rect.x = x2;
-			line_rect.y = y2;
-			line_rect.w = 5;
-			line_rect.h = y1 - y2;
-		}
-		else {
-			line_rect.x = x1;
-			line_rect.y = y1;
-			line_rect.w = 5;
-			line_rect.h = y2 - y1;
-		}
-		SDL_SetRenderDrawColor(now->getRenderer(), 0, 74, 140, 255);
-		SDL_Rect* pline = &line_rect;
-		SDL_RenderFillRect(now->getRenderer(), pline);
-	}
-	else {//y坐标相等，线段水平方向
-		if (x1 - x2 > 0) {
-			line_rect.x = x2;
-			line_rect.y = y2;
-			line_rect.w = x1 - x2;
-			line_rect.h = 5;
-		}
-		else {
-			line_rect.x = x1;
-			line_rect.y = y1;
-			line_rect.w = x2 - x1;
-			line_rect.h = 5;
-		}
-		SDL_SetRenderDrawColor(now->getRenderer(), 0, 74, 140, 255);
-		SDL_Rect* pline = &line_rect;
-		SDL_RenderFillRect(now->getRenderer(), pline);
-	}
-}
-
-void Map::drawMatchedLine(Pic* start, Pic* end, Pic* corner1)
-{
-	drawMatchedLine(start, corner1);
-	drawMatchedLine(corner1, end);
-}
-
-void Map::drawMatchedLine(Pic* start, Pic* end, Pic* corner1, Pic* corner2)
-{
-	drawMatchedLine(start, corner1);
-	drawMatchedLine(corner1, corner2);
-	drawMatchedLine(corner2, end);
-}
 
 Pic* Map::getPicup(Pic* a)
 {
@@ -474,4 +328,14 @@ Pic* Map::getPicright(Pic* a)
 {
 	if (a->getY() == n)return nullptr;
 	return map[n * (a->getX() - 1) + a->getY()];
+}
+
+void Map::setConnectLine(ConnectLine* line_)
+{
+	connect_line = line_;
+}
+
+ConnectLine* Map::getConnectLine()
+{
+	return connect_line;
 }
