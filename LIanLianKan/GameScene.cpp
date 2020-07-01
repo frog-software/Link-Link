@@ -53,6 +53,7 @@ void GameScene::update()
 		count++;
 	}
 	if (10 == count) {
+		if (5 == now->click)map->closeHelp();
 		count = 0;
 		now->click = 0;
 	}
@@ -133,11 +134,13 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	}
 	if (x >= 890 && x <= 940 && y >= 340 && y <= 390) {
 		now->click = 5;
+		map->openHelp();
 		//这里是提示功能.
 	}
 	if (x >= 890 && x <= 940 && y >= 420 && y <= 470) {
 		now->click = 6;
 		//这里是重排功能.
+		map->RandomOrder();
 	}
 	if (1 == now->pause) {
 		pauseCounter();

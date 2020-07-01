@@ -324,7 +324,7 @@ bool Map::isMatch(Pic* a, Pic* b)
  */
 bool Map::anyMatch()
 {
-	return !matchedlist.empty();
+	return !matchedlist.empty() || isWin();
 }
 
 /**
@@ -335,6 +335,29 @@ void Map::draw()
 {
 	for (auto p : map)p->draw();
 }
+
+void Map::openHelp()
+{
+	if (help.first!=nullptr||help.second!=nullptr )closeHelp();
+	help = matchedlist.front();
+	help.first->setIsStroke(true);
+	help.second->setIsStroke(true);
+}
+
+void Map::closeHelp()
+{
+	help.first->setIsStroke(false);
+	help.second->setIsStroke(false);
+	help = {nullptr,nullptr};
+}
+
+bool Map::isWin()
+{
+	for (auto i : map)
+		if (i->getIsVisible())return false;
+	return true;
+}
+
 
 /**
  * 获取某Pic的上方Pic.
