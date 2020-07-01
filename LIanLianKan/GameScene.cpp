@@ -2,6 +2,7 @@
 #include "Control.h"
 #include "StartScene.h"
 #include "SetScene.h"
+#include "OverScene.h"
 
 static int count = 0;
 extern Control* now;
@@ -85,6 +86,11 @@ void GameScene::update()
 	char buff[50];
 	sprintf_s(buff, 50, "Time:%4lld", getTimer());
 	now->xyprintf(800, 20, buff, 40);
+
+	if (map->isWin()) {
+		now->scene = new OverScene(getTimer());
+		delete this;
+	}
 }
 
 /**
