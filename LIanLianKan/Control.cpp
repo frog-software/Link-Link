@@ -108,7 +108,6 @@ void Control::mainLoop()
 
 			// Auto mode /////
 			keyCodeBuffer.push_back(e.type);
-			printf("%d\n", keyCodeBuffer.back());
 			if (keyCodeBuffer.size() > 12)
 			{
 				for (size_t i = 0; i < 12; i++)
