@@ -17,6 +17,6 @@ public:
 		sprintf_s(background_pic, 50, "./Pic/endgame.png");
 	};
 	void update();
-	void onMouse(Sint32 x, Sint32 y);
-	void onMouseMotion(Sint32 x, Sint32 y);
+	void onMouse(Sint32 x, Sint32 y) override;
+	void onMouseMotion(Sint32 x, Sint32 y) override;
 };
