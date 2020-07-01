@@ -18,7 +18,7 @@
 #include <cstdlib>
 namespace fs = std::filesystem;
 extern Control* now;
-
+bool hasEnabledAutoMode = false;
 /**
  * Control类的有参构造函数.
  * 创建一个width*height大小的窗口
@@ -89,7 +89,6 @@ void Control::mainLoop()
 	SDL_Event e;
 
 	std::vector<SDL_Keycode> keyCodeBuffer;
-	bool hasEnabledAutoMode = false;
 
 	while (!quit)
 	{
@@ -143,16 +142,7 @@ void Control::mainLoop()
 			SDL_RenderPresent(renderer);
 		}
 
-		// Auto mode /////
-		if (hasEnabledAutoMode)
-		{
-			if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
-			{
-				hasEnabledAutoMode = false;
-				scene->update();
-			}
-		}
-		//////////////////
+		
 		
 
 		/*为控制帧率为60，手动delay剩余的时间*/

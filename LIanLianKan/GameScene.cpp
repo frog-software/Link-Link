@@ -5,6 +5,7 @@
 
 static int count = 0;
 extern Control* now;
+extern bool hasEnabledAutoMode;
 
 /**
  * @brief Construct a new Game Scene:: Game Scene object
@@ -85,6 +86,16 @@ void GameScene::update()
 	char buff[50];
 	sprintf_s(buff, 50, "Time:%4lld", getTimer());
 	now->xyprintf(800, 20, buff, 40);
+
+	// Auto mode /////
+	if (hasEnabledAutoMode)
+	{
+		if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
+		{
+			hasEnabledAutoMode = false;
+		}
+	}
+	//////////////////
 }
 
 /**
