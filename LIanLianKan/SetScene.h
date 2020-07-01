@@ -9,4 +9,5 @@ public:
 	~SetScene() = default;
 	void update()override;
 	void onMouse(Sint32 x, Sint32 y) override;
+	void onMouseMotion(Sint32 x, Sint32 y) override;
 };

@@ -8,6 +8,7 @@
 
 class GameScene :public Scene {
 private:
+	int bgnow = 0;
 	Map* map = nullptr;
 	Pic* last = nullptr;
 	Scene* scene_last;
@@ -29,6 +30,7 @@ public:
 	~GameScene();
 	void update()override;
 	void onMouse(Sint32 x, Sint32 y) override;
+	void onMouseMotion(Sint32 x, Sint32 y) override;
 	int getMousePositionOnMap(Sint32 x, Sint32 y);
 	bool autoPlay();
 	void startCounter();
