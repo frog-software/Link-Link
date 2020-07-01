@@ -94,7 +94,6 @@ void SetScene::onMouse(Sint32 x, Sint32 y) {
 
 void SetScene::onMouseMotion(Sint32 x, Sint32 y)
 {
-	//pass 
+	//pass
 	//by wht
-
 }
