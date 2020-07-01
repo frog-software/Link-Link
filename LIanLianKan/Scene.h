@@ -5,4 +5,5 @@ public:
 	Scene() = default;
 	virtual void update() = 0;
 	virtual void onMouse(Sint32 x, Sint32 y) = 0;
+	virtual void onMouseMotion(Sint32 x, Sint32 y) = 0;
 };

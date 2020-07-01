@@ -91,3 +91,10 @@ void SetScene::onMouse(Sint32 x, Sint32 y) {
 		delete this;
 	}
 }
+
+void SetScene::onMouseMotion(Sint32 x, Sint32 y)
+{
+	//pass 
+	//by wht
+
+}

@@ -27,6 +27,9 @@ private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 
+	/*用户是否选择退出*/
+	bool quit = false;
+
 	/*为了节约时间，提前加载所有资源*/
 	std::map<std::string, SDL_Texture*>Textures;
 	std::map<int, TTF_Font* >Fonts;
@@ -49,6 +52,9 @@ public:
 	/*获取音量*/
 	double getVolm1();
 	double getVolm2();
+	/*获取退出标志*/
+	bool getQuit();
+	void setQuit(bool quit_);
 	/*在位置xy以字号size 输出内容c*/
 	void xyprintf(int x, int y, const char* c, int size);
 	/*获取一个随机数*/

@@ -83,8 +83,6 @@ void Control::mainLoop()
 	/*初始界面为StartScene*/
 	this->scene = new StartScene();
 
-	/*用户是否选择退出*/
-	bool quit = false;
 	/*用户操作的事件*/
 	SDL_Event e;
 
@@ -108,6 +106,9 @@ void Control::mainLoop()
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
 				scene->onMouse(e.button.x, e.button.y);
+			}
+			if (e.type == SDL_MOUSEMOTION) {
+				scene->onMouseMotion(e.motion.x, e.motion.y);
 			}
 
 			// Auto mode /////
@@ -224,6 +225,14 @@ double Control::getVolm1() {
 }
 double Control::getVolm2() {
 	return volm2;
+}
+bool Control::getQuit()
+{
+	return quit;
+}
+void Control::setQuit(bool quit_)
+{
+	quit = quit_;
 }
 /**
  * 获取随机数.

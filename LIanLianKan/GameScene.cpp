@@ -40,8 +40,14 @@ GameScene::~GameScene()
 
 void GameScene::update()
 {
-	/*绘制画面底层*/
-	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
+	/*绘制画面底层动画.*/
+	//now->putImage("./Pic/Game.png", 0, 0, 960, 640);
+	bgnow++;
+	if (bgnow == 121)bgnow = 0;
+	char* s = new char[50];
+	sprintf_s(s, 50, "./Pic/bgvideo2/2_bgvideo%03d.png", bgnow);
+	now->putImage(s, 0, 0, 960, 640);
+	delete[] s;
 	/*绘制画面按钮*/
 	now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
 	now->putImage("./Pic/Set/cogwheel.png", 890, 180, 50, 50);
@@ -169,6 +175,11 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		startCounter();
 		//这里是取消暂停功能.
 	}
+}
+
+void GameScene::onMouseMotion(Sint32 x, Sint32 y)
+{
+	//std::cout << "gamesence: " << x << " " << y << std::endl;
 }
 
 /*
