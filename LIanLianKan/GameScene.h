@@ -10,6 +10,7 @@ class GameScene :public Scene {
 private:
 	Map* map = nullptr;
 	Pic* last = nullptr;
+	Scene* scene_last;
 
 	time_t counterTime_start;
 	time_t counterTime_stop;
@@ -26,7 +27,7 @@ private:
 	std::list<ConnectLine* > line_list;
 
 public:
-	GameScene(int m, int n);
+	GameScene(Scene* scene_last_, int m, int n);
 	~GameScene();
 	void update()override;
 	void onMouse(Sint32 x, Sint32 y) override;
