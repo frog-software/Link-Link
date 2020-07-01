@@ -123,6 +123,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		//这里返回主菜单.
 	}
 	if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
+		//这里进入设置界面
 		new SetScene(this);
 	}
 	if (x >= 890 && x <= 940 && y >= 260 && y <= 310) {
@@ -137,9 +138,11 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		//这里是重排功能.
 	}
 	if (1 == now->pause) {
+		pauseCounter();
 		//这里是暂停功能.
 	}
 	if (0 == now->pause) {
+		startCounter();
 		//这里是取消暂停功能.
 	}
 }
