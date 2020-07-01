@@ -33,8 +33,8 @@ Control::Control(int _width, int _height) :width{ _width }, height{ _height }, s
 	/*初始化窗口信息*/
 	window = SDL_CreateWindow("Link Up", 100, 100, width, height, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	//Mix_Init(127);
-	//Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_CHANNELS, 2048);
+	Mix_Init(127);
+	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_CHANNELS, 2048);
 	/*初始化SDL的字体拓展*/
 	TTF_Init();
 }
@@ -61,8 +61,8 @@ Control::~Control()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	TTF_Quit();
-	//Mix_CloseAudio();
-	//Mix_Quit();
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_Quit();
 
 	delete scene;
@@ -76,8 +76,7 @@ Control::~Control()
 void Control::mainLoop()
 {
 	/*加载程序资源文件（图片、音频*/
-//	Initmywavs(fs::path{ "./Sound" });
-//	Initmywavs(fs::path{ "./Music" });
+	Initmywavs(fs::path{ "./Sound" });
 	Initmypngs(fs::path{ "./Pic" });
 
 	/*初始界面为StartScene*/
@@ -110,7 +109,7 @@ void Control::mainLoop()
 			scene->update();
 			SDL_RenderPresent(renderer);
 		}
-		
+
 		/*为控制帧率为60，手动delay剩余的时间*/
 
 		/*记录当前时间*/

@@ -82,9 +82,9 @@ void GameScene::update()
 
 
 	// display timer
-    char buff[5];
-    sprintf_s(buff, 5, "%lld", getTimer());
-    now->xyprintf(0, 0, buff, 20);
+    char buff[50];
+    sprintf_s(buff, 50, "Time:%4lld", getTimer());
+    now->xyprintf(800, 20, buff, 40);
 
 
 }
@@ -101,6 +101,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
 	if (linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
+		now->playSound(2, "./Sound/Touch.wav");
 		if(last==nullptr){
 			/*这是第一次按图标，则图标加框*/
 			last = map->map[linearMousePositionOnMap];
@@ -114,6 +115,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		}else{
 			/*如果完成匹配，那么要清除last（其他操作在匹配函数中已完成*/
 			last = nullptr;
+			now->playSound(2, "./Sound/Got.wav");
 		}
 	//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}
