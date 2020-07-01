@@ -48,6 +48,7 @@ private:
 	Pic* getPicright(Pic* a);
 	/*获取Pic十字链路的可用Pic*/
 	void getAcross(Pic* aa, std::vector<Pic*>& v, bool extend);
+
 public:
 	/**
 	 * 地图大小.
@@ -67,7 +68,6 @@ public:
 
 	/*重新更新matchedlist*/
 	void updateMatchedlist();
-	void updateMatchedlist(Pic*);
 
 	/*连接线指针的get和set函数*/
 	void setConnectLine(ConnectLine* line_);
@@ -94,4 +94,7 @@ public:
 
 	/*获取第一对匹配图片*/
 	std::pair<Pic*, Pic*> getFirstMatchedPair();
+
+	std::list<ConnectLine* > line_list;
+	bool canbepath(Pic* a);
 };

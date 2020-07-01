@@ -42,6 +42,7 @@ void GameScene::update()
 {
 	/*绘制画面底层*/
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
+
 	/*绘制画面按钮*/
 	now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
 	now->putImage("./Pic/Set/cogwheel.png", 890, 180, 50, 50);
@@ -59,29 +60,11 @@ void GameScene::update()
 		count = 0;
 		now->click = 0;
 	}
+
 	/*绘制图标矩阵*/
-	if (map->anyMatch() == false)map->RandomOrder();
+	while (map->anyMatch() == false && map->isWin() == false)
+		map->RandomOrder();
 	map->draw();
-
-	/*处理ConnectLine*/
-
-	/*检测有无新的ConnectLine对象*/
-	auto conline = map->getConnectLine();
-	if (conline != nullptr) {
-		line_list.push_back(conline);
-		map->setConnectLine(nullptr);
-	}
-	/*绘制当前所有ConnectLine对象*/
-	if (line_list.empty() == false)
-		for (auto line : line_list) {
-			line->drawLine(now);
-			line->cnt--;
-		}
-	/*清理可以退休的ConnectLine对象*/
-	while (line_list.empty() == false && line_list.front()->cnt == 0) {
-		delete line_list.front();
-		line_list.pop_front();
-	}
 
 	// display timer
 	char buff[50];
@@ -162,11 +145,11 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		map->RandomOrder();
 	}
 	if (1 == now->pause) {
-		pauseCounter();
+		this->pauseCounter();
 		//这里是暂停功能.
 	}
 	if (0 == now->pause) {
-		startCounter();
+		this->startCounter();
 		//这里是取消暂停功能.
 	}
 }
@@ -213,7 +196,6 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 bool GameScene::autoPlay()
 {
 	bool isWin = map->isWin();
-
 	if (!isWin)
 		map->isMatch(map->getFirstMatchedPair().first, map->getFirstMatchedPair().second);
 

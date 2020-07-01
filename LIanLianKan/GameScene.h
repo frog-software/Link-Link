@@ -24,8 +24,6 @@ private:
 	*/
 	int counterStatus = 0;
 
-	std::list<ConnectLine* > line_list;
-
 public:
 	GameScene(Scene* scene_last_, int m, int n);
 	~GameScene();

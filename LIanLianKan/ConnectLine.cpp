@@ -98,3 +98,8 @@ void ConnectLine::drawLine(Control* now)
 		SDL_RenderFillRect(now->getRenderer(), pline);
 	}
 }
+
+bool ConnectLine::has(Pic* a)
+{
+	return start == a || end == a;
+}
