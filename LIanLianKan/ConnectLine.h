@@ -33,5 +33,5 @@ public:
 	void geneLine_rect(Pic* s, Pic* e, int index);
 	void drawLine(Control* now);
 	bool has(Pic* a);
-	int cnt = 5;
+	int cnt = 10;
 };

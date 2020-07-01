@@ -5,6 +5,7 @@
 #include "OverScene.h"
 
 static int count = 0;
+static int count_auto = 0;
 extern Control* now;
 extern bool hasEnabledAutoMode;
 
@@ -74,10 +75,16 @@ void GameScene::update()
 	// Auto mode /////
 	if (hasEnabledAutoMode)
 	{
-		if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
-		{
-			hasEnabledAutoMode = false;
+		if (count_auto < 10) { count_auto++; }
+		else {
+			count_auto = 0;
+			if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
+			{
+				hasEnabledAutoMode = false;
+			}
 		}
+
+
 	}
 	//////////////////
 
@@ -114,7 +121,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		else {
 			/*如果完成匹配，那么要清除last（其他操作在匹配函数中已完成*/
 			last = nullptr;
-			now->playSound(2, "./Sound/Got.wav");
+
 		}
 		//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}

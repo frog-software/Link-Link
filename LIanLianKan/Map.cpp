@@ -275,6 +275,7 @@ bool Map::isMatch(Pic* a, Pic* b)
 			updateMatchedlist();
 			a->setIsVisible(true);
 			b->setIsVisible(true);
+			now->playSound(2, "./Sound/Got.wav");
 			return true;
 		}
 	return false;
