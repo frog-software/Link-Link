@@ -21,7 +21,7 @@ namespace fs = std::filesystem;
 extern Control* now;
 bool hasEnabledAutoMode = false;
 int autoSpeed[4] = { 1, 5, 10, 20 };
-int autoSpeedIndicator = 0;
+int autoSpeedIndicator = 3;
 
 /**
  * Control类的有参构造函数.
