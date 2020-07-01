@@ -190,12 +190,14 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 
 void GameScene::startCounter()
 {
+	// if counter is stopped.
 	if (counterStatus == 0)
 	{
 		timer = 0;
 		counterStatus = 1;
 		counterTime_start = time(NULL);
 	}
+	// if counter is paused.
 	else if (counterStatus == 2)
 	{
 		counterStatus = 1;
@@ -207,11 +209,13 @@ void GameScene::startCounter()
 
 void GameScene::stopCounter()
 {
+	// if counter is started.
 	if (counterStatus == 1)
 	{
 		counterStatus = 0;
 		counterTime_stop = time(NULL);
 	}
+	// if counter is paused.
 	else if (counterStatus == 2)
 	{
 		counterStatus = 0;
@@ -224,6 +228,7 @@ void GameScene::stopCounter()
 
 void GameScene::pauseCounter()
 {
+	// if counter is started.
 	if (counterStatus == 1)
 	{
 		counterStatus = 2;
@@ -236,16 +241,16 @@ time_t GameScene::getTimer()
 {
 	switch (counterStatus)
 	{
-	case 0:
+	case 0: // counter stopped
 		timer += counterTime_stop - counterTime_start;
 		return timer;
 		break;
 
-	case 1:
+	case 1: // counter started
 		return timer + time(NULL) - counterTime_start;
 		break;
 
-	case 2:
+	case 2: // counter paused
 		return timer - counterTime_start + counterTimePause_start;
 		break;
 
