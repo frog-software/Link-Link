@@ -8,6 +8,8 @@ static int count = 0;
 static int count_auto = 0;
 extern Control* now;
 extern bool hasEnabledAutoMode;
+extern int autoSpeed[4];
+extern int autoSpeedIndicator;
 
 /**
  * @brief Construct a new Game Scene:: Game Scene object
@@ -79,7 +81,7 @@ void GameScene::update()
 	// Auto mode /////
 	if (hasEnabledAutoMode)
 	{
-		if (count_auto < 25) { count_auto++; }
+		if (count_auto < autoSpeed[autoSpeedIndicator]) { count_auto++; }
 		else {
 			count_auto = 0;
 			if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
@@ -87,8 +89,6 @@ void GameScene::update()
 				hasEnabledAutoMode = false;
 			}
 		}
-
-
 	}
 	//////////////////
 
