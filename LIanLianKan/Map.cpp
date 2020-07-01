@@ -39,25 +39,39 @@ void Map::getAcross(Pic* aa, std::vector<Pic*>& v,bool extend=false) {
 	}
 }
 
-
+/**
+ * @brief 判断两个Pic能否匹配，并传出ConnectLine对象
+ *
+ * @param a Pic1
+ * @param b Pic2
+ * @param erase 是否要消除（传出ConnectLine对象
+ * @return true 可以匹配
+ * @return false 不能匹配
+ */
 bool Map::canMatch(Pic* a, Pic* b, bool erase)
 {
+	/*测试代码： 如果出现nullptr说明传入代码有问题*/
 	if (a == nullptr || b == nullptr)
 	{
 		printf("出现nullptr\n");
 		return false;
 	}
+	/*如果图标是无效的，显然无法匹配*/
 	if (a->getValid() == false || b->getValid() == false)
 		return false;
+	/*如果图标不是同一种显然不匹配*/
 	if (a->getKind() != b->getKind())
 		return false;
+	/*如果图标是同一个，也不匹配*/
 	if (a == b)return false;
+
+	/*获取以a、b为源点的“十字架”上的图标*/
 	std::vector<Pic*>access_a;
 	std::vector<Pic*>access_b;
 	getAcross(a, access_a);
 	getAcross(b, access_b);
-	if (access_a.size() == 0 || access_b.size() == 0)return false;
-	//printf("%d %d %d %d\n", a->getX(), a->getY(), b->getX(), b->getY());
+
+	/*两个十字架直接相交，0或1个拐弯*/
 	for (auto i : access_a)
 		for (auto j : access_b)
 			if (i == j) {
@@ -65,8 +79,11 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 					connect_line = new ConnectLine{ a,b,i };
 				return true;
 			}
+
+	/*两个十字架中间通过辅助线相交，两个拐弯*/
 	for (auto i : access_a)
 		for (auto j : access_b)
+			/*x相等，画一条直线*/
 			if (i->getX() == j->getX()) {
 				Pic* begin; Pic* end;
 				if (i->getY() < j->getY()) {
@@ -89,6 +106,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 					return true;
 				}
 			}
+			/*y相等，画一条直线*/
 			else if (i->getY() == j->getY()) {
 				Pic* begin; Pic* end;
 				if (i->getX() < j->getX()) {
@@ -111,8 +129,9 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 					return true;
 				}
 			}
-	return false;
 
+	/*没有找到匹配*/
+	return false;
 }
 
 /**
@@ -135,6 +154,7 @@ Map::Map(int _m, int _n) :m{ _m + 2 }, n{ _n + 2 }
 			else t = now->getRand() % 20 + 1;
 			map.push_back(new Pic{ abs(t),i,j });
 		}
+	/*生成周围一圈不存在的“哨兵”*/
 	for (int i = 0; i < m; i++) {
 		map.push_back(new Pic{ -1,i,0 });
 		map.back()->setIsVisible(false);
