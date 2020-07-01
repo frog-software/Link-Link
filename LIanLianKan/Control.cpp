@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Control.cpp
- * \brief  Controlç±»çš„å®šä¹‰
- * Controlç±»çš„å‡½æ•°å®šä¹‰
+ * \brief  ControlÀàµÄ¶¨Òå
+ * ControlÀàµÄº¯Êı¶¨Òå
  * \author FrogDar
  * \date   June 2020
  *********************************************************************/
@@ -20,28 +20,28 @@ namespace fs = std::filesystem;
 extern Control* now;
 bool hasEnabledAutoMode = false;
 /**
- * Controlç±»çš„æœ‰å‚æ„é€ å‡½æ•°.
- * åˆ›å»ºä¸€ä¸ªwidth*heightå¤§å°çš„çª—å£
- * \param _width çª—å£å®½åº¦
- * \param _height çª—å£é«˜åº¦
+ * ControlÀàµÄÓĞ²Î¹¹Ôìº¯Êı.
+ * ´´½¨Ò»¸öwidth*height´óĞ¡µÄ´°¿Ú
+ * \param _width ´°¿Ú¿í¶È
+ * \param _height ´°¿Ú¸ß¶È
  */
 Control::Control(int _width, int _height) :width{ _width }, height{ _height }, scene{ nullptr }
 {
-	/*åˆå§‹åŒ–éšæœºæ•°ç§å­*/
+	/*³õÊ¼»¯Ëæ»úÊıÖÖ×Ó*/
 	std::srand((int)time(NULL));
-	/*åˆå§‹åŒ–SDLä¿¡æ¯*/
+	/*³õÊ¼»¯SDLĞÅÏ¢*/
 	SDL_Init(SDL_INIT_EVERYTHING);
-	/*åˆå§‹åŒ–çª—å£ä¿¡æ¯*/
+	/*³õÊ¼»¯´°¿ÚĞÅÏ¢*/
 	window = SDL_CreateWindow("Link Up", 100, 100, width, height, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	Mix_Init(127);
 	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_CHANNELS, 2048);
-	/*åˆå§‹åŒ–SDLçš„å­—ä½“æ‹“å±•*/
+	/*³õÊ¼»¯SDLµÄ×ÖÌåÍØÕ¹*/
 	TTF_Init();
 }
 
 /**
- * Controlç±»çš„æ— å‚æ„é€ å‡½æ•°.
+ * ControlÀàµÄÎŞ²Î¹¹Ôìº¯Êı.
  *
  */
 Control::Control() : Control{ 1366, 768 }
@@ -49,8 +49,8 @@ Control::Control() : Control{ 1366, 768 }
 }
 
 /**
- * Controlç±»çš„ææ„å‡½æ•°.
- * å¤„ç†æŒ‡é’ˆé—®é¢˜
+ * ControlÀàµÄÎö¹¹º¯Êı.
+ * ´¦ÀíÖ¸ÕëÎÊÌâ
  *
  */
 Control::~Control()
@@ -71,37 +71,36 @@ Control::~Control()
 }
 
 /**
- * ä¸»å¾ªç¯.
- * ç¨‹åºæ§åˆ¶é€»è¾‘çš„ä¸»ä½“éƒ¨åˆ†
+ * Ö÷Ñ­»·.
+ * ³ÌĞò¿ØÖÆÂß¼­µÄÖ÷Ìå²¿·Ö
  */
 void Control::mainLoop()
 {
-	/*åŠ è½½ç¨‹åºèµ„æºæ–‡ä»¶ï¼ˆå›¾ç‰‡ã€éŸ³é¢‘*/
+	/*¼ÓÔØ³ÌĞò×ÊÔ´ÎÄ¼ş£¨Í¼Æ¬¡¢ÒôÆµ*/
 	Initmywavs(fs::path{ "./Sound" });
 	Initmypngs(fs::path{ "./Pic" });
 
-	/*åˆå§‹ç•Œé¢ä¸ºStartScene*/
+	/*³õÊ¼½çÃæÎªStartScene*/
 	this->scene = new StartScene();
 
-	/*ç”¨æˆ·æ˜¯å¦é€‰æ‹©é€€å‡º*/
+	/*ÓÃ»§ÊÇ·ñÑ¡ÔñÍË³ö*/
 	bool quit = false;
-	/*ç”¨æˆ·æ“ä½œçš„äº‹ä»¶*/
+	/*ÓÃ»§²Ù×÷µÄÊÂ¼ş*/
 	SDL_Event e;
 
 	std::vector<SDL_Keycode> keyCodeBuffer;
-
 
 	int cnt = 0;
 
 	while (!quit)
 	{
-		/*è®°å½•å½“å‰æ—¶é—´ï¼ˆä¸ºäº†æ§åˆ¶å¸§ç‡*/
+		/*¼ÇÂ¼µ±Ç°Ê±¼ä£¨ÎªÁË¿ØÖÆÖ¡ÂÊ*/
 		Uint64 start = SDL_GetPerformanceCounter();
 
 		cnt = 0;
 		while (SDL_PollEvent(&e) != 0 && ++cnt < 20)
 		{
-			//ç”¨æˆ·é€‰æ‹©é€€å‡º
+			//ÓÃ»§Ñ¡ÔñÍË³ö
 			if (e.type == SDL_QUIT)
 			{
 				quit = true;
@@ -110,7 +109,7 @@ void Control::mainLoop()
 			{
 				scene->onMouse(e.button.x, e.button.y);
 			}
-      
+
 			// Auto mode /////
 			keyCodeBuffer.push_back(e.type);
 			if (keyCodeBuffer.size() > 12)
@@ -144,19 +143,19 @@ void Control::mainLoop()
 		scene->update();
 		SDL_RenderPresent(renderer);
 
-		/*ä¸ºæ§åˆ¶å¸§ç‡ä¸º60ï¼Œæ‰‹åŠ¨delayå‰©ä½™çš„æ—¶é—´*/
+		/*Îª¿ØÖÆÖ¡ÂÊÎª60£¬ÊÖ¶¯delayÊ£ÓàµÄÊ±¼ä*/
 		Uint64 end = SDL_GetPerformanceCounter();
 		float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-		/*16.666fçº¦ç­‰äº60fps*/
+		/*16.666fÔ¼µÈÓÚ60fps*/
 		if (elapsedMS < 16.666f)
 			SDL_Delay(static_cast<int>(floor(16.666f - elapsedMS)));
 	}
 }
 
 /**
- * è·å–Controlç±»å½“å‰çš„Renderer.
+ * »ñÈ¡ControlÀàµ±Ç°µÄRenderer.
  *
- * \return Rendererçš„æŒ‡é’ˆ
+ * \return RendererµÄÖ¸Õë
  */
 SDL_Renderer* Control::getRenderer()
 {
@@ -164,13 +163,13 @@ SDL_Renderer* Control::getRenderer()
 }
 
 /**
- * ç»˜åˆ¶ä¸€å¼ å›¾ç‰‡.
+ * »æÖÆÒ»ÕÅÍ¼Æ¬.
  *
- * \param path å›¾ç‰‡çš„è·¯å¾„
- * \param x ç»˜åˆ¶ç‚¹çš„æ¨ªåæ ‡
- * \param y ç»˜åˆ¶ç‚¹çš„çºµåæ ‡
- * \param width éœ€è¦ç»˜åˆ¶çš„å›¾ç‰‡å®½åº¦
- * \param height éœ€è¦ç»˜åˆ¶çš„å›¾ç‰‡çš„é«˜åº¦
+ * \param path Í¼Æ¬µÄÂ·¾¶
+ * \param x »æÖÆµãµÄºá×ø±ê
+ * \param y »æÖÆµãµÄ×İ×ø±ê
+ * \param width ĞèÒª»æÖÆµÄÍ¼Æ¬¿í¶È
+ * \param height ĞèÒª»æÖÆµÄÍ¼Æ¬µÄ¸ß¶È
  */
 void Control::putImage(std::string path, int x, int y, int width, int height)
 {
@@ -186,11 +185,11 @@ void Control::putImage(std::string path, int x, int y, int width, int height)
 }
 
 /**
- * æ’­æ”¾éŸ³ä¹pathå…±cntæ¬¡.
- * åªæ”¯æŒwavæ ¼å¼çš„éŸ³ä¹
- * \param channel éŸ³ä¹æ’­æ”¾çš„é¢‘é“
- * \param path éŸ³ä¹çš„è·¯å¾„
- * \param cnt æ’­æ”¾æ¬¡æ•°ï¼Œ-1ä¸ºèƒŒæ™¯éŸ³ä¹
+ * ²¥·ÅÒôÀÖpath¹²cnt´Î.
+ * Ö»Ö§³Öwav¸ñÊ½µÄÒôÀÖ
+ * \param channel ÒôÀÖ²¥·ÅµÄÆµµÀ
+ * \param path ÒôÀÖµÄÂ·¾¶
+ * \param cnt ²¥·Å´ÎÊı£¬-1Îª±³¾°ÒôÀÖ
  */
 void Control::playSound(int channel, std::string path, int cnt)
 {
@@ -227,19 +226,19 @@ double Control::getVolm2() {
 	return volm2;
 }
 /**
- * è·å–éšæœºæ•°.
+ * »ñÈ¡Ëæ»úÊı.
  *
- * \return ä¸€ä¸ªéšæœºæ•°
+ * \return Ò»¸öËæ»úÊı
  */
 int Control::getRand() { return std::rand(); }
 
 /**
- * è¾“å‡ºæ–‡å­—ä¿¡æ¯.
- * åœ¨(x,y)å¤„è¾“å‡ºå­—å·ä¸ºsizeçš„å†…å®¹c
- * \param x æ¨ªåæ ‡
- * \param y çºµåæ ‡
- * \param c è¾“å‡ºå†…å®¹
- * \param size å­—å·å¤§å°
+ * Êä³öÎÄ×ÖĞÅÏ¢.
+ * ÔÚ(x,y)´¦Êä³ö×ÖºÅÎªsizeµÄÄÚÈİc
+ * \param x ºá×ø±ê
+ * \param y ×İ×ø±ê
+ * \param c Êä³öÄÚÈİ
+ * \param size ×ÖºÅ´óĞ¡
  */
 void Control::xyprintf(int x, int y, const char* c, int size = 20)
 {
@@ -258,9 +257,9 @@ void Control::xyprintf(int x, int y, const char* c, int size = 20)
 }
 
 /**
- * åŠ è½½pngèµ„æº.
- * è‡ªåŠ¨é€’å½’æ“ä½œï¼Œcpp17æ ‡å‡†
- * \param strPath åŠ è½½çš„æ–‡ä»¶å¤¹
+ * ¼ÓÔØpng×ÊÔ´.
+ * ×Ô¶¯µİ¹é²Ù×÷£¬cpp17±ê×¼
+ * \param strPath ¼ÓÔØµÄÎÄ¼ş¼Ğ
  */
 void Control::Initmypngs(fs::path strPath)
 {
@@ -280,9 +279,9 @@ void Control::Initmypngs(fs::path strPath)
 }
 
 /**
- * åŠ è½½wavèµ„æº.
- * è‡ªåŠ¨é€’å½’æ“ä½œï¼Œcpp17æ ‡å‡†
- * \param strPath åŠ è½½çš„æ–‡ä»¶å¤¹
+ * ¼ÓÔØwav×ÊÔ´.
+ * ×Ô¶¯µİ¹é²Ù×÷£¬cpp17±ê×¼
+ * \param strPath ¼ÓÔØµÄÎÄ¼ş¼Ğ
  */
 void Control::Initmywavs(fs::path strPath)
 {

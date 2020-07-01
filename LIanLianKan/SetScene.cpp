@@ -65,7 +65,6 @@ void SetScene::update() {
 		count = 0;
 		now->click = 0;
 	}
-	
 }
 
 void SetScene::onMouse(Sint32 x, Sint32 y) {
