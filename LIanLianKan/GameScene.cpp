@@ -2,13 +2,15 @@
 #include "Control.h"
 #include "StartScene.h"
 #include "SetScene.h"
+
+static int count = 0;
 extern Control* now;
 
 /**
  * @brief Construct a new Game Scene:: Game Scene object
- * Éú³ÉÒ»¸ömĞĞnÁĞµÄµØÍ¼
- * @param m µØÍ¼x·½ÏòÍ¼±ê¸öÊı
- * @param n µØÍ¼y·½ÏòÍ¼±ê¸öÊı
+ * ç”Ÿæˆä¸€ä¸ªmè¡Œnåˆ—çš„åœ°å›¾
+ * @param m åœ°å›¾xæ–¹å‘å›¾æ ‡ä¸ªæ•°
+ * @param n åœ°å›¾yæ–¹å‘å›¾æ ‡ä¸ªæ•°
  */
 GameScene::GameScene(int m, int n)
 {
@@ -22,7 +24,7 @@ GameScene::GameScene(int m, int n)
 
 /**
  * @brief Destroy the Game Scene:: Game Scene object
- * 
+ *
  */
 GameScene::~GameScene()
 {
@@ -30,71 +32,116 @@ GameScene::~GameScene()
 }
 
 /**
- * @brief ¸üĞÂ»­Ãæ
- * °´Ë³Ğò´Óµ×²ãµ½¶¥²ãÖğÒ»¸üĞÂ»­Ãæ
+ * @brief æ›´æ–°ç”»é¢
+ * æŒ‰é¡ºåºä»åº•å±‚åˆ°é¡¶å±‚é€ä¸€æ›´æ–°ç”»é¢
  */
+
 void GameScene::update()
 {
-	/*¼ÓÔØ±³¾°Í¼*/
+	/*ç»˜åˆ¶ç”»é¢åº•å±‚*/
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
-
-	/*¸üĞÂÍ¼±êĞÅÏ¢*/
-	if (map->anyMatch() == false)
-		map->RandomOrder();
+	/*ç»˜åˆ¶ç”»é¢æŒ‰é’®*/
+	now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
+	now->putImage("./Pic/Set/cogwheel.png", 890, 180, 50, 50);
+	if (0 == now->pause)now->putImage("./Pic/Set/pause.png", 890, 260, 50, 50);
+	if (1 == now->pause)now->putImage("./Pic/Set/play.png", 890, 260, 50, 50);
+	now->putImage("./Pic/Set/blub.png", 890, 340, 50, 50);
+	now->putImage("./Pic/Set/refresh.png", 890, 420, 50, 50);
+	if (count < 10 && now->click != 0) {
+		if (5 == now->click)now->putImage("./Pic/Set/blub_.png", 890, 340, 50, 50);
+		if (6 == now->click)now->putImage("./Pic/Set/refresh_.png", 890, 420, 50, 50);
+		count++;
+	}
+	if (10 == count) {
+		count = 0;
+		now->click = 0;
+	}
+	/*ç»˜åˆ¶å›¾æ ‡çŸ©é˜µ*/
+	if (map->anyMatch() == false)map->RandomOrder();
 	map->draw();
 
-	/*Èç¹ûµ±Ç°´æÔÚConnectLine¶ÔÏó*/
-	if (map->getConnectLine() != nullptr) {
-		/*½øĞĞ»æÖÆ*/
-		map->getConnectLine()->drawLine(now);
-		/*¡°µ¹¼ÆÊ±¡±¼õÒ»£¬»¹ĞèÒª»­¶àÉÙÖ¡¸Ã¶ÔÏó*/
-		map->getConnectLine()->cnt--;
-		/*¡°µ¹¼ÆÊ±¡±½áÊøÖ®ºó£¬Õâ¸ö¶ÔÏó¿ÉÒÔÊÍ·Åµô*/
-		if(map->getConnectLine()->cnt==0){
-			map->setConnectLine(nullptr);
-		}
+	/*å¤„ç†ConnectLine*/
+
+	/*æ£€æµ‹æœ‰æ— æ–°çš„ConnectLineå¯¹è±¡*/
+	auto conline = map->getConnectLine();
+	if (conline != nullptr) {
+		line_list.push_back(conline);
+		map->setConnectLine(nullptr);
 	}
+	/*ç»˜åˆ¶å½“å‰æ‰€æœ‰ConnectLineå¯¹è±¡*/
+	if (line_list.empty() == false)
+		for (auto line : line_list) {
+			line->drawLine(now);
+			line->cnt--;
+		}
+	/*æ¸…ç†å¯ä»¥é€€ä¼‘çš„ConnectLineå¯¹è±¡*/
+	while (line_list.empty() == false && line_list.front()->cnt == 0) {
+		delete line_list.front();
+		line_list.pop_front();
+	}
+
 
 	// display timer
     char buff[5];
     sprintf_s(buff, 5, "%d", getTimer());
     now->xyprintf(0, 0, buff, 20);
 
+
 }
 
 /**
- * @brief ÅĞ¶¨Êó±ê²Ù×÷
- * 
- * @param x Êó±êµã»÷µÄx
- * @param y Êó±êµã»÷µÄy
+ * @brief åˆ¤å®šé¼ æ ‡æ“ä½œ
+ *
+ * @param x é¼ æ ‡ç‚¹å‡»çš„x
+ * @param y é¼ æ ‡ç‚¹å‡»çš„y
  */
 void GameScene::onMouse(Sint32 x, Sint32 y)
 {
-	/*¶ÔÓÚÍ¼±êµÄÅĞ¶Ï*/
+	/*å¯¹äºå›¾æ ‡çš„åˆ¤æ–­*/
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
 	if (linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
 		if(last==nullptr){
-			/*ÕâÊÇµÚÒ»´Î°´Í¼±ê£¬ÔòÍ¼±ê¼Ó¿ò*/
+			/*è¿™æ˜¯ç¬¬ä¸€æ¬¡æŒ‰å›¾æ ‡ï¼Œåˆ™å›¾æ ‡åŠ æ¡†*/
 			last = map->map[linearMousePositionOnMap];
 			last->setIsStroke(true);
 		}
 		else if(map->isMatch(last, map->map[linearMousePositionOnMap])==false){
-			/*Èç¹ûÎŞ·¨Æ¥Åä£¬ÔòÇĞ»»¼Ó¿òµÄÍ¼±ê*/
+			/*å¦‚æœæ— æ³•åŒ¹é…ï¼Œåˆ™åˆ‡æ¢åŠ æ¡†çš„å›¾æ ‡*/
 			last->setIsStroke(false);
 			last = map->map[linearMousePositionOnMap];
 			last->setIsStroke(true);
 		}else{
-			/*Èç¹ûÍê³ÉÆ¥Åä£¬ÄÇÃ´ÒªÇå³ılast£¨ÆäËû²Ù×÷ÔÚÆ¥Åäº¯ÊıÖĞÒÑÍê³É*/
+			/*å¦‚æœå®ŒæˆåŒ¹é…ï¼Œé‚£ä¹ˆè¦æ¸…é™¤lastï¼ˆå…¶ä»–æ“ä½œåœ¨åŒ¹é…å‡½æ•°ä¸­å·²å®Œæˆ*/
 			last = nullptr;
 		}
 	//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}
 
-	/*¹¦ÄÜ°´¼üµÄÅĞ¶Ï*/
-
-	/*ÉèÖÃ½çÃæ*/
-	if (x >= 900 && x <= 960 && y >= 0 && y <= 50) new SetScene(this);
+	/*åŠŸèƒ½æŒ‰é”®çš„åˆ¤æ–­*/
+	if (x >= 890 && x <= 940 && y >= 100 && y <= 150) {
+		//è¿™é‡Œè¿”å›ä¸»èœå•.
+	}
+	if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
+		new SetScene(this);
+	}
+	if (x >= 890 && x <= 940 && y >= 260 && y <= 310) {
+		now->pause = (now->pause + 1) % 2;
+	}
+	if (x >= 890 && x <= 940 && y >= 340 && y <= 390) {
+		now->click = 5;
+		//è¿™é‡Œæ˜¯æç¤ºåŠŸèƒ½.
+	}
+	if (x >= 890 && x <= 940 && y >= 420 && y <= 470) {
+		now->click = 6;
+		//è¿™é‡Œæ˜¯é‡æ’åŠŸèƒ½.
+	}
+	if (1 == now->pause) {
+		//è¿™é‡Œæ˜¯æš‚åœåŠŸèƒ½.
+	}
+	if (0 == now->pause) {
+		//è¿™é‡Œæ˜¯å–æ¶ˆæš‚åœåŠŸèƒ½.
+	}
 }
 
 /*

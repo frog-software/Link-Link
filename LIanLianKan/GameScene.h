@@ -4,11 +4,13 @@
 #include"Map.h"
 #include"Pic.h"
 #include <ctime>
+#include <list>
 
 class GameScene :public Scene {
 private:
 	Map* map = nullptr;
 	Pic* last = nullptr;
+
 	time_t counterTime_start;
 	time_t counterTime_stop;
 	time_t counterTimePause_start;
@@ -20,6 +22,9 @@ private:
 	2 = counter paused
 	*/
 	int counterStatus = 0;
+
+	std::list<ConnectLine* > line_list;
+
 public:
 	GameScene(int m, int n);
 	~GameScene();

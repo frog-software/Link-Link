@@ -32,6 +32,7 @@ private:
 	std::map<int, TTF_Font* >Fonts;
 	std::map<std::string, Mix_Chunk*>Sounds;
 public:
+	int click = 0, pause = 0;
 	/*ctor,dtor*/
 	Control(int _width, int _height);
 	Control();

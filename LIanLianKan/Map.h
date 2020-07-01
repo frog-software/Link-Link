@@ -31,11 +31,6 @@ private:
 	 * 地图大小.
 	 */
 	int m, n;
-	/**
-	 * 图片大小.
-	 */
-
-
 
 	 /**
 	   * 存储配对元素的连接线.
@@ -46,7 +41,6 @@ private:
 	 * 存储地图中可以匹配的序列.
 	 * 利用list+pair
 	 */
-
 	std::vector<std::pair<Pic*, Pic*> >matchedlist;
 
 	/**
@@ -59,7 +53,7 @@ private:
 	Pic* getPicleft(Pic* a);
 	Pic* getPicright(Pic* a);
 	/*获取Pic十字链路的可用Pic*/
-	void getAcross(Pic* aa, std::vector<Pic*>& v);
+	void getAcross(Pic* aa, std::vector<Pic*>& v,bool extend);
 public:
 	/**
 	 * 存储地图中的图标.
