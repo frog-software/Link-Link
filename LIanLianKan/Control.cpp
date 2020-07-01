@@ -7,6 +7,7 @@
  *********************************************************************/
 #include "Control.h"
 #include "StartScene.h"
+#include "GameScene.h"
 #include <SDL.h>
 #include <SDL_main.h>
 #include <SDL_mixer.h>
@@ -17,7 +18,7 @@
 #include <cstdlib>
 namespace fs = std::filesystem;
 extern Control* now;
-
+bool hasEnabledAutoMode = false;
 /**
  * Control类的有参构造函数.
  * 创建一个width*height大小的窗口
@@ -87,11 +88,17 @@ void Control::mainLoop()
 	/*用户操作的事件*/
 	SDL_Event e;
 
+	std::vector<SDL_Keycode> keyCodeBuffer;
+
+	int cnt = 0;
+
 	while (!quit)
 	{
 		/*记录当前时间（为了控制帧率*/
 		Uint64 start = SDL_GetPerformanceCounter();
-		if (SDL_PollEvent(&e) != 0)
+
+		cnt = 0;
+		while (SDL_PollEvent(&e) != 0 && ++cnt < 20)
 		{
 			//用户选择退出
 			if (e.type == SDL_QUIT)
@@ -102,17 +109,41 @@ void Control::mainLoop()
 			{
 				scene->onMouse(e.button.x, e.button.y);
 			}
+
+			// Auto mode /////
+			keyCodeBuffer.push_back(e.type);
+			if (keyCodeBuffer.size() > 12)
+			{
+				for (size_t i = 0; i < 12; i++)
+				{
+					keyCodeBuffer[i] = keyCodeBuffer[i + 1];
+				}
+				keyCodeBuffer.pop_back();
+			}
+			if ((keyCodeBuffer[0] == 768
+				&& keyCodeBuffer[1] == 771
+				&& keyCodeBuffer[2] == 769
+				&& keyCodeBuffer[3] == 768
+				&& keyCodeBuffer[4] == 771
+				&& keyCodeBuffer[5] == 769
+				&& keyCodeBuffer[6] == 768
+				&& keyCodeBuffer[7] == 771
+				&& keyCodeBuffer[8] == 769
+				&& keyCodeBuffer[9] == 768
+				&& keyCodeBuffer[10] == 771
+				&& keyCodeBuffer[11] == 769)
+				|| hasEnabledAutoMode)
+			{
+				hasEnabledAutoMode = true;
+			}
+			//////////////////
 		}
-		else
-		{
-			SDL_RenderClear(renderer);
-			scene->update();
-			SDL_RenderPresent(renderer);
-		}
+
+		SDL_RenderClear(renderer);
+		scene->update();
+		SDL_RenderPresent(renderer);
 
 		/*为控制帧率为60，手动delay剩余的时间*/
-
-		/*记录当前时间*/
 		Uint64 end = SDL_GetPerformanceCounter();
 		float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
 		/*16.666f约等于60fps*/

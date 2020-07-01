@@ -91,4 +91,7 @@ public:
 
 	/*判断是否胜利 */
 	bool isWin();
+
+	/*获取第一对匹配图片*/
+	std::pair<Pic*, Pic*> getFirstMatchedPair();
 };

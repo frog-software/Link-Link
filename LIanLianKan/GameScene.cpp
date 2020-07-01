@@ -6,6 +6,7 @@
 
 static int count = 0;
 extern Control* now;
+extern bool hasEnabledAutoMode;
 
 /**
  * @brief Construct a new Game Scene:: Game Scene object
@@ -13,7 +14,7 @@ extern Control* now;
  * @param m 地图x方向图标个数
  * @param n 地图y方向图标个数
  */
-GameScene::GameScene(Scene* scene_last_,int m, int n):scene_last{ scene_last_}
+GameScene::GameScene(Scene* scene_last_, int m, int n) :scene_last{ scene_last_ }
 {
 	map = new Map{ m,n };
 
@@ -86,6 +87,16 @@ void GameScene::update()
 	char buff[50];
 	sprintf_s(buff, 50, "Time:%4lld", getTimer());
 	now->xyprintf(800, 20, buff, 40);
+
+	// Auto mode /////
+	if (hasEnabledAutoMode)
+	{
+		if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
+		{
+			hasEnabledAutoMode = false;
+		}
+	}
+	//////////////////
 
 	if (map->isWin()) {
 		now->scene = new OverScene(getTimer());
@@ -197,6 +208,16 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 	}
 
 	return ret;
+}
+
+bool GameScene::autoPlay()
+{
+	bool isWin = map->isWin();
+
+	if (!isWin)
+		map->isMatch(map->getFirstMatchedPair().first, map->getFirstMatchedPair().second);
+
+	return isWin;
 }
 
 void GameScene::startCounter()
