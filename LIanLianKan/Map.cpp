@@ -12,8 +12,7 @@
 #include <algorithm>
 extern Control* now;
 
-
-void Map::getAcross(Pic* aa, std::vector<Pic*>& v,bool extend=false) {
+void Map::getAcross(Pic* aa, std::vector<Pic*>& v, bool extend = false) {
 	v.push_back(aa);
 	Pic* a = nullptr;
 	a = aa;
@@ -106,7 +105,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 					return true;
 				}
 			}
-			/*y相等，画一条直线*/
+	/*y相等，画一条直线*/
 			else if (i->getY() == j->getY()) {
 				Pic* begin; Pic* end;
 				if (i->getX() < j->getX()) {
@@ -184,7 +183,6 @@ Map::~Map()
 {
 	for (auto i : map)
 		delete i;
-
 }
 
 /**
@@ -201,9 +199,9 @@ void Map::updateMatchedlist()
 					if (canMatch(map[i], map[j], false))
 						matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
 	sort(matchedlist.begin(), matchedlist.end());
-	matchedlist.erase(unique(matchedlist.begin(),matchedlist.end()),matchedlist.end());
-/*	for (auto i : matchedlist)
-		printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());*/
+	matchedlist.erase(unique(matchedlist.begin(), matchedlist.end()), matchedlist.end());
+	/*	for (auto i : matchedlist)
+			printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());*/
 }
 
 /**
@@ -221,15 +219,15 @@ void Map::updateMatchedlist(Pic* a)
 
 	/*探寻本图标周边的点*/
 	std::vector<Pic*>v;
-	if (getPicup(a) != nullptr )v.push_back(getPicup(a));
-	if (getPicdown(a) != nullptr )v.push_back(getPicdown(a));
+	if (getPicup(a) != nullptr)v.push_back(getPicup(a));
+	if (getPicdown(a) != nullptr)v.push_back(getPicdown(a));
 	if (getPicleft(a) != nullptr)v.push_back(getPicleft(a));
 	if (getPicright(a) != nullptr)v.push_back(getPicright(a));
 	for (auto i : v)
-		if(i->getValid()&&i->getIsStroke()==false)
-		for (auto j : map)
-			if (j->getValid() && i != j && canMatch(i, j, false))
-				matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
+		if (i->getValid() && i->getIsStroke() == false)
+			for (auto j : map)
+				if (j->getValid() && i != j && canMatch(i, j, false))
+					matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
 	sort(matchedlist.begin(), matchedlist.end());
 	matchedlist.erase(unique(matchedlist.begin(), matchedlist.end()), matchedlist.end());
 	printf("---------\n");
@@ -298,16 +296,16 @@ void Map::RandomOrder()
  */
 bool Map::isMatch(Pic* a, Pic* b)
 {
-	auto p{ std::pair<Pic*,Pic*>{a,b} },q{ std::pair<Pic*,Pic*>{b,a} };
-	for(auto i=matchedlist.begin();i!=matchedlist.end();i++)
+	auto p{ std::pair<Pic*,Pic*>{a,b} }, q{ std::pair<Pic*,Pic*>{b,a} };
+	for (auto i = matchedlist.begin(); i != matchedlist.end(); i++)
 		if (*i == p || *i == q) {
 			this->canMatch(a, b, true);
 			a->setIsStroke(true);
 			b->setIsStroke(true);
 			a->setIsVisible(false);
 			b->setIsVisible(false);
-		/*	updateMatchedlist(a);
-			updateMatchedlist(b);*/
+			/*	updateMatchedlist(a);
+				updateMatchedlist(b);*/
 			matchedlist.clear();
 			updateMatchedlist();
 			a->setIsVisible(true);
@@ -338,7 +336,7 @@ void Map::draw()
 
 void Map::openHelp()
 {
-	if (help.first!=nullptr||help.second!=nullptr )closeHelp();
+	if (help.first != nullptr || help.second != nullptr)closeHelp();
 	help = matchedlist.front();
 	help.first->setIsStroke(true);
 	help.second->setIsStroke(true);
@@ -348,7 +346,7 @@ void Map::closeHelp()
 {
 	help.first->setIsStroke(false);
 	help.second->setIsStroke(false);
-	help = {nullptr,nullptr};
+	help = { nullptr,nullptr };
 }
 
 bool Map::isWin()
@@ -357,7 +355,6 @@ bool Map::isWin()
 		if (i->getIsVisible())return false;
 	return true;
 }
-
 
 /**
  * 获取某Pic的上方Pic.

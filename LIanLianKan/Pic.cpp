@@ -75,7 +75,7 @@ void Pic::setIsStroke(bool isStroke)
 
 bool Pic::getValid() const
 {
-    return kind > 0 && isVisible == true;
+	return kind > 0 && isVisible == true;
 }
 
 /**
@@ -87,12 +87,12 @@ bool Pic::getValid() const
  */
 void Pic::draw()
 {
-    if (this->isVisible == false)return;
-    char* s = new char[100];
-    if (this->isStroke == false) sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
-    else sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
-    now->putImage(s, x * width, y * height, width, height);
-    delete[] s;
+	if (this->isVisible == false)return;
+	char* s = new char[100];
+	if (this->isStroke == false) sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
+	else sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
+	now->putImage(s, x * width, y * height, width, height);
+	delete[] s;
 }
 
 /**

@@ -8,7 +8,7 @@
 
 #include "ConnectLine.h"
 
-ConnectLine::ConnectLine(): number_of_corner{0},start{nullptr},end{nullptr},corner1{ nullptr }, corner2{ nullptr }
+ConnectLine::ConnectLine() : number_of_corner{ 0 }, start{ nullptr }, end{ nullptr }, corner1{ nullptr }, corner2{ nullptr }
 {
 }
 
@@ -19,8 +19,7 @@ ConnectLine::ConnectLine(Pic* start_, Pic* end_)
 	end = end_;
 	corner1 = nullptr;
 	corner2 = nullptr;
-	geneLine_rect(start,end,0);
-
+	geneLine_rect(start, end, 0);
 }
 
 ConnectLine::ConnectLine(Pic* start_, Pic* end_, Pic* corner1_)
@@ -51,7 +50,6 @@ ConnectLine::~ConnectLine()
 	start->setIsVisible(false);
 	end->setIsVisible(false);
 }
-
 
 /*根据输入的起终点，计算line_rect结构体里绘制矩形的绝对坐标，index表示矩形数组的下标*/
 void ConnectLine::geneLine_rect(Pic* s, Pic* e, int index)
@@ -88,7 +86,6 @@ void ConnectLine::geneLine_rect(Pic* s, Pic* e, int index)
 			line_rect[index].w = x2 - x1 + 5;
 			line_rect[index].h = 5;
 		}
-
 	}
 }
 

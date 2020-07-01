@@ -16,8 +16,7 @@
 #include "Pic.h"
 #include "ConnectLine.h"
 
-
-/*地图大小上限*/
+ /*地图大小上限*/
 const int N = 100;
 
 /**
@@ -32,9 +31,9 @@ private:
 	 */
 	int m, n;
 
-	 /**
-	   * 存储配对元素的连接线.
-	  */
+	/**
+	  * 存储配对元素的连接线.
+	 */
 	ConnectLine* connect_line;
 
 	/**
@@ -53,7 +52,7 @@ private:
 	Pic* getPicleft(Pic* a);
 	Pic* getPicright(Pic* a);
 	/*获取Pic十字链路的可用Pic*/
-	void getAcross(Pic* aa, std::vector<Pic*>& v,bool extend);
+	void getAcross(Pic* aa, std::vector<Pic*>& v, bool extend);
 public:
 	/**
 	 * 存储地图中的图标.
@@ -93,5 +92,4 @@ public:
 
 	/*判断是否胜利 */
 	bool isWin();
-
 };
