@@ -31,7 +31,7 @@ public:
 	void update()override;
 	void onMouse(Sint32 x, Sint32 y) override;
 	int getMousePositionOnMap(Sint32 x, Sint32 y);
-	void startCounter(.);
+	void startCounter();
 	void stopCounter();
 	void pauseCounter();
 	time_t getTimer();
