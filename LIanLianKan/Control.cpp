@@ -16,6 +16,7 @@
 #include <random>
 #include <ctime>
 #include <cstdlib>
+#include <deque>
 namespace fs = std::filesystem;
 extern Control* now;
 bool hasEnabledAutoMode = false;
@@ -88,7 +89,7 @@ void Control::mainLoop()
 	/*用户操作的事件*/
 	SDL_Event e;
 
-	std::vector<SDL_Keycode> keyCodeBuffer;
+	std::deque<SDL_Keycode> keyCodeBuffer;
 
 	int cnt = 0;
 
@@ -110,33 +111,20 @@ void Control::mainLoop()
 				scene->onMouse(e.button.x, e.button.y);
 			}
 
-			// Auto mode /////
-			keyCodeBuffer.push_back(e.type);
-			if (keyCodeBuffer.size() > 12)
-			{
-				for (size_t i = 0; i < 12; i++)
+			if (e.type == SDL_KEYDOWN) {
+				// Auto mode /////
+				keyCodeBuffer.push_back(e.key.keysym.sym);
+				if (keyCodeBuffer.size() > 4)keyCodeBuffer.pop_front();
+				if (keyCodeBuffer.size() == 4
+					&& keyCodeBuffer[0] == SDLK_a
+					&& keyCodeBuffer[1] == SDLK_u
+					&& keyCodeBuffer[2] == SDLK_t
+					&& keyCodeBuffer[3] == SDLK_o
+					)
 				{
-					keyCodeBuffer[i] = keyCodeBuffer[i + 1];
+					hasEnabledAutoMode = !hasEnabledAutoMode;
 				}
-				keyCodeBuffer.pop_back();
 			}
-			if ((keyCodeBuffer[0] == 768
-				&& keyCodeBuffer[1] == 771
-				&& keyCodeBuffer[2] == 769
-				&& keyCodeBuffer[3] == 768
-				&& keyCodeBuffer[4] == 771
-				&& keyCodeBuffer[5] == 769
-				&& keyCodeBuffer[6] == 768
-				&& keyCodeBuffer[7] == 771
-				&& keyCodeBuffer[8] == 769
-				&& keyCodeBuffer[9] == 768
-				&& keyCodeBuffer[10] == 771
-				&& keyCodeBuffer[11] == 769)
-				|| hasEnabledAutoMode)
-			{
-				hasEnabledAutoMode = true;
-			}
-			//////////////////
 		}
 
 		SDL_RenderClear(renderer);
