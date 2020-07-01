@@ -3,6 +3,8 @@
 #include"Scene.h"
 
 class StartScene :public Scene {
+private:
+	int bgnow = 0;
 public:
 	using Scene::Scene;
 	StartScene() = default;

@@ -86,12 +86,14 @@ void Control::mainLoop()
 	bool quit = false;
 	/*用户操作的事件*/
 	SDL_Event e;
-
+	int cnt = 0;
 	while (!quit)
 	{
 		/*记录当前时间（为了控制帧率*/
 		Uint64 start = SDL_GetPerformanceCounter();
-		if (SDL_PollEvent(&e) != 0)
+
+		cnt = 0;
+		while (SDL_PollEvent(&e) != 0 && ++cnt < 20)
 		{
 			//用户选择退出
 			if (e.type == SDL_QUIT)
@@ -102,17 +104,15 @@ void Control::mainLoop()
 			{
 				scene->onMouse(e.button.x, e.button.y);
 			}
+
 		}
-		else
-		{
-			SDL_RenderClear(renderer);
-			scene->update();
-			SDL_RenderPresent(renderer);
-		}
+
+		SDL_RenderClear(renderer);
+		scene->update();
+		SDL_RenderPresent(renderer);
+
 
 		/*为控制帧率为60，手动delay剩余的时间*/
-
-		/*记录当前时间*/
 		Uint64 end = SDL_GetPerformanceCounter();
 		float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
 		/*16.666f约等于60fps*/
