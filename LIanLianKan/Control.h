@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Control.h
- * \brief  ControlÀàÉùÃ÷
- * ControlÀàµÄÉùÃ÷ËùÔÚÍ·ÎÄ¼ş
+ * \brief  Controlç±»å£°æ˜
+ * Controlç±»çš„å£°æ˜æ‰€åœ¨å¤´æ–‡ä»¶
  *
  * \author FrogDar
  * \date   June 2020
@@ -21,38 +21,39 @@ namespace fs = std::filesystem;
 class Control {
 private:
 	int width, height;
-	/*ÒôÁ¿³õÊ¼Öµ0.5*/
+	/*éŸ³é‡åˆå§‹å€¼0.5*/
 	double volm1{ 0.5 }, volm2{ 0.5 };
-	/*½«ÒªäÖÈ¾µÄ´°¿Ú*/
+	/*å°†è¦æ¸²æŸ“çš„çª—å£*/
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 
-	/*ÎªÁË½ÚÔ¼Ê±¼ä£¬ÌáÇ°¼ÓÔØËùÓĞ×ÊÔ´*/
+	/*ä¸ºäº†èŠ‚çº¦æ—¶é—´ï¼Œæå‰åŠ è½½æ‰€æœ‰èµ„æº*/
 	std::map<std::string, SDL_Texture*>Textures;
 	std::map<int, TTF_Font* >Fonts;
 	std::map<std::string, Mix_Chunk*>Sounds;
 public:
+	int click = 0, pause = 0;
 	/*ctor,dtor*/
 	Control(int _width, int _height);
 	Control();
 	~Control();
-	/*Ö÷Ñ­»·*/
+	/*ä¸»å¾ªç¯*/
 	void mainLoop();
-	/*ÔÚÎ»ÖÃx£¬y ÒÔ¿í¶È width ¸ß¶È heightµÄ·½Ê½ »æÖÆÍ¼Æ¬path*/
+	/*åœ¨ä½ç½®xï¼Œy ä»¥å®½åº¦ width é«˜åº¦ heightçš„æ–¹å¼ ç»˜åˆ¶å›¾ç‰‡path*/
 	void putImage(std::string path, int x, int y, int width, int height);
-	/*ÔÚchannelÆµµÀ²¥·ÅÒôÀÖpathÒ»¹²cnt´Î£¬BGMÎªÆµµÀ1£¬ÒôĞ§ÎªÆµµÀ2*/
+	/*åœ¨channelé¢‘é“æ’­æ”¾éŸ³ä¹pathä¸€å…±cntæ¬¡ï¼ŒBGMä¸ºé¢‘é“1ï¼ŒéŸ³æ•ˆä¸ºé¢‘é“2*/
 	void playSound(int channel, std::string path, int cnt = 1);
-	/*µ÷½ÚÒôÁ¿´óĞ¡*/
+	/*è°ƒèŠ‚éŸ³é‡å¤§å°*/
 	void addVolume(int channel);
 	void decVolume(int channel);
-	/*»ñÈ¡ÒôÁ¿*/
+	/*è·å–éŸ³é‡*/
 	double getVolm1();
 	double getVolm2();
-	/*ÔÚÎ»ÖÃxyÒÔ×ÖºÅsize Êä³öÄÚÈİc*/
+	/*åœ¨ä½ç½®xyä»¥å­—å·size è¾“å‡ºå†…å®¹c*/
 	void xyprintf(int x, int y, const char* c, int size);
-	/*»ñÈ¡Ò»¸öËæ»úÊı*/
+	/*è·å–ä¸€ä¸ªéšæœºæ•°*/
 	int getRand();
-	/*¼ÓÔØÍ¼Æ¬¡¢ÒôÆµ*/
+	/*åŠ è½½å›¾ç‰‡ã€éŸ³é¢‘*/
 	void Initmypngs(fs::path strPath);
 	void Initmywavs(fs::path strPath);
 	SDL_Renderer* getRenderer();
