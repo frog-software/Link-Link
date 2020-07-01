@@ -150,6 +150,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pic.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SetScene.cpp" />
     <ClCompile Include="StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pic.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SetScene.h" />
     <ClInclude Include="StartScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
