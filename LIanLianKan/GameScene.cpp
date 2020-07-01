@@ -83,7 +83,7 @@ void GameScene::update()
 
 	// display timer
     char buff[5];
-    sprintf_s(buff, 5, "%d", getTimer());
+    sprintf_s(buff, 5, "%lld", getTimer());
     now->xyprintf(0, 0, buff, 20);
 
 
@@ -200,10 +200,6 @@ void GameScene::startCounter()
 		counterTimePause_stop = time(NULL);
 		timer += counterTimePause_start - counterTimePause_stop;
 	}
-	else
-	{
-		throw;
-	}
 	return;
 }
 
@@ -221,10 +217,6 @@ void GameScene::stopCounter()
 		counterTime_stop = time(NULL);
 		timer += counterTimePause_start - counterTimePause_stop;
 	}
-	else
-	{
-		throw;
-	}
 	return;
 }
 
@@ -234,10 +226,6 @@ void GameScene::pauseCounter()
 	{
 		counterStatus = 2;
 		counterTimePause_start = time(NULL);
-	}
-	else
-	{
-		throw;
 	}
 	return;
 }
