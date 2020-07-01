@@ -13,18 +13,18 @@ extern int autoSpeedIndicator;
 
 /**
  * @brief Construct a new Game Scene:: Game Scene object
- * ç”Ÿæˆä¸€ä¸ªmè¡Œnåˆ—çš„åœ°å›¾
- * @param m åœ°å›¾xæ–¹å‘å›¾æ ‡ä¸ªæ•°
- * @param n åœ°å›¾yæ–¹å‘å›¾æ ‡ä¸ªæ•°
+ * Éú³ÉÒ»¸ömÐÐnÁÐµÄµØÍ¼
+ * @param m µØÍ¼x·½ÏòÍ¼±ê¸öÊý
+ * @param n µØÍ¼y·½ÏòÍ¼±ê¸öÊý
  */
 GameScene::GameScene(Scene* scene_last_, int m, int n) :scene_last{ scene_last_ }
 {
-	map = new Map{ m,n };
+    map = new Map{ m,n };
 
-	// start timer
-	startCounter();
+    // start timer
+    startCounter();
 
-	map->setConnectLine(nullptr);
+    map->setConnectLine(nullptr);
 }
 
 /**
@@ -33,136 +33,136 @@ GameScene::GameScene(Scene* scene_last_, int m, int n) :scene_last{ scene_last_ 
  */
 GameScene::~GameScene()
 {
-	delete map;
+    delete map;
 }
 
 /**
- * @brief æ›´æ–°ç”»é¢
- * æŒ‰é¡ºåºä»Žåº•å±‚åˆ°é¡¶å±‚é€ä¸€æ›´æ–°ç”»é¢
+ * @brief ¸üÐÂ»­Ãæ
+ * °´Ë³Ðò´Óµ×²ãµ½¶¥²ãÖðÒ»¸üÐÂ»­Ãæ
  */
 
 void GameScene::update()
 {
-	/*ç»˜åˆ¶ç”»é¢åº•å±‚åŠ¨ç”».*/
-	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
-	/*ç»˜åˆ¶ç”»é¢æŒ‰é’®*/
-	now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
-	now->putImage("./Pic/Set/cogwheel.png", 890, 180, 50, 50);
-	if (0 == now->pause)now->putImage("./Pic/Set/pause.png", 890, 260, 50, 50);
-	if (1 == now->pause)now->putImage("./Pic/Set/play.png", 890, 260, 50, 50);
-	now->putImage("./Pic/Set/blub.png", 890, 340, 50, 50);
-	now->putImage("./Pic/Set/refresh.png", 890, 420, 50, 50);
-	if (count < 10 && now->click != 0) {
-		if (5 == now->click)now->putImage("./Pic/Set/blub_.png", 890, 340, 50, 50);
-		if (6 == now->click)now->putImage("./Pic/Set/refresh_.png", 890, 420, 50, 50);
-		count++;
-	}
-	if (10 == count) {
-		if (5 == now->click)map->closeHelp();
-		count = 0;
-		now->click = 0;
-	}
+    /*»æÖÆ»­Ãæµ×²ã¶¯»­.*/
+    now->putImage("./Pic/Game.png", 0, 0, 960, 640);
+    /*»æÖÆ»­Ãæ°´Å¥*/
+    now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
+    now->putImage("./Pic/Set/cogwheel.png", 890, 180, 50, 50);
+    if (0 == now->pause)now->putImage("./Pic/Set/pause.png", 890, 260, 50, 50);
+    if (1 == now->pause)now->putImage("./Pic/Set/play.png", 890, 260, 50, 50);
+    now->putImage("./Pic/Set/blub.png", 890, 340, 50, 50);
+    now->putImage("./Pic/Set/refresh.png", 890, 420, 50, 50);
+    if (count < 10 && now->click != 0) {
+        if (5 == now->click)now->putImage("./Pic/Set/blub_.png", 890, 340, 50, 50);
+        if (6 == now->click)now->putImage("./Pic/Set/refresh_.png", 890, 420, 50, 50);
+        count++;
+    }
+    if (10 == count) {
+        if (5 == now->click)map->closeHelp();
+        count = 0;
+        now->click = 0;
+    }
 
-	/*ç»˜åˆ¶å›¾æ ‡çŸ©é˜µ*/
-	while (map->anyMatch() == false && map->isWin() == false)
-		map->RandomOrder();
-	map->draw();
+    /*»æÖÆÍ¼±ê¾ØÕó*/
+    while (map->anyMatch() == false && map->isWin() == false)
+        map->RandomOrder();
+    map->draw();
 
-	// display timer
-	char buff[50];
-	sprintf_s(buff, 50, "Time:%4lld", getTimer());
-	now->xyprintf(800, 20, buff, 40);
+    // display timer
+    char buff[50];
+    sprintf_s(buff, 50, "Time:%4lld", getTimer());
+    now->xyprintf(800, 20, buff, 40);
 
-	// Auto mode /////
-	if (hasEnabledAutoMode)
-	{
-		if (count_auto < autoSpeed[autoSpeedIndicator]) { count_auto++; }
-		else {
-			count_auto = 0;
-			if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
-			{
-				hasEnabledAutoMode = false;
-			}
-		}
-	}
-	//////////////////
+    // Auto mode /////
+    if (hasEnabledAutoMode)
+    {
+        if (count_auto < autoSpeed[autoSpeedIndicator]) { count_auto++; }
+        else {
+            count_auto = 0;
+            if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
+            {
+                hasEnabledAutoMode = false;
+            }
+        }
+    }
+    //////////////////
 
-	if (map->isWin()) {
-		now->scene = new OverScene(getTimer());
-		delete this;
-	}
+    if (map->isWin()) {
+        now->scene = new OverScene(getTimer());
+        delete this;
+    }
 }
 
 /**
- * @brief åˆ¤å®šé¼ æ ‡æ“ä½œ
+ * @brief ÅÐ¶¨Êó±ê²Ù×÷
  *
- * @param x é¼ æ ‡ç‚¹å‡»çš„x
- * @param y é¼ æ ‡ç‚¹å‡»çš„y
+ * @param x Êó±êµã»÷µÄx
+ * @param y Êó±êµã»÷µÄy
  */
 void GameScene::onMouse(Sint32 x, Sint32 y)
 {
-	/*å¯¹äºŽå›¾æ ‡çš„åˆ¤æ–­*/
-	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
-	if (now->pause == 0 && linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
-	{
-		now->playSound(2, "./Sound/Touch.wav");
-		if (last == nullptr) {
-			/*è¿™æ˜¯ç¬¬ä¸€æ¬¡æŒ‰å›¾æ ‡ï¼Œåˆ™å›¾æ ‡åŠ æ¡†*/
-			last = map->map[linearMousePositionOnMap];
-			last->setIsStroke(true);
-		}
-		else if (map->isMatch(last, map->map[linearMousePositionOnMap]) == false) {
-			/*å¦‚æžœæ— æ³•åŒ¹é…ï¼Œåˆ™åˆ‡æ¢åŠ æ¡†çš„å›¾æ ‡*/
-			last->setIsStroke(false);
-			last = map->map[linearMousePositionOnMap];
-			last->setIsStroke(true);
-		}
-		else {
-			/*å¦‚æžœå®ŒæˆåŒ¹é…ï¼Œé‚£ä¹ˆè¦æ¸…é™¤lastï¼ˆå…¶ä»–æ“ä½œåœ¨åŒ¹é…å‡½æ•°ä¸­å·²å®Œæˆ*/
-			last = nullptr;
+    /*¶ÔÓÚÍ¼±êµÄÅÐ¶Ï*/
+    int linearMousePositionOnMap = getMousePositionOnMap(x, y);
+    if (now->pause == 0 && linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
+    {
+        now->playSound(2, "./Sound/Touch.wav");
+        if (last == nullptr) {
+            /*ÕâÊÇµÚÒ»´Î°´Í¼±ê£¬ÔòÍ¼±ê¼Ó¿ò*/
+            last = map->map[linearMousePositionOnMap];
+            last->setIsStroke(true);
+        }
+        else if (map->isMatch(last, map->map[linearMousePositionOnMap]) == false) {
+            /*Èç¹ûÎÞ·¨Æ¥Åä£¬ÔòÇÐ»»¼Ó¿òµÄÍ¼±ê*/
+            last->setIsStroke(false);
+            last = map->map[linearMousePositionOnMap];
+            last->setIsStroke(true);
+        }
+        else {
+            /*Èç¹ûÍê³ÉÆ¥Åä£¬ÄÇÃ´ÒªÇå³ýlast£¨ÆäËû²Ù×÷ÔÚÆ¥Åäº¯ÊýÖÐÒÑÍê³É*/
+            last = nullptr;
 
-		}
-		//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
-	}
+        }
+        //	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
+    }
 
-	/*åŠŸèƒ½æŒ‰é”®çš„åˆ¤æ–­*/
-	if (x >= 890 && x <= 940 && y >= 100 && y <= 150) {
-		now->scene = scene_last;
-		delete this;
-		//è¿™é‡Œè¿”å›žä¸»èœå•.
-	}
-	if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
-		//è¿™é‡Œè¿›å…¥è®¾ç½®ç•Œé¢
-		new SetScene(this);
-		pauseCounter();
-		now->pause = 1;
-	}
-	if (x >= 890 && x <= 940 && y >= 260 && y <= 310) {
-		now->pause = (now->pause + 1) % 2;
-	}
-	if (x >= 890 && x <= 940 && y >= 340 && y <= 390) {
-		now->click = 5;
-		map->openHelp();
-		//è¿™é‡Œæ˜¯æç¤ºåŠŸèƒ½.
-	}
-	if (x >= 890 && x <= 940 && y >= 420 && y <= 470) {
-		now->click = 6;
-		//è¿™é‡Œæ˜¯é‡æŽ’åŠŸèƒ½.
-		map->RandomOrder();
-	}
-	if (1 == now->pause) {
-		this->pauseCounter();
-		//è¿™é‡Œæ˜¯æš‚åœåŠŸèƒ½.
-	}
-	if (0 == now->pause) {
-		this->startCounter();
-		//è¿™é‡Œæ˜¯å–æ¶ˆæš‚åœåŠŸèƒ½.
-	}
+    /*¹¦ÄÜ°´¼üµÄÅÐ¶Ï*/
+    if (x >= 890 && x <= 940 && y >= 100 && y <= 150) {
+        now->scene = scene_last;
+        delete this;
+        //ÕâÀï·µ»ØÖ÷²Ëµ¥.
+    }
+    if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
+        //ÕâÀï½øÈëÉèÖÃ½çÃæ
+        new SetScene(this);
+        pauseCounter();
+        now->pause = 1;
+    }
+    if (x >= 890 && x <= 940 && y >= 260 && y <= 310) {
+        now->pause = (now->pause + 1) % 2;
+    }
+    if (x >= 890 && x <= 940 && y >= 340 && y <= 390) {
+        now->click = 5;
+        map->openHelp();
+        //ÕâÀïÊÇÌáÊ¾¹¦ÄÜ.
+    }
+    if (x >= 890 && x <= 940 && y >= 420 && y <= 470) {
+        now->click = 6;
+        //ÕâÀïÊÇÖØÅÅ¹¦ÄÜ.
+        map->RandomOrder();
+    }
+    if (1 == now->pause) {
+        this->pauseCounter();
+        //ÕâÀïÊÇÔÝÍ£¹¦ÄÜ.
+    }
+    if (0 == now->pause) {
+        this->startCounter();
+        //ÕâÀïÊÇÈ¡ÏûÔÝÍ£¹¦ÄÜ.
+    }
 }
 
 void GameScene::onMouseMotion(Sint32 x, Sint32 y)
 {
-	// Pass
+    // Pass
     // by wht
 }
 
@@ -173,117 +173,117 @@ void GameScene::onMouseMotion(Sint32 x, Sint32 y)
 */
 int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 {
-	// how many pictures are there horizontally
-	const int NUM_OF_HORIZONTAL_PICTURES = map->m;
-	// how many pictures are there vertically
-	const int NUM_OF_VERTICAL_PICTURES = map->n;
+    // how many pictures are there horizontally
+    const int NUM_OF_HORIZONTAL_PICTURES = map->m;
+    // how many pictures are there vertically
+    const int NUM_OF_VERTICAL_PICTURES = map->n;
 
-	// consider the map as a rectangle
-	// this is the coordinate of the upper left corner
-	const int MAP_START_POSOTION_X = 50;
-	const int MAP_START_POSOTION_Y = 50;
-	// this is the coordinate of the lower right corner
-	const int MAP_END_POSOTION_X = 50 * (NUM_OF_HORIZONTAL_PICTURES);
-	const int MAP_END_POSOTION_Y = 50 * (NUM_OF_VERTICAL_PICTURES);
+    // consider the map as a rectangle
+    // this is the coordinate of the upper left corner
+    const int MAP_START_POSOTION_X = 50;
+    const int MAP_START_POSOTION_Y = 50;
+    // this is the coordinate of the lower right corner
+    const int MAP_END_POSOTION_X = 50 * (NUM_OF_HORIZONTAL_PICTURES);
+    const int MAP_END_POSOTION_Y = 50 * (NUM_OF_VERTICAL_PICTURES);
 
-	int ln, col;
-	// return value
-	int ret = -1;
+    int ln, col;
+    // return value
+    int ret = -1;
 
-	if ((x >= MAP_START_POSOTION_X)
-		&& (y >= MAP_START_POSOTION_Y)
-		&& (x <= MAP_END_POSOTION_X)
-		&& (y <= MAP_END_POSOTION_Y))
-	{
-		ln = (y - MAP_START_POSOTION_Y) / Pic::height + 1; // line index
-		col = (x - MAP_START_POSOTION_X) / Pic::width + 1; // column index
+    if ((x >= MAP_START_POSOTION_X)
+        && (y >= MAP_START_POSOTION_Y)
+        && (x <= MAP_END_POSOTION_X)
+        && (y <= MAP_END_POSOTION_Y))
+    {
+        ln = (y - MAP_START_POSOTION_Y) / Pic::height + 1; // line index
+        col = (x - MAP_START_POSOTION_X) / Pic::width + 1; // column index
 
-		// index in map to return
-		ret = col * NUM_OF_VERTICAL_PICTURES + ln;
-	}
+        // index in map to return
+        ret = col * NUM_OF_VERTICAL_PICTURES + ln;
+    }
 
-	return ret;
+    return ret;
 }
 
 
 bool GameScene::autoPlay()
 {
-	bool isWin = map->isWin();
-	if (!isWin)
-		map->isMatch(map->getFirstMatchedPair().first, map->getFirstMatchedPair().second);
+    bool isWin = map->isWin();
+    if (!isWin)
+        map->isMatch(map->getFirstMatchedPair().first, map->getFirstMatchedPair().second);
 
-	return isWin;
+    return isWin;
 }
 
 void GameScene::startCounter()
 {
-	// if counter is stopped.
-	if (counterStatus == 0)
-	{
-		timer = 0;
-		counterStatus = 1;
-		counterTime_start = time(NULL);
-	}
-	// if counter is paused.
-	else if (counterStatus == 2)
-	{
-		counterStatus = 1;
-		counterTimePause_stop = time(NULL);
-		timer += counterTimePause_start - counterTimePause_stop;
-	}
-	return;
+    // if counter is stopped.
+    if (counterStatus == 0)
+    {
+        timer = 0;
+        counterStatus = 1;
+        counterTime_start = time(NULL);
+    }
+    // if counter is paused.
+    else if (counterStatus == 2)
+    {
+        counterStatus = 1;
+        counterTimePause_stop = time(NULL);
+        timer += counterTimePause_start - counterTimePause_stop;
+    }
+    return;
 }
 
 void GameScene::stopCounter()
 {
-	// if counter is started.
-	if (counterStatus == 1)
-	{
-		counterStatus = 0;
-		counterTime_stop = time(NULL);
-	}
-	// if counter is paused.
-	else if (counterStatus == 2)
-	{
-		counterStatus = 0;
-		counterTimePause_stop = time(NULL);
-		counterTime_stop = time(NULL);
-		timer += counterTimePause_start - counterTimePause_stop;
-	}
-	return;
+    // if counter is started.
+    if (counterStatus == 1)
+    {
+        counterStatus = 0;
+        counterTime_stop = time(NULL);
+    }
+    // if counter is paused.
+    else if (counterStatus == 2)
+    {
+        counterStatus = 0;
+        counterTimePause_stop = time(NULL);
+        counterTime_stop = time(NULL);
+        timer += counterTimePause_start - counterTimePause_stop;
+    }
+    return;
 }
 
 void GameScene::pauseCounter()
 {
-	// if counter is started.
-	if (counterStatus == 1)
-	{
-		counterStatus = 2;
-		counterTimePause_start = time(NULL);
-	}
-	return;
+    // if counter is started.
+    if (counterStatus == 1)
+    {
+        counterStatus = 2;
+        counterTimePause_start = time(NULL);
+    }
+    return;
 }
 
 time_t GameScene::getTimer()
 {
-	switch (counterStatus)
-	{
-	case 0: // counter stopped
-		timer += counterTime_stop - counterTime_start;
-		return timer;
-		break;
+    switch (counterStatus)
+    {
+    case 0: // counter stopped
+        timer += counterTime_stop - counterTime_start;
+        return timer;
+        break;
 
-	case 1: // counter started
-		return timer + time(NULL) - counterTime_start;
-		break;
+    case 1: // counter started
+        return timer + time(NULL) - counterTime_start;
+        break;
 
-	case 2: // counter paused
-		return timer - counterTime_start + counterTimePause_start;
-		break;
+    case 2: // counter paused
+        return timer - counterTime_start + counterTimePause_start;
+        break;
 
-	default:
-		break;
-	}
+    default:
+        break;
+    }
 
-	return 0;
+    return 0;
 }
