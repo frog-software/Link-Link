@@ -20,9 +20,6 @@
 namespace fs = std::filesystem;
 extern Control* now;
 bool hasEnabledAutoMode = false;
-int autoSpeed[4] = { 1, 5, 10, 20 };
-int autoSpeedIndicator = 0;
-
 /**
  * Control类的有参构造函数.
  * 创建一个width*height大小的窗口
@@ -126,14 +123,6 @@ void Control::mainLoop()
 					)
 				{
 					hasEnabledAutoMode = !hasEnabledAutoMode;
-				}
-				if (keyCodeBuffer.size() > 3
-					&& keyCodeBuffer[3] == SDLK_s)
-				{
-					if ((++autoSpeedIndicator) >= sizeof(autoSpeed))
-					{
-						autoSpeedIndicator = 0;
-					}
 				}
 			}
 		}
