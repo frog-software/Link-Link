@@ -168,9 +168,9 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 {
 	// how many pictures are there horizontally
-	const int NUM_OF_HORIZONTAL_PICTURES = 16;
+	const int NUM_OF_HORIZONTAL_PICTURES = map->m;
 	// how many pictures are there vertically
-	const int NUM_OF_VERTICAL_PICTURES = 13;
+	const int NUM_OF_VERTICAL_PICTURES = map->n;
 
 	// consider the map as a rectangle
 	// this is the coordinate of the upper left corner

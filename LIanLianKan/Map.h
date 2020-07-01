@@ -27,11 +27,6 @@ const int N = 100;
 class Map {
 private:
 	/**
-	 * 地图大小.
-	 */
-	int m, n;
-
-	/**
 	  * 存储配对元素的连接线.
 	 */
 	ConnectLine* connect_line;
@@ -54,6 +49,10 @@ private:
 	/*获取Pic十字链路的可用Pic*/
 	void getAcross(Pic* aa, std::vector<Pic*>& v, bool extend);
 public:
+	/**
+	 * 地图大小.
+	*/
+	int m, n;
 	/**
 	 * 存储地图中的图标.
 	 * 利用指针的方式
