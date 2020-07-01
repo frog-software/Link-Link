@@ -2,7 +2,7 @@
 #include "Control.h"
 #include "StartScene.h"
 #include "SetScene.h"
-
+static int count = 0;
 extern Control* now;
 
 /**
