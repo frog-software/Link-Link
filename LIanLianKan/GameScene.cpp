@@ -2,6 +2,7 @@
 #include "Control.h"
 #include "StartScene.h"
 #include "SetScene.h"
+#include <queue>
 extern Control* now;
 
 /**
@@ -30,25 +31,25 @@ GameScene::~GameScene()
  * @brief 更新画面
  * 按顺序从底层到顶层逐一更新画面
  */
+std::queue<ConnectLine* > line_queue;
 void GameScene::update()
 {
-	/*加载背景图*/
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
 
-	/*更新图标信息*/
-	if (map->anyMatch() == false)
-		map->RandomOrder();
+	if (map->anyMatch() == false)map->RandomOrder();
 	map->draw();
 
-	/*如果当前存在ConnectLine对象*/
-	if (map->getConnectLine() != nullptr) {
-		/*进行绘制*/
-		map->getConnectLine()->drawLine(now);
-		/*“倒计时”减一，还需要画多少帧该对象*/
-		map->getConnectLine()->cnt--;
-		/*“倒计时”结束之后，这个对象可以释放掉*/
-		if(map->getConnectLine()->cnt==0){
+	auto conline = map->getConnectLine();
+	if (conline != nullptr) {
+		line_queue.push(conline);
+	}
+	while (!line_queue.empty()) {
+		auto line = line_queue.front();
+		line->drawLine(now);
+		line->cnt--;
+		if (line->cnt == 0) {
 			map->setConnectLine(nullptr);
+			line_queue.pop();
 		}
 	}
 
