@@ -104,10 +104,12 @@ void Control::mainLoop()
 			{
 				quit = true;
 			}
+
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
 				scene->onMouse(e.button.x, e.button.y);
 			}
+
 			if (e.type == SDL_MOUSEMOTION) {
 				scene->onMouseMotion(e.motion.x, e.motion.y);
 			}
