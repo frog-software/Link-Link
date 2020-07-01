@@ -3,6 +3,12 @@
 #include "GameScene.h"
 extern Control* now;
 
+
+SetScene::SetScene(Scene* last_):last{last_}
+{
+	now->scene = this;
+}
+
 void SetScene::update() {
 	now->putImage("./Pic/Set/Set.png", 0, 0, 960, 640);
 	now->putImage("./Pic/Set/music.png", 125, 205, 50, 50);
@@ -54,4 +60,8 @@ void SetScene::onMouse(Sint32 x, Sint32 y) {
 	if (x >= 515 && x <= 565 && y >= 275 && y <= 325)now->addVolume(1);
 	if (x >= 395 && x <= 445 && y >= 425 && y <= 475)now->decVolume(2);
 	if (x >= 515 && x <= 565 && y >= 425 && y <= 475)now->addVolume(2);
+	if (x >= 0 && x <= 50 && y >= 0 && y <= 50) {
+		now->scene = last;
+		delete this;
+	}
 }

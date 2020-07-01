@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "Control.h"
 #include "StartScene.h"
-
+#include "SetScene.h"
 extern Control* now;
 
 GameScene::GameScene(int m, int n)
@@ -34,6 +34,7 @@ void GameScene::update()
 
 void GameScene::onMouse(Sint32 x, Sint32 y)
 {
+	/*对于图标的判断*/
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
 	if (linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
@@ -50,6 +51,10 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		}
 	//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}
+
+	/*功能按键的判断*/
+	/*设置界面*/
+	if (x >= 900 && x <= 960 && y >= 0 && y <= 50) new SetScene(this);
 }
 
 /*
