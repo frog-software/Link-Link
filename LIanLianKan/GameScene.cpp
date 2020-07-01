@@ -191,3 +191,27 @@ void GameScene::pauseCounter()
 	}
 	return;
 }
+
+time_t GameScene::getTimer()
+{
+	switch (counterStatus)
+	{
+	case 0:
+		timer += counterTime_stop - counterTime_start;
+		return timer;
+		break;
+
+	case 1:
+		return timer + time(NULL) - counterTime_start;
+		break;
+
+	case 2:
+		return timer - counterTime_start + counterTimePause_start;
+		break;
+
+	default:
+		break;
+	}
+
+	return 0;
+}
