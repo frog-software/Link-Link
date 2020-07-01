@@ -3,10 +3,12 @@
 #include"Scene.h"
 #include"Map.h"
 #include"Pic.h"
+#include <list>
 class GameScene :public Scene {
 private:
 	Map* map = nullptr;
 	Pic* last = nullptr;
+	std::list<ConnectLine* > line_list;
 public:
 	GameScene(int m, int n);
 	~GameScene();

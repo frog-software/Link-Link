@@ -2,7 +2,7 @@
 #include "Control.h"
 #include "StartScene.h"
 #include "SetScene.h"
-#include <queue>
+
 extern Control* now;
 
 /**
@@ -20,7 +20,7 @@ GameScene::GameScene(int m, int n)
 
 /**
  * @brief Destroy the Game Scene:: Game Scene object
- * 
+ *
  */
 GameScene::~GameScene()
 {
@@ -31,33 +31,42 @@ GameScene::~GameScene()
  * @brief 更新画面
  * 按顺序从底层到顶层逐一更新画面
  */
-std::queue<ConnectLine* > line_queue;
+
 void GameScene::update()
 {
+	/*绘制画面底层*/
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
 
+	/*绘制图标矩阵*/
 	if (map->anyMatch() == false)map->RandomOrder();
 	map->draw();
 
+	/*处理ConnectLine*/
+
+	/*检测有无新的ConnectLine对象*/
 	auto conline = map->getConnectLine();
 	if (conline != nullptr) {
-		line_queue.push(conline);
+		line_list.push_back(conline);
+		map->setConnectLine(nullptr);
 	}
-	while (!line_queue.empty()) {
-		auto line = line_queue.front();
-		line->drawLine(now);
-		line->cnt--;
-		if (line->cnt == 0) {
-			map->setConnectLine(nullptr);
-			line_queue.pop();
+	/*绘制当前所有ConnectLine对象*/
+	if (line_list.empty() == false)
+		for (auto line : line_list) {
+			line->drawLine(now);
+			line->cnt--;
 		}
+	/*清理可以退休的ConnectLine对象*/
+	while (line_list.empty() == false && line_list.front()->cnt == 0) {
+		delete line_list.front();
+		line_list.pop_front();
 	}
+
 
 }
 
 /**
  * @brief 判定鼠标操作
- * 
+ *
  * @param x 鼠标点击的x
  * @param y 鼠标点击的y
  */

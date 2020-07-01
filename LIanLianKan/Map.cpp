@@ -13,7 +13,7 @@
 extern Control* now;
 
 
-void Map::getAcross(Pic* aa, std::vector<Pic*>& v) {
+void Map::getAcross(Pic* aa, std::vector<Pic*>& v,bool extend=false) {
 	v.push_back(aa);
 	Pic* a = nullptr;
 	a = aa;
@@ -21,6 +21,7 @@ void Map::getAcross(Pic* aa, std::vector<Pic*>& v) {
 		a = getPicup(a);
 		v.push_back(a);
 	}
+	//if(extend && getPicup(a)!=nullptr&&)
 	a = aa;
 	while (getPicdown(a) != nullptr && getPicdown(a)->getIsVisible() == false) {
 		a = getPicdown(a);
@@ -181,8 +182,8 @@ void Map::updateMatchedlist()
 						matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
 	sort(matchedlist.begin(), matchedlist.end());
 	matchedlist.erase(unique(matchedlist.begin(),matchedlist.end()),matchedlist.end());
-	for (auto i : matchedlist)
-		printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());
+/*	for (auto i : matchedlist)
+		printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());*/
 }
 
 /**
@@ -365,7 +366,6 @@ Pic* Map::getPicright(Pic* a)
 
 void Map::setConnectLine(ConnectLine* line_)
 {
-	if (connect_line != nullptr)delete connect_line;
 	connect_line = line_;
 }
 
