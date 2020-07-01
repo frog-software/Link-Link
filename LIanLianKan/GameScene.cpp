@@ -97,7 +97,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 {
 	/*对于图标的判断*/
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
-	if (linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
+	if (now->pause == 0 && linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
 		now->playSound(2, "./Sound/Touch.wav");
 		if (last == nullptr) {
@@ -126,6 +126,8 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
 		//这里进入设置界面
 		new SetScene(this);
+		pauseCounter();
+		now->pause = 1;
 	}
 	if (x >= 890 && x <= 940 && y >= 260 && y <= 310) {
 		now->pause = (now->pause + 1) % 2;
