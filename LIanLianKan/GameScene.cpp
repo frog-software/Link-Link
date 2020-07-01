@@ -75,7 +75,7 @@ void GameScene::update()
 	// Auto mode /////
 	if (hasEnabledAutoMode)
 	{
-		if (count_auto < 10) { count_auto++; }
+		if (count_auto < 25) { count_auto++; }
 		else {
 			count_auto = 0;
 			if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
