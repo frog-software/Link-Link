@@ -16,23 +16,22 @@ void Map::getAcross(Pic* aa, std::vector<Pic*>& v, bool extend = false) {
 	v.push_back(aa);
 	Pic* a = nullptr;
 	a = aa;
-	while (getPicup(a) != nullptr && getPicup(a)->getIsVisible() == false) {
+	while (getPicup(a) != nullptr && canbepath(getPicup(a))) {
 		a = getPicup(a);
 		v.push_back(a);
 	}
-	//if(extend && getPicup(a)!=nullptr&&)
 	a = aa;
-	while (getPicdown(a) != nullptr && getPicdown(a)->getIsVisible() == false) {
+	while (getPicdown(a) != nullptr && canbepath(getPicdown(a))) {
 		a = getPicdown(a);
 		v.push_back(a);
 	}
 	a = aa;
-	while (getPicleft(a) != nullptr && getPicleft(a)->getIsVisible() == false) {
+	while (getPicleft(a) != nullptr && canbepath(getPicleft(a))) {
 		a = getPicleft(a);
 		v.push_back(a);
 	}
 	a = aa;
-	while (getPicright(a) != nullptr && getPicright(a)->getIsVisible() == false) {
+	while (getPicright(a) != nullptr && canbepath(getPicright(a))) {
 		a = getPicright(a);
 		v.push_back(a);
 	}
@@ -192,46 +191,15 @@ void Map::updateMatchedlist()
 {
 	matchedlist.clear();
 	for (unsigned int i = 0; i < map.size(); i++)
-		if (map[i]->getValid())
+		if (map[i]->getValid() && canbepath(map[i]) == false)
 			for (unsigned int j = i + 1; j < map.size(); j++)
-				if (map[j]->getValid())
+				if (map[j]->getValid() && canbepath(map[j]) == false)
 					if (canMatch(map[i], map[j], false))
 						matchedlist.push_back(std::pair<Pic*, Pic*>{map[i], map[j]});
 	sort(matchedlist.begin(), matchedlist.end());
 	matchedlist.erase(unique(matchedlist.begin(), matchedlist.end()), matchedlist.end());
 	/*	for (auto i : matchedlist)
 			printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());*/
-}
-
-/**
- * 更新匹配列表（通过一个Pic.
- * 更新Pic的四周所有有效点的匹配信息
- * \param a 通过该位置更新匹配列表
- */
-void Map::updateMatchedlist(Pic* a)
-{
-	/*删除和本图标有关的匹配*/
-	for (auto it = matchedlist.begin(); it != matchedlist.end();)
-		if (it->first == a || it->second == a)
-			it = matchedlist.erase(it);
-		else it++;
-
-	/*探寻本图标周边的点*/
-	std::vector<Pic*>v;
-	if (getPicup(a) != nullptr)v.push_back(getPicup(a));
-	if (getPicdown(a) != nullptr)v.push_back(getPicdown(a));
-	if (getPicleft(a) != nullptr)v.push_back(getPicleft(a));
-	if (getPicright(a) != nullptr)v.push_back(getPicright(a));
-	for (auto i : v)
-		if (i->getValid() && i->getIsStroke() == false)
-			for (auto j : map)
-				if (j->getValid() && i != j && canMatch(i, j, false))
-					matchedlist.push_back(std::pair<Pic*, Pic*>{i, j});
-	sort(matchedlist.begin(), matchedlist.end());
-	matchedlist.erase(unique(matchedlist.begin(), matchedlist.end()), matchedlist.end());
-	printf("---------\n");
-	for (auto i : matchedlist)
-		printf("%d %d %d %d\n", i.first->getX(), i.first->getY(), i.second->getX(), i.second->getY());
 }
 
 /**
@@ -247,7 +215,7 @@ void Map::RandomOrder()
 	// store the index of all visible objects
 	for (size_t i = 0; i < map.size(); i++)
 	{
-		if (map[i]->getIsVisible())
+		if (map[i]->getIsVisible() && canbepath(map[i]) == false)
 		{
 			visibleObjIdx.push_back(i);
 		}
@@ -303,8 +271,6 @@ bool Map::isMatch(Pic* a, Pic* b)
 			b->setIsStroke(true);
 			a->setIsVisible(false);
 			b->setIsVisible(false);
-			/*	updateMatchedlist(a);
-				updateMatchedlist(b);*/
 			matchedlist.clear();
 			updateMatchedlist();
 			a->setIsVisible(true);
@@ -326,10 +292,30 @@ bool Map::anyMatch()
 
 /**
  * 绘画地图.
- * 绘画地图中的每一个图标
+ * 绘画地图中的每一个图标+处理ConnectLine
  */
 void Map::draw()
 {
+	/*处理ConnectLine*/
+
+	/*检测有无新的ConnectLine对象*/
+	auto conline = getConnectLine();
+	if (conline != nullptr) {
+		line_list.push_back(conline);
+		setConnectLine(nullptr);
+	}
+	/*绘制当前所有ConnectLine对象*/
+	if (line_list.empty() == false)
+		for (auto line : line_list) {
+			line->drawLine(now);
+			line->cnt--;
+		}
+	/*清理可以退休的ConnectLine对象*/
+	while (line_list.empty() == false && line_list.front()->cnt == 0) {
+		delete line_list.front();
+		line_list.pop_front();
+	}
+
 	for (auto p : map)p->draw();
 }
 
@@ -351,13 +337,21 @@ void Map::closeHelp()
 bool Map::isWin()
 {
 	for (auto i : map)
-		if (i->getIsVisible())return false;
+		if (i->getIsVisible() && canbepath(i) == false)return false;
 	return true;
 }
 
 std::pair<Pic*, Pic*> Map::getFirstMatchedPair()
 {
 	return matchedlist.front();
+}
+
+bool Map::canbepath(Pic* a)
+{
+	for (auto i : line_list) {
+		if (i->has(a))return true;
+	}
+	return !a->getIsVisible();
 }
 
 /**
