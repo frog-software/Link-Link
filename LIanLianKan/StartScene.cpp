@@ -9,6 +9,5 @@ void StartScene::update()
 
 void StartScene::onMouse(Sint32 x, Sint32 y)
 {
-	now->scene = new GameScene(14, 11);
-	delete this;
+	now->scene = new GameScene(this, 14, 11);
 }

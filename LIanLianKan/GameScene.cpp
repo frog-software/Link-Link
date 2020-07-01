@@ -12,7 +12,7 @@ extern Control* now;
  * @param m 地图x方向图标个数
  * @param n 地图y方向图标个数
  */
-GameScene::GameScene(int m, int n)
+GameScene::GameScene(Scene* scene_last_,int m, int n):scene_last{ scene_last_}
 {
 	map = new Map{ m,n };
 
@@ -121,6 +121,8 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 
 	/*功能按键的判断*/
 	if (x >= 890 && x <= 940 && y >= 100 && y <= 150) {
+		now->scene = scene_last;
+		delete this;
 		//这里返回主菜单.
 	}
 	if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
