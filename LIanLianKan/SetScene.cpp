@@ -4,6 +4,11 @@
 extern Control* now;
 static int count = 0;
 
+SetScene::SetScene(Scene* last_) :last{ last_ }
+{
+	now->scene = this;
+}
+
 void SetScene::update() {
 	now->putImage("./Pic/Set/Set.png", 0, 0, 960, 640);
 	now->putImage("./Pic/Set/music.png", 125, 205, 50, 50);
@@ -80,6 +85,7 @@ void SetScene::onMouse(Sint32 x, Sint32 y) {
 		now->click = 4;
 	}
 	if (x >= 455 && x <= 505 && y >= 560 && y <= 610) {
-		//这里添加界面跳转.
+		now->scene = last;
+		delete this;
 	}
 }

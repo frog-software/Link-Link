@@ -2,6 +2,7 @@
 #include "Control.h"
 #include "StartScene.h"
 #include "SetScene.h"
+
 static int count = 0;
 extern Control* now;
 
@@ -113,7 +114,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		//这里返回主菜单.
 	}
 	if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
-		//这里进入设置界面.
+		new SetScene(this);
 	}
 	if (x >= 890 && x <= 940 && y >= 260 && y <= 310) {
 		now->pause = (now->pause + 1) % 2;
@@ -132,9 +133,6 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	if (0 == now->pause) {
 		//这里是取消暂停功能.
 	}
-
-	/*设置界面*/
-	if (x >= 900 && x <= 960 && y >= 0 && y <= 50) new SetScene(this);
 }
 
 /*
