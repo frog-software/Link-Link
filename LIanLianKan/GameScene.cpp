@@ -156,3 +156,24 @@ void GameScene::startCounter()
 	}
 	return;
 }
+
+void GameScene::stopCounter()
+{
+	if (counterStatus == 1)
+	{
+		counterStatus = 0;
+		counterTime_stop = time(NULL);
+	}
+	else if (counterStatus == 2)
+	{
+		counterStatus = 0;
+		counterTimePause_stop = time(NULL);
+		counterTime_stop = time(NULL);
+		timer += counterTimePause_start - counterTimePause_stop;
+	}
+	else
+	{
+		throw;
+	}
+	return;
+}
