@@ -5,7 +5,6 @@
 #include"Pic.h"
 #include <ctime>
 #include <list>
-#include <Windows.h>
 
 class GameScene :public Scene {
 private:
