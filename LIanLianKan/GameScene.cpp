@@ -1,3 +1,4 @@
+#include <queue>
 #include "GameScene.h"
 #include "Control.h"
 #include "StartScene.h"
@@ -15,6 +16,7 @@ GameScene::~GameScene()
 	delete map;
 }
 
+std::queue<ConnectLine* > line_queue;
 void GameScene::update()
 {
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
@@ -22,11 +24,17 @@ void GameScene::update()
 	if (map->anyMatch() == false)map->RandomOrder();
 	map->draw();
 
-	if (map->getConnectLine() != nullptr) {
-		map->getConnectLine()->drawLine(now);
-		map->getConnectLine()->cnt--;
-		if(map->getConnectLine()->cnt==0){
+	auto conline = map->getConnectLine();
+	if (conline != nullptr) {
+		line_queue.push(conline);	
+	}
+	while (!line_queue.empty()) {
+		auto line = line_queue.front();
+		line->drawLine(now);
+		line->cnt--;
+		if (line->cnt == 0) {
 			map->setConnectLine(nullptr);
+			line_queue.pop();
 		}
 	}
 
