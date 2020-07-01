@@ -135,7 +135,7 @@ void Control::mainLoop()
 				if (keyCodeBuffer.size() > 3
 					&& keyCodeBuffer[3] == SDLK_s)
 				{
-					if ((++autoSpeedIndicator) >= sizeof(autoSpeed))
+					if ((++autoSpeedIndicator) >= sizeof(autoSpeed) / sizeof(int))
 					{
 						autoSpeedIndicator = 0;
 					}
