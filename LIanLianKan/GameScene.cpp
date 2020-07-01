@@ -136,6 +136,8 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		now->click = 5;
 		map->openHelp();
 		//这里是提示功能.
+
+		
 	}
 	if (x >= 890 && x <= 940 && y >= 420 && y <= 470) {
 		now->click = 6;
@@ -189,6 +191,16 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 	}
 
 	return ret;
+}
+
+bool GameScene::autoPlay()
+{
+	bool isWin = map->isWin();
+
+	if(!isWin)
+		map->isMatch(map->getFirstMatchedPair().first, map->getFirstMatchedPair().second);
+
+	return isWin;
 }
 
 void GameScene::startCounter()

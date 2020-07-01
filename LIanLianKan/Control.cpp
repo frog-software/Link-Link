@@ -7,6 +7,7 @@
  *********************************************************************/
 #include "Control.h"
 #include "StartScene.h"
+#include "GameScene.h"
 #include <SDL.h>
 #include <SDL_main.h>
 #include <SDL_mixer.h>
@@ -87,6 +88,9 @@ void Control::mainLoop()
 	/*用户操作的事件*/
 	SDL_Event e;
 
+	std::vector<SDL_Keycode> keyCodeBuffer;
+	bool hasEnabledAutoMode = false;
+
 	while (!quit)
 	{
 		/*记录当前时间（为了控制帧率*/
@@ -102,6 +106,35 @@ void Control::mainLoop()
 			{
 				scene->onMouse(e.button.x, e.button.y);
 			}
+
+			// Auto mode /////
+			keyCodeBuffer.push_back(e.type);
+			printf("%d\n", keyCodeBuffer.back());
+			if (keyCodeBuffer.size() > 12)
+			{
+				for (size_t i = 0; i < 12; i++)
+				{
+					keyCodeBuffer[i] = keyCodeBuffer[i + 1];
+				}
+				keyCodeBuffer.pop_back();
+			}
+			if ((keyCodeBuffer[0] == 768
+				&& keyCodeBuffer[1] == 771
+				&& keyCodeBuffer[2] == 769
+				&& keyCodeBuffer[3] == 768
+				&& keyCodeBuffer[4] == 771
+				&& keyCodeBuffer[5] == 769
+				&& keyCodeBuffer[6] == 768
+				&& keyCodeBuffer[7] == 771
+				&& keyCodeBuffer[8] == 769
+				&& keyCodeBuffer[9] == 768
+				&& keyCodeBuffer[10] == 771
+				&& keyCodeBuffer[11] == 769)
+				|| hasEnabledAutoMode)
+			{
+				hasEnabledAutoMode = true;
+			}
+			//////////////////
 		}
 		else
 		{
@@ -109,6 +142,18 @@ void Control::mainLoop()
 			scene->update();
 			SDL_RenderPresent(renderer);
 		}
+
+		// Auto mode /////
+		if (hasEnabledAutoMode)
+		{
+			if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
+			{
+				hasEnabledAutoMode = false;
+				scene->update();
+			}
+		}
+		//////////////////
+		
 
 		/*为控制帧率为60，手动delay剩余的时间*/
 

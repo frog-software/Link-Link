@@ -356,6 +356,11 @@ bool Map::isWin()
 	return true;
 }
 
+std::pair<Pic*, Pic*> Map::getFirstMatchedPair()
+{
+	return matchedlist.front();
+}
+
 /**
  * 获取某Pic的上方Pic.
  *
