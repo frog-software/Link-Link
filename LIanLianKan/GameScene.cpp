@@ -136,5 +136,23 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 	return ret;
 }
 
-
-
+void GameScene::startCounter()
+{
+	if (counterStatus == 0)
+	{
+		timer = 0;
+		counterStatus = 1;
+		counterTime_start = time(NULL);
+	}
+	else if (counterStatus == 2)
+	{
+		counterStatus = 1;
+		counterTimePause_stop = time(NULL);
+		timer += counterTimePause_start - counterTimePause_stop;
+	}
+	else
+	{
+		throw;
+	}
+	return;
+}
