@@ -14,6 +14,9 @@ GameScene::GameScene(int m, int n)
 {
 	map = new Map{ m,n };
 
+	// start timer
+	startCounter();
+
 	map->setConnectLine(nullptr);
 }
 
@@ -51,6 +54,11 @@ void GameScene::update()
 			map->setConnectLine(nullptr);
 		}
 	}
+
+	// display timer
+    char buff[5];
+    sprintf_s(buff, 5, "%d", getTimer());
+    now->xyprintf(0, 0, buff, 20);
 
 }
 
@@ -127,4 +135,6 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 
 	return ret;
 }
+
+
 
