@@ -175,7 +175,6 @@ Map::Map(int _m, int _n) :m{ _m + 2 }, n{ _n + 2 }
 			if ((*map[j]) < (*map[i]))
 				std::swap(map[i], map[j]);
 
-	printf("test\n");
 	RandomOrder();
 }
 
