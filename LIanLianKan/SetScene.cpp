@@ -78,10 +78,12 @@ void SetScene::onMouse(Sint32 x, Sint32 y) {
 	}
 	if (x >= 395 && x <= 445 && y >= 425 && y <= 475) {
 		now->decVolume(2);
+		now->playSound(2, "./Sound/Touch.wav", 1);
 		now->click = 3;
 	}
 	if (x >= 515 && x <= 565 && y >= 425 && y <= 475) {
 		now->addVolume(2);
+		now->playSound(2, "./Sound/Touch.wav", 1);
 		now->click = 4;
 	}
 	if (x >= 455 && x <= 505 && y >= 560 && y <= 610) {
