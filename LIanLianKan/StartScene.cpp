@@ -2,6 +2,7 @@
 #include "Control.h"
 #include "GameScene.h"
 #include "SetScene.h"
+#include "SelectScene.h"
 #include <iostream>
 extern Control* now;
 StartScene::StartScene()
@@ -25,7 +26,7 @@ void StartScene::onMouse(Sint32 x, Sint32 y)
 	if (x >= 400 && x <= 560 && y >= 300 && y <= 350) {
 		/*应该先生成选关界面.*/
 		//now->scene = sence_select;
-		now->scene = new GameScene(this, 14, 11, 20);
+		now->scene = new SelectScene(this);
 	}
 	if (x >= 400 && x <= 560 && y >= 360 && y <= 410) {
 		/*应该进入设置界面.*/

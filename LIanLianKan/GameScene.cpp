@@ -17,7 +17,7 @@ extern int autoSpeedIndicator;
  * @param m 地图x方向图标个数
  * @param n 地图y方向图标个数
  */
-GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind) :scene_last{ scene_last_ }
+GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level, bool gravity) :scene_last{ scene_last_ }
 {
 	map = new Map{ m,n ,totalkind,true };
 

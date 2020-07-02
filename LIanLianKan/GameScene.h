@@ -26,7 +26,7 @@ private:
 	int counterStatus = 0;
 
 public:
-	GameScene(Scene* scene_last_, int m, int n, int totalkind);
+	GameScene(Scene* scene_last_, int m, int n, int totalkind, int level, bool gravity);
 	~GameScene();
 	void update()override;
 	void onMouse(Sint32 x, Sint32 y) override;
