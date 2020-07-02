@@ -81,6 +81,11 @@ Control::~Control()
  */
 void Control::mainLoop()
 {
+	/*显示“加载资源中”*/
+	SDL_RenderClear(renderer);
+	this->putImage("./Pic/pre.png", 0, 0, width, height);
+	SDL_RenderPresent(renderer);
+
 	/*加载程序资源文件（音频*/
 	Initmywavs(fs::path{ "./Sound" });
 

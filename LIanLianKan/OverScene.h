@@ -26,9 +26,8 @@ public:
 		sprintf_s(buff, 50, "%4llds", t);
 		sprintf_s(background_pic, 50, "./Pic/endgame.png");
 
-		
 		std::ifstream fin;
-		std::string fname = std::string{ "Level_" } + std::to_string(level) + std::string{ "_Rank.dat" };
+		std::string fname = std::string{ "Level_" } +std::to_string(level) + std::string{ "_Rank.dat" };
 		fin.open(fname.c_str());
 		int score;
 		while (true) {

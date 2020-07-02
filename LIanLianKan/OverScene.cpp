@@ -4,7 +4,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-
 extern Control* now;
 void OverScene::update() {
 	bgnow++;
@@ -15,15 +14,14 @@ void OverScene::update() {
 	delete[] s;
 	now->putImage(background_pic, 0, 0, 960, 640);
 	now->xyprintf(300, 300, buff, 40);
-	
+
 	int i = 0;
 	for (auto score : rank) {
-		now->xyprintf(700, 200 + i * 30, (std::to_string(score)+"s").c_str(), 40);
+		now->xyprintf(700, 200 + i * 30, (std::to_string(score) + "s").c_str(), 40);
 		if (++i == MAX_SCORES_NUM) {
 			break;
 		}
 	}
-	
 }
 void OverScene::onMouse(Sint32 x, Sint32 y) {
 	/*判断结束菜单的按键.*/
