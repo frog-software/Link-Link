@@ -31,7 +31,7 @@ void SelectScene::update() {
 	if (4 == select)now->putImage("./Pic/level/level_stroke.png", 90, 370, 210, 220);
 	if (5 == select)now->putImage("./Pic/level/level_stroke.png", 378, 370, 210, 220);
 	if (6 == select)now->putImage("./Pic/level/level_stroke.png", 666, 370, 210, 220);
-	if (1 == level) {
+		if (1 == now->level) {
 		now->putImage("./Pic/level/lock.png", 420, 150, 120, 120);
 		now->putImage("./Pic/level/lock.png", 708, 150, 120, 120);
 		now->putImage("./Pic/level/lock.png", 132, 380, 120, 120);
@@ -43,7 +43,7 @@ void SelectScene::update() {
 		now->putImage("./Pic/level/locked.png", 384, 510, 254, 74);
 		now->putImage("./Pic/level/locked.png", 672, 510, 254, 74);
 	}
-	if (2 == level) {
+	if (2 == now->level) {
 		now->putImage("./Pic/level/lock.png", 708, 150, 120, 120);
 		now->putImage("./Pic/level/lock.png", 132, 380, 120, 120);
 		now->putImage("./Pic/level/lock.png", 420, 380, 120, 120);
@@ -54,7 +54,7 @@ void SelectScene::update() {
 		now->putImage("./Pic/level/locked.png", 384, 510, 254, 74);
 		now->putImage("./Pic/level/locked.png", 672, 510, 254, 74);
 	}
-	if (3 == level) {
+	if (3 == now->level) {
 		now->putImage("./Pic/level/lock.png", 132, 380, 120, 120);
 		now->putImage("./Pic/level/lock.png", 420, 380, 120, 120);
 		now->putImage("./Pic/level/lock.png", 708, 380, 120, 120);
@@ -64,7 +64,7 @@ void SelectScene::update() {
 		now->putImage("./Pic/level/locked.png", 384, 510, 254, 74);
 		now->putImage("./Pic/level/locked.png", 672, 510, 254, 74);
 	}
-	if (4 == level) {
+	if (4 == now->level) {
 		now->putImage("./Pic/level/lock.png", 420, 380, 120, 120);
 		now->putImage("./Pic/level/lock.png", 708, 380, 120, 120);
 		now->putImage("./Pic/level/level2.png", 384, 280, 254, 74);
@@ -73,7 +73,7 @@ void SelectScene::update() {
 		now->putImage("./Pic/level/locked.png", 384, 510, 254, 74);
 		now->putImage("./Pic/level/locked.png", 672, 510, 254, 74);
 	}
-	if (5 == level) {
+	if (5 == now->level) {
 		now->putImage("./Pic/level/lock.png", 708, 380, 120, 120);
 		now->putImage("./Pic/level/level2.png", 384, 280, 254, 74);
 		now->putImage("./Pic/level/level3.png", 672, 280, 254, 74);
@@ -81,7 +81,7 @@ void SelectScene::update() {
 		now->putImage("./Pic/level/level5.png", 384, 510, 254, 74);
 		now->putImage("./Pic/level/locked.png", 672, 510, 254, 74);
 	}
-	if (6 == level) {
+	if (6 == now->level) {
 		now->putImage("./Pic/level/lock.png", 708, 380, 120, 120);
 		now->putImage("./Pic/level/level2.png", 384, 280, 254, 74);
 		now->putImage("./Pic/level/level3.png", 672, 280, 254, 74);
@@ -96,23 +96,23 @@ void SelectScene::onMouse(Sint32 x, Sint32 y) {
 		now->scene = new GameScene(last, 6, 5, 8, 1, false);
 		delete this;
 	}
-	if (x >= 384 && x <= 576 && y >= 150 && y <= 280 && level >= 2) {
+	if (x >= 384 && x <= 576 && y >= 150 && y <= 280 && now->level >= 2) {
 		now->scene = new GameScene(last, 8, 9, 6, 2, false);
 		delete this;
 	}
-	if (x >= 672 && x <= 864 && y >= 150 && y <= 280 && level >= 3) {
+	if (x >= 672 && x <= 864 && y >= 150 && y <= 280 && now->level >= 3) {
 		now->scene = new GameScene(last, 10, 7, 10, 3, false);
 		delete this;
 	}
-	if (x >= 96 && x <= 288 && y >= 380 && y <= 510 && level >= 4) {
+	if (x >= 96 && x <= 288 && y >= 380 && y <= 510 && now->level >= 4) {
 		now->scene = new GameScene(last, 12, 8, 12, 4, false);
 		delete this;
 	}
-	if (x >= 384 && x <= 576 && y >= 380 && y <= 510 && level >= 5) {
+	if (x >= 384 && x <= 576 && y >= 380 && y <= 510 && now->level >= 5) {
 		now->scene = new GameScene(last, 14, 16, 9, 5, false);
 		delete this;
 	}
-	if (x >= 672 && x <= 864 && y >= 380 && y <= 510 && level >= 6) {
+	if (x >= 672 && x <= 864 && y >= 380 && y <= 510 && now->level >= 6) {
 		now->scene = new GameScene(last, 16, 20, 11, 6, true);
 		delete this;
 	}
