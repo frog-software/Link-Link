@@ -339,3 +339,9 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 *.DS_Store
+LIanLianKan/Level_1_Rank.dat
+LIanLianKan/Level_2_Rank.dat
+LIanLianKan/Level_3_Rank.dat
+LIanLianKan/Level_4_Rank.dat
+LIanLianKan/Level_5_Rank.dat
+LIanLianKan/Level_6_Rank.dat
