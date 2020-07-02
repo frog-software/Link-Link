@@ -69,7 +69,7 @@ public:
 	/**
 	 * @brief 设置纵坐标
 	 *
-	 * @param x 纵坐标
+	 * @param y 纵坐标
 	 */
 	void setY(int y);
 

@@ -61,7 +61,7 @@ int Pic::getY() const
 /**
  * @brief 设置纵坐标
  *
- * @param x 纵坐标
+ * @param y 纵坐标
  */
 void Pic::setY(int y)
 {
