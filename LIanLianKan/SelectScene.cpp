@@ -24,6 +24,7 @@ void SelectScene::update() {
 	now->putImage("./Pic/level/level4_.png", 96, 380, 192, 128);
 	now->putImage("./Pic/level/level5_.png", 384, 380, 192, 128);
 	now->putImage("./Pic/level/level6_.png", 672, 380, 192, 128);
+	now->putImage("./Pic/Set/home.png", 455, 585, 50, 50);
 	if (1 == select)now->putImage("./Pic/level/level_stroke.png", 90, 140, 210, 220);
 	if (2 == select)now->putImage("./Pic/level/level_stroke.png", 378, 140, 210, 220);
 	if (3 == select)now->putImage("./Pic/level/level_stroke.png", 666, 140, 210, 220);
@@ -114,25 +115,29 @@ void SelectScene::onMouse(Sint32 x, Sint32 y) {
 		now->scene = new GameScene(last, 16, 11, 20, 6, true);
 		delete this;
 	}
+	if (x >= 455 && x <= 505 && y >= 585 && y <= 625) {
+		now->scene = last;
+		delete this;
+	}
 }
 
 void SelectScene::onMouseMotion(Sint32 x, Sint32 y) {
-	if (x >= 96 && x <= 288 && y >= 150 && y <= 280) {
+	if (x >= 96 && x <= 288 && y >= 150 && y <= 354) {
 		select = 1;
 	}
-	else if (x >= 384 && x <= 576 && y >= 150 && y <= 280) {
+	else if (x >= 384 && x <= 576 && y >= 150 && y <= 354) {
 		select = 2;
 	}
-	else if (x >= 672 && x <= 864 && y >= 150 && y <= 280) {
+	else if (x >= 672 && x <= 864 && y >= 150 && y <= 354) {
 		select = 3;
 	}
-	else if (x >= 96 && x <= 288 && y >= 380 && y <= 510) {
+	else if (x >= 96 && x <= 288 && y >= 380 && y <= 584) {
 		select = 4;
 	}
-	else if (x >= 384 && x <= 576 && y >= 380 && y <= 510) {
+	else if (x >= 384 && x <= 576 && y >= 380 && y <= 584) {
 		select = 5;
 	}
-	else if (x >= 672 && x <= 864 && y >= 380 && y <= 510) {
+	else if (x >= 672 && x <= 864 && y >= 380 && y <= 584) {
 		select = 6;
 	}
 	else {
