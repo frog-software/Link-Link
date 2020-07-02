@@ -6,12 +6,17 @@
 
 extern Control* now;
 
-OverScene::OverScene(time_t t, int level) {
+OverScene::OverScene(Scene* last_scene_, time_t t, int level) :last_scene{ last_scene_ } {
+	if (now->level == level)now->level++;
 	sprintf_s(buff, 50, "%4llds", t);
 	sprintf_s(background_pic, 50, "./Pic/endgame.png");
 
 	std::ifstream fin;
-	std::string fname = std::string{ "Level_" } +std::to_string(level) + std::string{ "_Rank.dat" };
+	std::string fname = std::string{ "./Level_" } +std::to_string(level) + std::string{ "_Rank.dat" };
+	if (fs::exists(fname) == false) {
+		std::ofstream fout(fname);
+		if (fout) 	fout.close();
+	}
 	fin.open(fname.c_str());
 	int score;
 	while (true) {
@@ -58,7 +63,8 @@ void OverScene::onMouse(Sint32 x, Sint32 y) {
 	/*判断结束菜单的按键.*/
 	if (x >= 390 && x <= 580 && y >= 520 && y <= 570) {
 		/*应该回到主界面.*/
-		now->scene = new StartScene();
+		now->scene = last_scene;
+		delete this;
 	}
 }
 
