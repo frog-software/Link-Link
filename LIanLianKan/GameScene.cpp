@@ -62,10 +62,19 @@ void GameScene::update()
 	now->putImage("./Pic/blub.png", 883, 455, 127, 37);
 	now->putImage("./Pic/Set/refresh.png", 890, 500, 50, 50);
 	now->putImage("./Pic/refresh.png", 883, 555, 127, 37);
+
+	/*按钮“动画”*/
+	/*按钮按下时*/
 	if (count < 10 && now->click != 0) {
 		if (5 == now->click)now->putImage("./Pic/Set/blub_.png", 890, 400, 50, 50);
 		if (6 == now->click)now->putImage("./Pic/Set/refresh_.png", 890, 500, 50, 50);
 		count++;
+	}
+	/*按钮恢复*/
+	if (count == 10) {
+		if (5 == now->click)map->closeHelp();
+		now->click = 0;
+		count = 0;
 	}
 
 	/*绘制图标矩阵*/
