@@ -31,7 +31,7 @@ void SelectScene::update() {
 	if (4 == select)now->putImage("./Pic/level/level_stroke.png", 90, 370, 210, 220);
 	if (5 == select)now->putImage("./Pic/level/level_stroke.png", 378, 370, 210, 220);
 	if (6 == select)now->putImage("./Pic/level/level_stroke.png", 666, 370, 210, 220);
-		if (1 == now->level) {
+	if (1 == now->level) {
 		now->putImage("./Pic/level/lock.png", 420, 150, 120, 120);
 		now->putImage("./Pic/level/lock.png", 708, 150, 120, 120);
 		now->putImage("./Pic/level/lock.png", 132, 380, 120, 120);

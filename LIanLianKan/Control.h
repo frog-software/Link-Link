@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Control.h
- * \brief  Controlç±»å£°æ˜
- * Controlç±»çš„å£°æ˜æ‰€åœ¨å¤´æ–‡ä»¶
+ * \brief  ControlÀàÉùÃ÷
+ * ControlÀàµÄÉùÃ÷ËùÔÚÍ·ÎÄ¼ş
  *
  * \author FrogDar
  * \date   June 2020
@@ -21,16 +21,16 @@ namespace fs = std::filesystem;
 class Control {
 private:
 	int width, height;
-	/*éŸ³é‡åˆå§‹å€¼0.5*/
+	/*ÒôÁ¿³õÊ¼Öµ0.5*/
 	double volm1{ 0.5 }, volm2{ 0.5 };
-	/*å°†è¦æ¸²æŸ“çš„çª—å£*/
+	/*½«ÒªäÖÈ¾µÄ´°¿Ú*/
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 
-	/*ç”¨æˆ·æ˜¯å¦é€‰æ‹©é€€å‡º*/
+	/*ÓÃ»§ÊÇ·ñÑ¡ÔñÍË³ö*/
 	bool quit = false;
 
-	/*ä¸ºäº†èŠ‚çº¦æ—¶é—´ï¼Œæå‰åŠ è½½æ‰€æœ‰èµ„æº*/
+	/*ÎªÁË½ÚÔ¼Ê±¼ä£¬ÌáÇ°¼ÓÔØËùÓĞ×ÊÔ´*/
 	std::map<std::string, SDL_Texture*>Textures;
 	std::map<int, TTF_Font* >Fonts;
 	std::map<std::string, Mix_Chunk*>Sounds;
@@ -40,26 +40,26 @@ public:
 	Control(int _width, int _height);
 	Control();
 	~Control();
-	/*ä¸»å¾ªç¯*/
+	/*Ö÷Ñ­»·*/
 	void mainLoop();
-	/*åœ¨ä½ç½®xï¼Œy ä»¥å®½åº¦ width é«˜åº¦ heightçš„æ–¹å¼ ç»˜åˆ¶å›¾ç‰‡path*/
+	/*ÔÚÎ»ÖÃx£¬y ÒÔ¿í¶È width ¸ß¶È heightµÄ·½Ê½ »æÖÆÍ¼Æ¬path*/
 	void putImage(std::string path, int x, int y, int width, int height);
-	/*åœ¨channelé¢‘é“æ’­æ”¾éŸ³ä¹pathä¸€å…±cntæ¬¡ï¼ŒBGMä¸ºé¢‘é“1ï¼ŒéŸ³æ•ˆä¸ºé¢‘é“2*/
+	/*ÔÚchannelÆµµÀ²¥·ÅÒôÀÖpathÒ»¹²cnt´Î£¬BGMÎªÆµµÀ1£¬ÒôĞ§ÎªÆµµÀ2*/
 	void playSound(int channel, std::string path, int cnt = 1);
-	/*è°ƒèŠ‚éŸ³é‡å¤§å°*/
+	/*µ÷½ÚÒôÁ¿´óĞ¡*/
 	void addVolume(int channel);
 	void decVolume(int channel);
-	/*è·å–éŸ³é‡*/
+	/*»ñÈ¡ÒôÁ¿*/
 	double getVolm1();
 	double getVolm2();
-	/*è·å–é€€å‡ºæ ‡å¿—*/
+	/*»ñÈ¡ÍË³ö±êÖ¾*/
 	bool getQuit();
 	void setQuit(bool quit_);
-	/*åœ¨ä½ç½®xyä»¥å­—å·size è¾“å‡ºå†…å®¹c*/
+	/*ÔÚÎ»ÖÃxyÒÔ×ÖºÅsize Êä³öÄÚÈİc*/
 	void xyprintf(int x, int y, const char* c, int size);
-	/*è·å–ä¸€ä¸ªéšæœºæ•°*/
+	/*»ñÈ¡Ò»¸öËæ»úÊı*/
 	int getRand();
-	/*åŠ è½½å›¾ç‰‡ã€éŸ³é¢‘*/
+	/*¼ÓÔØÍ¼Æ¬¡¢ÒôÆµ*/
 	void Initmypngs(fs::path strPath);
 	void Initmywavs(fs::path strPath);
 	SDL_Renderer* getRenderer();

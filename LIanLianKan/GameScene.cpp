@@ -19,7 +19,7 @@ extern int autoSpeedIndicator;
  */
 GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level, bool gravity) :scene_last{ scene_last_ }
 {
-	map = new Map{ m,n ,totalkind,true };
+	map = new Map{ m,n ,totalkind,gravity };
 
 	// start timer
 	startCounter();
