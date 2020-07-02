@@ -37,8 +37,12 @@ Control::Control(int _width, int _height) : width{ _width }, height{ _height }, 
 	/*初始化SDL环境*/
 	SDL_Init(SDL_INIT_EVERYTHING);
 	/*初始化窗口*/
-	window = SDL_CreateWindow("Link Up", 100, 100, width, height, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("LianLianKan", 100, 100, width, height, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Surface* surface = IMG_Load("./Pic/icon.png");
+	SDL_SetWindowIcon(window, surface);
+	SDL_FreeSurface(surface);
+
 	/*初始化SDL的音频拓展*/
 	Mix_Init(127);
 	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_CHANNELS, 2048);
@@ -47,6 +51,7 @@ Control::Control(int _width, int _height) : width{ _width }, height{ _height }, 
 
 	/*初始化随机数种子*/
 	std::srand((int)time(NULL));
+	bgnow = 0;
 }
 
 /**
