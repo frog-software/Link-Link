@@ -118,22 +118,22 @@ void SelectScene::onMouse(Sint32 x, Sint32 y) {
 }
 
 void SelectScene::onMouseMotion(Sint32 x, Sint32 y) {
-	if (x >= 96 && x <= 288 && y >= 150 && y <= 280) {
+	if (x >= 96 && x <= 288 && y >= 150 && y <= 354) {
 		select = 1;
 	}
-	else if (x >= 384 && x <= 576 && y >= 150 && y <= 280) {
+	else if (x >= 384 && x <= 576 && y >= 150 && y <= 354) {
 		select = 2;
 	}
-	else if (x >= 672 && x <= 864 && y >= 150 && y <= 280) {
+	else if (x >= 672 && x <= 864 && y >= 150 && y <= 354) {
 		select = 3;
 	}
-	else if (x >= 96 && x <= 288 && y >= 380 && y <= 510) {
+	else if (x >= 96 && x <= 288 && y >= 380 && y <= 584) {
 		select = 4;
 	}
-	else if (x >= 384 && x <= 576 && y >= 380 && y <= 510) {
+	else if (x >= 384 && x <= 576 && y >= 380 && y <= 584) {
 		select = 5;
 	}
-	else if (x >= 672 && x <= 864 && y >= 380 && y <= 510) {
+	else if (x >= 672 && x <= 864 && y >= 380 && y <= 584) {
 		select = 6;
 	}
 	else {
