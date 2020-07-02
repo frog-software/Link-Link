@@ -144,6 +144,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutScene.cpp" />
     <ClCompile Include="ConnectLine.cpp" />
     <ClCompile Include="Control.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutScene.h" />
     <ClInclude Include="ConnectLine.h" />
     <ClInclude Include="Control.h" />
     <ClInclude Include="GameScene.h" />

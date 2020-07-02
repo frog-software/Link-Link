@@ -51,6 +51,9 @@
     <ClCompile Include="SelectScene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="AboutScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Control.h">
@@ -81,6 +84,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SelectScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutScene.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
