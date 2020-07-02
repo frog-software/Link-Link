@@ -26,7 +26,7 @@ void SetScene::update() {
 	now->putImage("./Pic/Set/plus.png", 515, 275, 50, 50);
 	now->putImage("./Pic/Set/minus.png", 395, 425, 50, 50);
 	now->putImage("./Pic/Set/plus.png", 515, 425, 50, 50);
-	now->putImage("./Pic/Set/bacward.png", 455, 560, 50, 50);
+	now->putImage("./Pic/Set/home.png", 455, 560, 50, 50);
 	if (0.25 == now->getVolm1()) {
 		now->putImage("./Pic/Set/1.png", 200, 225, 140, 15);
 	}
