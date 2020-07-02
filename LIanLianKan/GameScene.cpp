@@ -94,7 +94,7 @@ void GameScene::update()
 	//////////////////
 
 	if (map->isWin()) {
-		now->scene = new OverScene(getTimer());
+		now->scene = new OverScene(getTimer(), 1);
 		delete this;
 	}
 }
