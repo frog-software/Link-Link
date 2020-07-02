@@ -3,6 +3,7 @@
 #include "GameScene.h"
 extern Control* now;
 static int count = 0;
+static int bgnow = 0;
 
 SetScene::SetScene(Scene* last_) :last{ last_ }
 {
@@ -10,7 +11,15 @@ SetScene::SetScene(Scene* last_) :last{ last_ }
 }
 
 void SetScene::update() {
-	now->putImage("./Pic/Set/Set.png", 0, 0, 960, 640);
+	bgnow++;
+	if (bgnow == 49)bgnow = 0;
+	char* s = new char[50];
+	sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", bgnow);
+	now->putImage(s, 0, 0, 960, 640);
+	delete[] s;
+	now->putImage("./Pic/setTitle.png", 290, 50, 387, 111);
+	now->putImage("./Pic/music.png", 40, 210, 127, 37);
+	now->putImage("./Pic/voice.png", 40, 360, 127, 37);
 	now->putImage("./Pic/Set/music.png", 125, 205, 50, 50);
 	now->putImage("./Pic/Set/sound.png", 125, 353, 50, 50);
 	now->putImage("./Pic/Set/minus.png", 395, 275, 50, 50);
