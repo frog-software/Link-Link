@@ -6,7 +6,6 @@ private:
 	Scene* last = nullptr;
 	int select = 0;
 public:
-	int level = 1;
 	SelectScene(Scene* last_);
 	~SelectScene() = default;
 	void update()override;
