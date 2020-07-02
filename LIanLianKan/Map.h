@@ -17,7 +17,7 @@
 #include "ConnectLine.h"
 
  /*地图大小上限*/
-const int N = 100;
+const int N = 20;
 
 /**
  * 地图类.
@@ -37,10 +37,14 @@ private:
 	 */
 	std::vector<std::pair<Pic*, Pic*> >matchedlist;
 	std::pair<Pic*, Pic*>help;
+
+	bool gravity;
+
 	/**
 	 * 判断a，b是否可以消除，erase表示是否要消除
 	 */
 	bool canMatch(Pic* a, Pic* b, bool erase);
+
 
 	Pic* getPicup(Pic* a);
 	Pic* getPicdown(Pic* a);
@@ -61,7 +65,7 @@ public:
 	*/
 	std::vector<Pic*>map;
 	/*构建m*n的地图*/
-	Map(int _m, int _n, int totalkind);
+	Map(int _m, int _n, int totalkind,bool gravity_);
 
 	/*析构函数*/
 	~Map();
@@ -97,4 +101,10 @@ public:
 
 	std::list<ConnectLine* > line_list;
 	bool canbepath(Pic* a);
+	bool getReady();
+
+	Pic* at(int x, int y);
+
+	void ifneeddown();
+	void swap(Pic* a, Pic* b);
 };
