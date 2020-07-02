@@ -81,7 +81,7 @@ void SelectScene::update() {
 		now->putImage("./Pic/level/level5.png", 384, 510, 254, 74);
 		now->putImage("./Pic/level/locked.png", 672, 510, 254, 74);
 	}
-	if (6 == now->level) {
+	if (now->level >= 6) {
 		now->putImage("./Pic/level/level2.png", 384, 280, 254, 74);
 		now->putImage("./Pic/level/level3.png", 672, 280, 254, 74);
 		now->putImage("./Pic/level/level4.png", 96, 510, 254, 74);
