@@ -19,6 +19,7 @@ namespace fs = std::filesystem;
 
 /**
  * @brief Control类控制窗口运行
+ * 
  * 就像一个游戏窗口，控制本窗口的运行逻辑
  * 逻辑：mainloop函数
  */

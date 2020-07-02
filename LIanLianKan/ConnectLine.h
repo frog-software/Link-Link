@@ -12,24 +12,29 @@
 
 /**
  * @brief ”画线消除”类
+ * 
  * 将一对连连看的消除路径体现出来
  */
 class ConnectLine {
 private:
+
 	/*拐弯点的数量*/
 	int number_of_corner;
-	Pic* start;/*起点*/
-	Pic* end;/*终点*/
-	Pic* corner1;/*拐弯点1*/
-	Pic* corner2;/*拐弯点2*/
+	Pic* start;/**起点*/
+	Pic* end;/**终点*/
+	Pic* corner1;/**拐弯点1*/
+	Pic* corner2;/**拐弯点2*/
 
-	/*连接线用矩形绘制，储存连接线的矩形信息*/
+	/**连接线用矩形绘制，储存连接线的矩形信息*/
 	SDL_Rect line_rect[3]{ 0 };
 	
 
 public:
-	
-	int cnt = 10;/*倒计时*/
+	/**
+	 * @brief 显示次数倒计时
+	 * 每次刷新的时候减一，做出动画效果
+	 */
+	int cnt = 10;
 
 	/**
 	 * @brief Construct a new Connect Line object

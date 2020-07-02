@@ -12,10 +12,14 @@ extern int autoSpeed[4];
 extern int autoSpeedIndicator;
 
 /**
- * @brief Construct a new Game Scene:: Game Scene object
- * 生成一个m行n列的地图
+ * @brief Construct a new Game Scene object
+ * 
+ * @param scene_last_ 上一个场景（主场景
  * @param m 地图x方向图标个数
  * @param n 地图y方向图标个数
+ * @param totalkind 图标种类数
+ * @param level_ 当前文档
+ * @param gravity 是否开启重力模式
  */
 GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level_, bool gravity) :scene_last{ scene_last_ }, level{ level_ }
 {
@@ -28,8 +32,8 @@ GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level_
 }
 
 /**
- * @brief Destroy the Game Scene:: Game Scene object
- *
+ * @brief Destroy the Game Scene object
+ * 
  */
 GameScene::~GameScene()
 {
@@ -38,13 +42,14 @@ GameScene::~GameScene()
 
 /**
  * @brief 更新画面
+ * 
  * 按顺序从底层到顶层逐一更新画面
  */
-
 void GameScene::update()
 {
-	/*绘制画面底层动画.*/
+	/*绘制画面背景图片.*/
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
+
 	/*绘制画面按钮*/
 	now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
 	now->putImage("./Pic/main.png", 867, 155, 127, 37);
@@ -103,6 +108,7 @@ void GameScene::update()
 	}
 	//////////////////
 
+	/*如果完成消除，进入结束页面*/
 	if (map->isWin()) {
 		now->scene = new OverScene(this->scene_last, getTimer(), this->level);
 		delete this;
@@ -153,7 +159,8 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		now->pause = 1;
 	}
 	if (x >= 890 && x <= 940 && y >= 300 && y <= 350) {
-		now->pause = (now->pause + 1) % 2;
+		now->pause = !now->pause;
+		//这里是暂停按钮.
 	}
 	if (x >= 890 && x <= 940 && y >= 400 && y <= 450) {
 		now->click = 5;
@@ -175,13 +182,19 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	}
 }
 
+/**
+ * @brief 鼠标移动功能
+ * 
+ * @param x 当前鼠标的x
+ * @param y 当前鼠标的y
+ */
 void GameScene::onMouseMotion(Sint32 x, Sint32 y)
 {
 	// Pass
 	// by wht
 }
 
-/*
+/**
 *this function returns the index in map which represents the picture
 *that has benn clicked.
 *It returns **-1** if the spot that has been clicked is outside the map.
@@ -220,6 +233,12 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 	return ret;
 }
 
+/**
+ * @brief auto模式自动玩
+ * 
+ * @return true 游戏已完成
+ * @return false 游戏未完成
+ */
 bool GameScene::autoPlay()
 {
 	bool isWin = map->isWin();
@@ -229,6 +248,7 @@ bool GameScene::autoPlay()
 	return isWin;
 }
 
+/*开始计时*/
 void GameScene::startCounter()
 {
 	// if counter is stopped.
@@ -248,6 +268,7 @@ void GameScene::startCounter()
 	return;
 }
 
+/*停止计时*/
 void GameScene::stopCounter()
 {
 	// if counter is started.
@@ -267,6 +288,7 @@ void GameScene::stopCounter()
 	return;
 }
 
+/*暂停计时*/
 void GameScene::pauseCounter()
 {
 	// if counter is started.
@@ -278,6 +300,7 @@ void GameScene::pauseCounter()
 	return;
 }
 
+/*获取时间*/
 time_t GameScene::getTimer()
 {
 	switch (counterStatus)
