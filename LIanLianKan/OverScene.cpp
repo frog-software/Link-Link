@@ -5,6 +5,37 @@
 #include <SDL_image.h>
 
 extern Control* now;
+
+OverScene::OverScene(time_t t, int level) {
+	sprintf_s(buff, 50, "%4llds", t);
+	sprintf_s(background_pic, 50, "./Pic/endgame.png");
+
+	std::ifstream fin;
+	std::string fname = std::string{ "Level_" } +std::to_string(level) + std::string{ "_Rank.dat" };
+	fin.open(fname.c_str());
+	int score;
+	while (true) {
+		fin >> score;
+		if (fin.eof())
+			break;
+		rank.push_back(score);
+	}
+	fin.close();
+	rank.push_back(t);
+	std::sort(rank.begin(), rank.end());
+
+	std::ofstream fout;
+	fout.open(fname.c_str());
+	int i = 0;
+	for (auto score : rank) {
+		fout << score << std::endl;
+		if (++i == MAX_SCORES_NUM) {
+			break;
+		}
+	}
+	fout.close();
+}
+
 void OverScene::update() {
 	bgnow++;
 	if (bgnow == 49)bgnow = 0;
