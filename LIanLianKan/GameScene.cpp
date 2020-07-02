@@ -17,7 +17,7 @@ extern int autoSpeedIndicator;
  * @param m 地图x方向图标个数
  * @param n 地图y方向图标个数
  */
-GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level, bool gravity) :scene_last{ scene_last_ }
+GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level_, bool gravity) :scene_last{ scene_last_ }, level{ level_ }
 {
 	map = new Map{ m,n ,totalkind,gravity };
 
@@ -95,7 +95,7 @@ void GameScene::update()
 	//////////////////
 
 	if (map->isWin()) {
-		now->scene = new OverScene(getTimer(), 1);
+		now->scene = new OverScene(this->scene_last, getTimer(), this->level);
 		delete this;
 	}
 }
