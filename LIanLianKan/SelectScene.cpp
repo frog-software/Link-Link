@@ -10,7 +10,6 @@ SelectScene::SelectScene(Scene* last_) :last{ last_ }
 }
 
 void SelectScene::update() {
-	/*Ñ¡¹Ø½çÃæ±³¾°*/
 	bgnow++;
 	if (bgnow == 49)bgnow = 0;
 	char* s = new char[50];
