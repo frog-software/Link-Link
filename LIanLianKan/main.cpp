@@ -4,6 +4,7 @@ Control* now = nullptr;
 
 /**
  * @brief 程序入口
+ *
  * main函数，程序运行的入口
  */
 int main(int argc, char* argv[]) {

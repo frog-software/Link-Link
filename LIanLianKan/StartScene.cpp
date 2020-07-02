@@ -3,24 +3,45 @@
 #include "GameScene.h"
 #include "SetScene.h"
 #include "SelectScene.h"
-#include <iostream>
 #include "AboutScene.h"
+#include <iostream>
+
 extern Control* now;
+
+/**
+ * @brief Construct a new Start Scene object
+ *
+ */
 StartScene::StartScene()
 {
 	sprintf_s(background_pic, 50, "./Pic/startgame.png");
 }
+
+/**
+ * @brief 更新画面
+ *
+ * 按顺序从底层到顶层逐一更新画面
+ */
 void StartScene::update()
 {
+	/*动态背景*/
 	now->bgnow++;
 	if (now->bgnow == 49)now->bgnow = 0;
 	char* s = new char[50];
 	sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", now->bgnow);
 	now->putImage(s, 0, 0, 960, 640);
 	delete[] s;
+
+	/*绘画菜单*/
 	now->putImage(background_pic, 0, 0, 960, 640);
 }
 
+/**
+ * @brief 判定鼠标操作
+ *
+ * @param x 鼠标点击的x
+ * @param y 鼠标点击的y
+ */
 void StartScene::onMouse(Sint32 x, Sint32 y)
 {
 	/*判断开始菜单的按键.*/
@@ -43,6 +64,12 @@ void StartScene::onMouse(Sint32 x, Sint32 y)
 	}
 }
 
+/**
+ * @brief 鼠标移动功能
+ *
+ * @param x 当前鼠标的x
+ * @param y 当前鼠标的y
+ */
 void StartScene::onMouseMotion(Sint32 x, Sint32 y)
 {
 	/*判断鼠标位置显示对应的按钮图片.*/

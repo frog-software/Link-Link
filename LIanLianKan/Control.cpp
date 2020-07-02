@@ -27,6 +27,7 @@ int autoSpeedIndicator = 0;
 
 /**
  * @brief Construct a new Control object
+ *
  * 创建一个width*height大小的窗口
  * SDL的各种准备工作
  * @param _width 窗口宽度
@@ -56,6 +57,7 @@ Control::Control(int _width, int _height) : width{ _width }, height{ _height }, 
 
 /**
  * @brief Destroy the Control object
+ *
  * 释放SDL的各项资源
  * 释放指针资源
  */
@@ -78,6 +80,7 @@ Control::~Control()
 
 /**
  * @brief 主循环.
+ *
  * 程序控制逻辑的主体部分
  */
 void Control::mainLoop()
@@ -178,6 +181,7 @@ void Control::mainLoop()
 
 /**
  * @brief 绘制一张图片.
+ *
  * 在位置x，y 以宽度 width 高度 height的方式 绘制图片path
  * @param path 图片的路径
  * @param x 绘制点的横坐标
@@ -201,6 +205,7 @@ void Control::putImage(std::string path, int x, int y, int width, int height)
 
 /**
  * @brief 在某频道播放音乐path共cnt次.
+ *
  * 在channel频道播放音乐path一共cnt次
  * @param channel 音乐播放的频道 ，BGM为频道1，音效为频道2
  * @param path 音乐的路径
@@ -340,6 +345,7 @@ void Control::xyprintf(int x, int y, const char* c, int size = 20)
 
 /**
 * @brief 加载图片资源
+
 * 采用cpp17标准，递归加载
 * @param strPath 加载路径
 */
@@ -361,6 +367,7 @@ void Control::Initmypngs(fs::path strPath)
 
 /**
  * @brief 加载音频资源
+ *
  * 采用cpp17标准，递归加载
  * @param strPath 加载路径
  */

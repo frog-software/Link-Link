@@ -21,8 +21,6 @@ const int N = 20;
 
 /**
  * 地图类.
- * @change 增加一个ConnectLine对象及其get函数 by wht
- * @date   June 30 2020
  */
 class Map {
 private:

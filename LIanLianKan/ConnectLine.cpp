@@ -10,6 +10,7 @@
 
  /**
   * @brief Construct a new Connect Line object
+  *
   * 起点和终点在同一直线上
   * @param start_ 起点图标
   * @param end_  终点图标
@@ -26,6 +27,7 @@ ConnectLine::ConnectLine(Pic* start_, Pic* end_)
 
 /**
  * @brief Construct a new Connect Line object
+ *
  *  起点和终点之间拐弯一次，corner1为拐弯点
  * @param start_  起点
  * @param end_  终点
@@ -44,6 +46,7 @@ ConnectLine::ConnectLine(Pic* start_, Pic* end_, Pic* corner1_)
 
 /**
  * @brief Construct a new Connect Line object
+ *
  * 起点和终点之间拐弯两次，corner1、2为拐弯点
  * @param start_ 起点
  * @param end_ 终点
@@ -64,6 +67,7 @@ ConnectLine::ConnectLine(Pic* start_, Pic* end_, Pic* corner1_, Pic* corner2_)
 
 /**
  * @brief Destroy the Connect Line object
+ *
  * 让起点终点消失（设置为不可见
  */
 ConnectLine::~ConnectLine()
@@ -74,6 +78,7 @@ ConnectLine::~ConnectLine()
 
 /**
  * @brief 计算绘制矩形的绝对坐标
+ *
  * 根据输入的起终点，计算line_rect结构体里绘制矩形的绝对坐标
  * @param s 起点
  * @param e 终点
@@ -118,6 +123,7 @@ void ConnectLine::geneLine_rect(Pic* s, Pic* e, int index)
 
 /**
  * @brief 绘制连接线
+ *
  * line_rect内的矩形最多为3个，将他们全部渲染绘制
  * @param now 控制类
  */
@@ -132,6 +138,7 @@ void ConnectLine::drawLine(Control* now)
 
 /**
  * @brief 是否含有该图标
+ *
  * 判断起点或终点是否有该图标
  * @param a 判断的图标
  * @return true 有
