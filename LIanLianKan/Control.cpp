@@ -81,8 +81,13 @@ Control::~Control()
  */
 void Control::mainLoop()
 {
-	/*加载程序资源文件（图片、音频*/
+	/*加载程序资源文件（音频*/
 	Initmywavs(fs::path{ "./Sound" });
+
+	/*播放背景音乐*/
+	this->playSound(1, "./Sound/bgm.mp3", 0);
+
+	/*加载程序资源文件（图片*/
 	Initmypngs(fs::path{ "./Pic" });
 
 	/*初始界面为StartScene*/
@@ -191,13 +196,13 @@ void Control::putImage(std::string path, int x, int y, int width, int height)
 /**
  * 播放音乐path共cnt次.
  * 只支持wav格式的音乐
- * \param channel 音乐播放的频道
- * \param path 音乐的路径
- * \param cnt 播放次数，-1为背景音乐
+ * @param channel 音乐播放的频道
+ * @param path 音乐的路径
+ * @param cnt 播放次数，0为背景音乐
  */
 void Control::playSound(int channel, std::string path, int cnt)
 {
-	Mix_PlayChannel(channel, Sounds[path], 0);
+	Mix_PlayChannel(channel, Sounds[path], cnt - 1);
 }
 void Control::addVolume(int channel) {
 	if (1 == channel) {
