@@ -82,7 +82,6 @@ void SelectScene::update() {
 		now->putImage("./Pic/level/locked.png", 672, 510, 254, 74);
 	}
 	if (6 == now->level) {
-		now->putImage("./Pic/level/lock.png", 708, 380, 120, 120);
 		now->putImage("./Pic/level/level2.png", 384, 280, 254, 74);
 		now->putImage("./Pic/level/level3.png", 672, 280, 254, 74);
 		now->putImage("./Pic/level/level4.png", 96, 510, 254, 74);
@@ -97,7 +96,7 @@ void SelectScene::onMouse(Sint32 x, Sint32 y) {
 		delete this;
 	}
 	if (x >= 384 && x <= 576 && y >= 150 && y <= 280 && now->level >= 2) {
-		now->scene = new GameScene(last, 8, 9, 6, 2, false);
+		now->scene = new GameScene(last, 8, 6, 9, 2, false);
 		delete this;
 	}
 	if (x >= 672 && x <= 864 && y >= 150 && y <= 280 && now->level >= 3) {
@@ -109,11 +108,11 @@ void SelectScene::onMouse(Sint32 x, Sint32 y) {
 		delete this;
 	}
 	if (x >= 384 && x <= 576 && y >= 380 && y <= 510 && now->level >= 5) {
-		now->scene = new GameScene(last, 14, 16, 9, 5, false);
+		now->scene = new GameScene(last, 14, 9, 16, 5, false);
 		delete this;
 	}
 	if (x >= 672 && x <= 864 && y >= 380 && y <= 510 && now->level >= 6) {
-		now->scene = new GameScene(last, 16, 20, 11, 6, true);
+		now->scene = new GameScene(last, 16, 11, 20, 6, true);
 		delete this;
 	}
 }
