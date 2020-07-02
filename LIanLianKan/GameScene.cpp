@@ -82,13 +82,14 @@ void GameScene::update()
 	// Auto mode /////
 	if (now->pause == false && hasEnabledAutoMode)
 	{
+		if (dynamic_cast<GameScene*>(now->scene)->map->isWin())
+		{
+			hasEnabledAutoMode = false;
+		}
 		if (count_auto < autoSpeed[autoSpeedIndicator]) { count_auto++; }
 		else {
 			count_auto = 0;
-			if (dynamic_cast<GameScene*>(now->scene)->autoPlay())
-			{
-				hasEnabledAutoMode = false;
-			}
+			dynamic_cast<GameScene*>(now->scene)->autoPlay();
 		}
 	}
 	//////////////////
