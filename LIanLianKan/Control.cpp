@@ -7,22 +7,31 @@
  *********************************************************************/
 
 #include "Control.h"
-#include "StartScene.h"
 #include "GameScene.h"
+#include "StartScene.h"
+#include <cstdlib>
+#include <ctime>
+#include <deque>
+#include <random>
 #include <SDL.h>
+#include <SDL_image.h>
 #include <SDL_main.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
-#include <SDL_image.h>
-#include <random>
-#include <ctime>
-#include <cstdlib>
-#include <deque>
 
 namespace fs = std::filesystem;
 extern Control* now;
+/**
+ * @brief 是否开启自动模式
+ */
 bool hasEnabledAutoMode = false;
-int autoSpeed[4] = { 20, 10, 5, 2 };
+/**
+ * @brief 自动模式的速度选择数组.
+ */
+int autoSpeed[] = { 20, 10, 5, 2 };
+/**
+ * @brief 自动模式的速度选择下标.
+ */
 int autoSpeedIndicator = 0;
 
 /**
