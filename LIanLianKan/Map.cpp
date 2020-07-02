@@ -12,6 +12,7 @@
 #include <algorithm>
 extern Control* now;
 
+/*获取Pic十字链路的可用Pic*/
 void Map::getAcross(Pic* aa, std::vector<Pic*>& v, bool extend = false) {
 	v.push_back(aa);
 	Pic* a = nullptr;
@@ -133,10 +134,12 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 }
 
 /**
- * 地图类的构造函数
- * 生成一个m行n列的地图
- * \param _m  地图行数
- * \param _n  地图列数
+ * @brief Construct a new Map object
+ * 
+ * @param _m x方向图标个数
+ * @param _n y方向图标个数
+ * @param totalkind 图标种类数
+ * @param gravity_ 是否开启重力模式
  */
 Map::Map(int _m, int _n, int totalkind, bool gravity_) :m{ _m + 2 }, n{ _n + 2 }, gravity{ gravity_ }
 {
@@ -174,9 +177,14 @@ Map::Map(int _m, int _n, int totalkind, bool gravity_) :m{ _m + 2 }, n{ _n + 2 }
 			if ((*map[j]) < (*map[i]))
 				std::swap(map[i], map[j]);
 
+	/*随机排序*/
 	RandomOrder();
 }
 
+/**
+ * @brief Destroy the Map object
+ * 
+ */
 Map::~Map()
 {
 	for (auto i : map)
@@ -203,9 +211,9 @@ void Map::updateMatchedlist()
 }
 
 /**
- * 随机排列
- *
- * 重新排列所有Pic的位置并生成新的MatchedList *
+ * @brief 随机排列
+ * 
+ * 重新排列所有Pic的位置并生成新的MatchedList*
  */
 void Map::RandomOrder()
 {
@@ -255,11 +263,13 @@ void Map::RandomOrder()
 }
 
 /**
- * .判断是否能够连接
+ * @brief 判断是否能够连接
+ * 
  * 通过Matchedlist判断两个图标是否能够“连连看”
- * \param a 图标1
- * \param b 图标2
- * \return  是否能够匹配
+ * @param a 图标1
+ * @param b 图标2
+ * @return true 可以匹配，并更新匹配列表
+ * @return false 
  */
 bool Map::isMatch(Pic* a, Pic* b)
 {
@@ -270,6 +280,7 @@ bool Map::isMatch(Pic* a, Pic* b)
 			a->setIsStroke(true);
 			b->setIsStroke(true);
 			if (gravity == false) {
+				/*先假装已经消除了更新匹配列表之后再进行动画*/
 				a->setIsVisible(false);
 				b->setIsVisible(false);
 				updateMatchedlist();
@@ -283,9 +294,10 @@ bool Map::isMatch(Pic* a, Pic* b)
 }
 
 /**
- * 判断地图中是否还能进行匹配.
+ * @brief 判断地图中是否还能进行匹配.
+ * 
  * 通过判断matchedlist是否为空就可以知道地图中是否还能匹配
- * \return 能否匹配
+ * @return 能否匹配
  */
 bool Map::anyMatch()
 {
@@ -293,8 +305,9 @@ bool Map::anyMatch()
 }
 
 /**
- * 绘画地图.
- * 绘画地图中的每一个图标+处理ConnectLine
+ * @brief 绘画地图
+ * 
+ * 处理ConnectLine绘画+地图中的每一个图标
  */
 void Map::draw()
 {
@@ -322,6 +335,10 @@ void Map::draw()
 	for (auto p : map)p->draw();
 }
 
+/**
+ * @brief 开启提示
+ * 
+ */
 void Map::openHelp()
 {
 	if (help.first != nullptr || help.second != nullptr)closeHelp();
@@ -330,6 +347,10 @@ void Map::openHelp()
 	help.second->setIsStroke(true);
 }
 
+/**
+ * @brief 关闭提示
+ * 
+ */
 void Map::closeHelp()
 {
 	help.first->setIsStroke(false);
@@ -337,6 +358,12 @@ void Map::closeHelp()
 	help = { nullptr,nullptr };
 }
 
+/**
+ * @brief 判断是否完成游戏
+ * 
+ * @return true 全部消除了
+ * @return false 还有没有消除的
+ */
 bool Map::isWin()
 {
 	for (auto i : map)
@@ -344,11 +371,17 @@ bool Map::isWin()
 	return true;
 }
 
+/**
+ * @brief Get the First Matched Pair
+ * 
+ * @return std::pair<Pic*, Pic*> 
+ */
 std::pair<Pic*, Pic*> Map::getFirstMatchedPair()
 {
 	return matchedlist.front();
 }
 
+/*判断图标是否可以成为路径的一部分*/
 bool Map::canbepath(Pic* a)
 {
 	for (auto i : line_list) {
@@ -357,6 +390,12 @@ bool Map::canbepath(Pic* a)
 	return !a->getIsVisible();
 }
 
+/**
+ * @brief 判断地图是否能够点击
+ * 
+ * @return true 地图准备好了，可以点击
+ * @return false 地图没有准备，不能点击
+ */
 bool Map::getReady()
 {
 	if (now->pause == true)return false;
@@ -365,15 +404,29 @@ bool Map::getReady()
 	return false;
 }
 
+/**
+ * @brief 返回地图中(x,y)的图标
+ * 
+ * @param x 横坐标
+ * @param y 纵坐标
+ * @return Pic* 地图中(x,y)的图标
+ */
 Pic* Map::at(int x, int y)
 {
 	if (x >= 0 && x < m && y >= 0 && y < n)return map[x * n + y];
 	else return nullptr;
 }
 
+
+/**
+ * @brief 重力效果
+ * 
+ */
 void Map::ifneeddown()
 {
+	/*没有开重力模式直接退出*/
 	if (gravity == false)return;
+	/*有可能有两个空，执行两次*/
 	for (int i = m - 2; i > 0; i--)
 		for (int j = n - 2; j > 1; j--)
 			if (at(i, j)->getIsVisible() == false && at(i, j)->getKind())
@@ -382,9 +435,12 @@ void Map::ifneeddown()
 		for (int j = n - 2; j > 1; j--)
 			if (at(i, j)->getIsVisible() == false && at(i, j)->getKind())
 				this->swap(at(i, j), at(i, j - 1));
+
+	/*更新匹配列表*/
 	updateMatchedlist();
 }
 
+/*交换map中两个图标*/
 void Map::swap(Pic* a, Pic* b)
 {
 	std::swap(*a, *b);
@@ -441,11 +497,21 @@ Pic* Map::getPicright(Pic* a)
 	return map[n * (a->getX()) + a->getY() + 1];
 }
 
+/**
+ * @brief Set the Connect Line object
+ * 
+ * @param line_ 
+ */
 void Map::setConnectLine(ConnectLine* line_)
 {
 	connect_line = line_;
 }
 
+/**
+ * @brief Get the Connect Line object
+ * 
+ * @return ConnectLine* 
+ */
 ConnectLine* Map::getConnectLine()
 {
 	return connect_line;
