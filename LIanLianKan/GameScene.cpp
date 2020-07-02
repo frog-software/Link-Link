@@ -136,21 +136,21 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 		delete this;
 		//这里返回主菜单.
 	}
-	if (x >= 890 && x <= 940 && y >= 180 && y <= 230) {
+	if (x >= 890 && x <= 940 && y >= 200 && y <= 250) {
 		//这里进入设置界面
 		new SetScene(this);
 		pauseCounter();
 		now->pause = 1;
 	}
-	if (x >= 890 && x <= 940 && y >= 260 && y <= 310) {
+	if (x >= 890 && x <= 940 && y >= 300 && y <= 350) {
 		now->pause = (now->pause + 1) % 2;
 	}
-	if (x >= 890 && x <= 940 && y >= 340 && y <= 390) {
+	if (x >= 890 && x <= 940 && y >= 400 && y <= 450) {
 		now->click = 5;
 		map->openHelp();
 		//这里是提示功能.
 	}
-	if (x >= 890 && x <= 940 && y >= 420 && y <= 470) {
+	if (x >= 890 && x <= 940 && y >= 500 && y <= 550) {
 		now->click = 6;
 		//这里是重排功能.
 		map->RandomOrder();
