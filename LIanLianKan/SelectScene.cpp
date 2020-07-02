@@ -10,7 +10,7 @@ SelectScene::SelectScene(Scene* last_) :last{ last_ }
 }
 
 void SelectScene::update() {
-	/*ѡ�ؽ��汳��*/
+	/*Ñ¡¹Ø½çÃæ±³¾°*/
 	bgnow++;
 	if (bgnow == 49)bgnow = 0;
 	char* s = new char[50];
@@ -93,27 +93,27 @@ void SelectScene::update() {
 
 void SelectScene::onMouse(Sint32 x, Sint32 y) {
 	if (x >= 96 && x <= 288 && y >= 150 && y <= 280) {
-		now->scene = new GameScene(last, 6, 5, 1, false);
+		now->scene = new GameScene(last, 6, 5, 8, 1, false);
 		delete this;
 	}
 	if (x >= 384 && x <= 576 && y >= 150 && y <= 280 && level >= 2) {
-		now->scene = new GameScene(last, 8, 6, 2, false);
+		now->scene = new GameScene(last, 8, 9, 6, 2, false);
 		delete this;
 	}
 	if (x >= 672 && x <= 864 && y >= 150 && y <= 280 && level >= 3) {
-		now->scene = new GameScene(last, 10, 7, 3, false);
+		now->scene = new GameScene(last, 10, 7, 10, 3, false);
 		delete this;
 	}
 	if (x >= 96 && x <= 288 && y >= 380 && y <= 510 && level >= 4) {
-		now->scene = new GameScene(last, 12, 8, 4, false);
+		now->scene = new GameScene(last, 12, 8, 12, 4, false);
 		delete this;
 	}
 	if (x >= 384 && x <= 576 && y >= 380 && y <= 510 && level >= 5) {
-		now->scene = new GameScene(last, 14, 9, 5, false);
+		now->scene = new GameScene(last, 14, 16, 9, 5, false);
 		delete this;
 	}
 	if (x >= 672 && x <= 864 && y >= 380 && y <= 510 && level >= 6) {
-		now->scene = new GameScene(last, 16, 11, 6, true);
+		now->scene = new GameScene(last, 16, 20, 11, 6, true);
 		delete this;
 	}
 }
