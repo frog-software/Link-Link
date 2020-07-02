@@ -45,7 +45,6 @@ private:
 	 */
 	bool canMatch(Pic* a, Pic* b, bool erase);
 
-
 	Pic* getPicup(Pic* a);
 	Pic* getPicdown(Pic* a);
 	Pic* getPicleft(Pic* a);
@@ -65,7 +64,7 @@ public:
 	*/
 	std::vector<Pic*>map;
 	/*构建m*n的地图*/
-	Map(int _m, int _n, int totalkind,bool gravity_);
+	Map(int _m, int _n, int totalkind, bool gravity_);
 
 	/*析构函数*/
 	~Map();

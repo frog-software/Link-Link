@@ -138,7 +138,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
  * \param _m  地图行数
  * \param _n  地图列数
  */
-Map::Map(int _m, int _n, int totalkind,bool gravity_) :m{ _m + 2 }, n{ _n + 2 },gravity{gravity_}
+Map::Map(int _m, int _n, int totalkind, bool gravity_) :m{ _m + 2 }, n{ _n + 2 }, gravity{ gravity_ }
 {
 	/*
 	每种图形需要成对出现
@@ -376,14 +376,13 @@ void Map::ifneeddown()
 	if (gravity == false)return;
 	for (int i = m - 2; i > 0; i--)
 		for (int j = n - 2; j > 1; j--)
-			if (at(i , j)->getIsVisible() == false && at(i , j)->getKind())
-				this->swap(at(i, j), at(i , j-1));
+			if (at(i, j)->getIsVisible() == false && at(i, j)->getKind())
+				this->swap(at(i, j), at(i, j - 1));
 	for (int i = m - 2; i > 0; i--)
 		for (int j = n - 2; j > 1; j--)
 			if (at(i, j)->getIsVisible() == false && at(i, j)->getKind())
 				this->swap(at(i, j), at(i, j - 1));
 	updateMatchedlist();
-
 }
 
 void Map::swap(Pic* a, Pic* b)
@@ -393,7 +392,6 @@ void Map::swap(Pic* a, Pic* b)
 	b->setX(a->getX()); a->setX(tx);
 	b->setY(a->getY()); a->setY(ty);
 }
-
 
 /**
  * 获取某Pic的上方Pic.

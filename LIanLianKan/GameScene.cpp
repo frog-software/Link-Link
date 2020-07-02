@@ -291,5 +291,3 @@ time_t GameScene::getTimer()
 
 	return 0;
 }
-
-
