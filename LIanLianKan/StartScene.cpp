@@ -22,48 +22,48 @@ void StartScene::update()
 
 void StartScene::onMouse(Sint32 x, Sint32 y)
 {
-	/*åˆ¤æ–­å¼€å§‹èœå•çš„æŒ‰é”®.*/
+	/*ÅÐ¶Ï¿ªÊ¼²Ëµ¥µÄ°´¼ü.*/
 	if (x >= 400 && x <= 560 && y >= 300 && y <= 350) {
-		/*åº”è¯¥å…ˆç”Ÿæˆé€‰å…³ç•Œé¢.*/
+		/*Ó¦¸ÃÏÈÉú³ÉÑ¡¹Ø½çÃæ.*/
 		//now->scene = sence_select;
 		now->scene = new SelectScene(this);
 	}
 	if (x >= 400 && x <= 560 && y >= 360 && y <= 410) {
-		/*åº”è¯¥è¿›å…¥è®¾ç½®ç•Œé¢.*/
+		/*Ó¦¸Ã½øÈëÉèÖÃ½çÃæ.*/
 		new SetScene(this);
 	}
 	if (x >= 400 && x <= 560 && y >= 430 && y <= 470) {
-		/*åº”è¯¥è¿›å…¥å…³äºŽç•Œé¢.*/
+		/*Ó¦¸Ã½øÈë¹ØÓÚ½çÃæ.*/
 		//new AboutScene(this);
 		//delete this;
 	}
 	if (x >= 400 && x <= 560 && y >= 490 && y <= 540) {
-		/*åº”è¯¥é€€å‡º.*/
+		/*Ó¦¸ÃÍË³ö.*/
 		now->setQuit(true);
 	}
 }
 
 void StartScene::onMouseMotion(Sint32 x, Sint32 y)
 {
-	/*åˆ¤æ–­é¼ æ ‡ä½ç½®æ˜¾ç¤ºå¯¹åº”çš„æŒ‰é’®å›¾ç‰‡.*/
+	/*ÅÐ¶ÏÊó±êÎ»ÖÃÏÔÊ¾¶ÔÓ¦µÄ°´Å¥Í¼Æ¬.*/
 	if (x >= 400 && x <= 560 && y >= 300 && y <= 350) {
-		/*å¼€å§‹æ¸¸æˆæŒ‰é’®.*/
+		/*¿ªÊ¼ÓÎÏ·°´Å¥.*/
 		sprintf_s(background_pic, 50, "./Pic/startgame_stroke1.png");
 	}
 	else if (x >= 400 && x <= 560 && y >= 360 && y <= 410) {
-		/*è®¾ç½®æŒ‰é’®.*/
+		/*ÉèÖÃ°´Å¥.*/
 		sprintf_s(background_pic, 50, "./Pic/startgame_stroke2.png");
 	}
 	else if (x >= 400 && x <= 560 && y >= 430 && y <= 470) {
-		/*å…³äºŽæŒ‰é’®.*/
+		/*¹ØÓÚ°´Å¥.*/
 		sprintf_s(background_pic, 50, "./Pic/startgame_stroke3.png");
 	}
 	else if (x >= 400 && x <= 560 && y >= 490 && y <= 540) {
-		/*é€€å‡ºæŒ‰é’®.*/
+		/*ÍË³ö°´Å¥.*/
 		sprintf_s(background_pic, 50, "./Pic/startgame_stroke4.png");
 	}
 	else {
-		/*é¼ æ ‡åœ¨å…¶ä»–ä½ç½®ï¼Œä¸æ˜¾ç¤ºæŒ‰é’®.*/
+		/*Êó±êÔÚÆäËûÎ»ÖÃ£¬²»ÏÔÊ¾°´Å¥.*/
 		sprintf_s(background_pic, 50, "./Pic/startgame.png");
 	}
 }

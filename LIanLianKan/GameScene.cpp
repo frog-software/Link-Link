@@ -13,9 +13,9 @@ extern int autoSpeedIndicator;
 
 /**
  * @brief Construct a new Game Scene:: Game Scene object
- * ç”Ÿæˆä¸€ä¸ªmè¡Œnåˆ—çš„åœ°å›¾
- * @param m åœ°å›¾xæ–¹å‘å›¾æ ‡ä¸ªæ•°
- * @param n åœ°å›¾yæ–¹å‘å›¾æ ‡ä¸ªæ•°
+ * Éú³ÉÒ»¸ömĞĞnÁĞµÄµØÍ¼
+ * @param m µØÍ¼x·½ÏòÍ¼±ê¸öÊı
+ * @param n µØÍ¼y·½ÏòÍ¼±ê¸öÊı
  */
 GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level, bool gravity) :scene_last{ scene_last_ }
 {
@@ -37,15 +37,15 @@ GameScene::~GameScene()
 }
 
 /**
- * @brief æ›´æ–°ç”»é¢
- * æŒ‰é¡ºåºä»åº•å±‚åˆ°é¡¶å±‚é€ä¸€æ›´æ–°ç”»é¢
+ * @brief ¸üĞÂ»­Ãæ
+ * °´Ë³Ğò´Óµ×²ãµ½¶¥²ãÖğÒ»¸üĞÂ»­Ãæ
  */
 
 void GameScene::update()
 {
-	/*ç»˜åˆ¶ç”»é¢åº•å±‚åŠ¨ç”».*/
+	/*»æÖÆ»­Ãæµ×²ã¶¯»­.*/
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
-	/*ç»˜åˆ¶ç”»é¢æŒ‰é’®*/
+	/*»æÖÆ»­Ãæ°´Å¥*/
 	now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
 	now->putImage("./Pic/main.png", 867, 155, 127, 37);
 	now->putImage("./Pic/Set/cogwheel.png", 890, 200, 50, 50);
@@ -68,7 +68,7 @@ void GameScene::update()
 		count++;
 	}
 
-	/*ç»˜åˆ¶å›¾æ ‡çŸ©é˜µ*/
+	/*»æÖÆÍ¼±ê¾ØÕó*/
 	while (map->anyMatch() == false && map->isWin() == false)
 		map->RandomOrder();
 	map->draw();
@@ -101,44 +101,44 @@ void GameScene::update()
 }
 
 /**
- * @brief åˆ¤å®šé¼ æ ‡æ“ä½œ
+ * @brief ÅĞ¶¨Êó±ê²Ù×÷
  *
- * @param x é¼ æ ‡ç‚¹å‡»çš„x
- * @param y é¼ æ ‡ç‚¹å‡»çš„y
+ * @param x Êó±êµã»÷µÄx
+ * @param y Êó±êµã»÷µÄy
  */
 void GameScene::onMouse(Sint32 x, Sint32 y)
 {
-	/*å¯¹äºå›¾æ ‡çš„åˆ¤æ–­*/
+	/*¶ÔÓÚÍ¼±êµÄÅĞ¶Ï*/
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
 	if (now->pause == 0 && linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
 		now->playSound(2, "./Sound/Touch.wav");
 		if (last == nullptr) {
-			/*è¿™æ˜¯ç¬¬ä¸€æ¬¡æŒ‰å›¾æ ‡ï¼Œåˆ™å›¾æ ‡åŠ æ¡†*/
+			/*ÕâÊÇµÚÒ»´Î°´Í¼±ê£¬ÔòÍ¼±ê¼Ó¿ò*/
 			last = map->map[linearMousePositionOnMap];
 			last->setIsStroke(true);
 		}
 		else if (map->isMatch(last, map->map[linearMousePositionOnMap]) == false) {
-			/*å¦‚æœæ— æ³•åŒ¹é…ï¼Œåˆ™åˆ‡æ¢åŠ æ¡†çš„å›¾æ ‡*/
+			/*Èç¹ûÎŞ·¨Æ¥Åä£¬ÔòÇĞ»»¼Ó¿òµÄÍ¼±ê*/
 			last->setIsStroke(false);
 			last = map->map[linearMousePositionOnMap];
 			last->setIsStroke(true);
 		}
 		else {
-			/*å¦‚æœå®ŒæˆåŒ¹é…ï¼Œé‚£ä¹ˆè¦æ¸…é™¤lastï¼ˆå…¶ä»–æ“ä½œåœ¨åŒ¹é…å‡½æ•°ä¸­å·²å®Œæˆ*/
+			/*Èç¹ûÍê³ÉÆ¥Åä£¬ÄÇÃ´ÒªÇå³ılast£¨ÆäËû²Ù×÷ÔÚÆ¥Åäº¯ÊıÖĞÒÑÍê³É*/
 			last = nullptr;
 		}
 		//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}
 
-	/*åŠŸèƒ½æŒ‰é”®çš„åˆ¤æ–­*/
+	/*¹¦ÄÜ°´¼üµÄÅĞ¶Ï*/
 	if (x >= 890 && x <= 940 && y >= 100 && y <= 150) {
 		now->scene = scene_last;
 		delete this;
-		//è¿™é‡Œè¿”å›ä¸»èœå•.
+		//ÕâÀï·µ»ØÖ÷²Ëµ¥.
 	}
 	if (x >= 890 && x <= 940 && y >= 200 && y <= 250) {
-		//è¿™é‡Œè¿›å…¥è®¾ç½®ç•Œé¢
+		//ÕâÀï½øÈëÉèÖÃ½çÃæ
 		new SetScene(this);
 		pauseCounter();
 		now->pause = 1;
@@ -149,20 +149,20 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	if (x >= 890 && x <= 940 && y >= 400 && y <= 450) {
 		now->click = 5;
 		map->openHelp();
-		//è¿™é‡Œæ˜¯æç¤ºåŠŸèƒ½.
+		//ÕâÀïÊÇÌáÊ¾¹¦ÄÜ.
 	}
 	if (x >= 890 && x <= 940 && y >= 500 && y <= 550) {
 		now->click = 6;
-		//è¿™é‡Œæ˜¯é‡æ’åŠŸèƒ½.
+		//ÕâÀïÊÇÖØÅÅ¹¦ÄÜ.
 		map->RandomOrder();
 	}
 	if (1 == now->pause) {
 		this->pauseCounter();
-		//è¿™é‡Œæ˜¯æš‚åœåŠŸèƒ½.
+		//ÕâÀïÊÇÔİÍ£¹¦ÄÜ.
 	}
 	if (0 == now->pause) {
 		this->startCounter();
-		//è¿™é‡Œæ˜¯å–æ¶ˆæš‚åœåŠŸèƒ½.
+		//ÕâÀïÊÇÈ¡ÏûÔİÍ£¹¦ÄÜ.
 	}
 }
 
