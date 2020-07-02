@@ -13,6 +13,7 @@ private:
 	Pic* last = nullptr;/*上一个选中的图标*/
 	Scene* scene_last;/*上一个场景（开始界面）*/
 	int level;/*当前游戏场景的关卡*/
+	int timelimit;/*当前等级限时*/
 
 	/*计时器相关*/
 

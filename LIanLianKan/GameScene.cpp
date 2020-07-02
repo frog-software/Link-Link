@@ -29,6 +29,15 @@ GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level_
 	startCounter();
 
 	map->setConnectLine(nullptr);
+
+	switch (level) {
+	case 1:timelimit = 40; break;
+	case 2:timelimit = 60; break;
+	case 3:timelimit = 90; break;
+	case 4:timelimit = 130; break;
+	case 5:timelimit = 160; break;
+	case 6:timelimit = 200; break;
+	}
 }
 
 /**
@@ -88,10 +97,12 @@ void GameScene::update()
 	map->draw();
 
 	// display timer
+	now->xyprintf(870, 5, "Time", 40);
 	char buff[50];
 	sprintf_s(buff, 50, "%4lld", getTimer());
-	now->xyprintf(870, 5, "Time", 40);
-	now->xyprintf(870, 50, buff, 40);
+	now->xyprintf(850, 50, buff, 30);
+	sprintf_s(buff, 50, "/%3d", timelimit);
+	now->xyprintf(890, 50, buff, 30);
 
 	// Auto mode /////
 	if (map->getReady() && hasEnabledAutoMode)
