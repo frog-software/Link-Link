@@ -171,7 +171,6 @@ void Control::mainLoop()
 	}
 }
 
-
 /**
  * @brief 绘制一张图片.
  * 在位置x，y 以宽度 width 高度 height的方式 绘制图片path

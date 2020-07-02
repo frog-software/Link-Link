@@ -8,12 +8,12 @@
 
 #include "ConnectLine.h"
 
-/**
- * @brief Construct a new Connect Line object
- * 起点和终点在同一直线上
- * @param start_ 起点图标
- * @param end_  终点图标
- */
+ /**
+  * @brief Construct a new Connect Line object
+  * 起点和终点在同一直线上
+  * @param start_ 起点图标
+  * @param end_  终点图标
+  */
 ConnectLine::ConnectLine(Pic* start_, Pic* end_)
 {
 	number_of_corner = 0;
@@ -115,7 +115,6 @@ void ConnectLine::geneLine_rect(Pic* s, Pic* e, int index)
 		}
 	}
 }
-
 
 /**
  * @brief 绘制连接线

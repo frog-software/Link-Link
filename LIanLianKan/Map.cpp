@@ -135,7 +135,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
 
 /**
  * @brief Construct a new Map object
- * 
+ *
  * @param _m x方向图标个数
  * @param _n y方向图标个数
  * @param totalkind 图标种类数
@@ -183,7 +183,7 @@ Map::Map(int _m, int _n, int totalkind, bool gravity_) :m{ _m + 2 }, n{ _n + 2 }
 
 /**
  * @brief Destroy the Map object
- * 
+ *
  */
 Map::~Map()
 {
@@ -212,7 +212,7 @@ void Map::updateMatchedlist()
 
 /**
  * @brief 随机排列
- * 
+ *
  * 重新排列所有Pic的位置并生成新的MatchedList*
  */
 void Map::RandomOrder()
@@ -264,12 +264,12 @@ void Map::RandomOrder()
 
 /**
  * @brief 判断是否能够连接
- * 
+ *
  * 通过Matchedlist判断两个图标是否能够“连连看”
  * @param a 图标1
  * @param b 图标2
  * @return true 可以匹配，并更新匹配列表
- * @return false 
+ * @return false
  */
 bool Map::isMatch(Pic* a, Pic* b)
 {
@@ -295,7 +295,7 @@ bool Map::isMatch(Pic* a, Pic* b)
 
 /**
  * @brief 判断地图中是否还能进行匹配.
- * 
+ *
  * 通过判断matchedlist是否为空就可以知道地图中是否还能匹配
  * @return 能否匹配
  */
@@ -306,7 +306,7 @@ bool Map::anyMatch()
 
 /**
  * @brief 绘画地图
- * 
+ *
  * 处理ConnectLine绘画+地图中的每一个图标
  */
 void Map::draw()
@@ -337,7 +337,7 @@ void Map::draw()
 
 /**
  * @brief 开启提示
- * 
+ *
  */
 void Map::openHelp()
 {
@@ -349,7 +349,7 @@ void Map::openHelp()
 
 /**
  * @brief 关闭提示
- * 
+ *
  */
 void Map::closeHelp()
 {
@@ -360,7 +360,7 @@ void Map::closeHelp()
 
 /**
  * @brief 判断是否完成游戏
- * 
+ *
  * @return true 全部消除了
  * @return false 还有没有消除的
  */
@@ -373,8 +373,8 @@ bool Map::isWin()
 
 /**
  * @brief Get the First Matched Pair
- * 
- * @return std::pair<Pic*, Pic*> 
+ *
+ * @return std::pair<Pic*, Pic*>
  */
 std::pair<Pic*, Pic*> Map::getFirstMatchedPair()
 {
@@ -392,7 +392,7 @@ bool Map::canbepath(Pic* a)
 
 /**
  * @brief 判断地图是否能够点击
- * 
+ *
  * @return true 地图准备好了，可以点击
  * @return false 地图没有准备，不能点击
  */
@@ -406,7 +406,7 @@ bool Map::getReady()
 
 /**
  * @brief 返回地图中(x,y)的图标
- * 
+ *
  * @param x 横坐标
  * @param y 纵坐标
  * @return Pic* 地图中(x,y)的图标
@@ -417,10 +417,9 @@ Pic* Map::at(int x, int y)
 	else return nullptr;
 }
 
-
 /**
  * @brief 重力效果
- * 
+ *
  */
 void Map::ifneeddown()
 {
@@ -499,8 +498,8 @@ Pic* Map::getPicright(Pic* a)
 
 /**
  * @brief Set the Connect Line object
- * 
- * @param line_ 
+ *
+ * @param line_
  */
 void Map::setConnectLine(ConnectLine* line_)
 {
@@ -509,8 +508,8 @@ void Map::setConnectLine(ConnectLine* line_)
 
 /**
  * @brief Get the Connect Line object
- * 
- * @return ConnectLine* 
+ *
+ * @return ConnectLine*
  */
 ConnectLine* Map::getConnectLine()
 {

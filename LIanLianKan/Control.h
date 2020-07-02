@@ -19,7 +19,7 @@ namespace fs = std::filesystem;
 
 /**
  * @brief Control类控制窗口运行
- * 
+ *
  * 就像一个游戏窗口，控制本窗口的运行逻辑
  * 逻辑：mainloop函数
  */
@@ -76,6 +76,8 @@ public:
 	int level = 1;
 	/*当前刷新的场景*/
 	Scene* scene;
+	/*动态背景的当前序号*/
+	int bgnow;
 
 	/*ctor&&dtor*/
 

@@ -12,7 +12,7 @@
 
 /**
  * @brief ”画线消除”类
- * 
+ *
  * 将一对连连看的消除路径体现出来
  */
 class ConnectLine {
@@ -27,7 +27,6 @@ private:
 
 	/**连接线用矩形绘制，储存连接线的矩形信息*/
 	SDL_Rect line_rect[3]{ 0 };
-	
 
 public:
 	/**
@@ -42,7 +41,7 @@ public:
 	 * @param start_ 起点图标
 	 * @param end_  终点图标
 	 */
-	ConnectLine(Pic* start_, Pic* end_); 
+	ConnectLine(Pic* start_, Pic* end_);
 	/**
 	 * @brief Construct a new Connect Line object
 	 *  起点和终点之间拐弯一次，corner1为拐弯点
@@ -50,7 +49,7 @@ public:
 	 * @param end_  终点
 	 * @param corner1_ 拐弯点1
 	 */
-	ConnectLine(Pic* start_, Pic* end_, Pic* corner1_); 
+	ConnectLine(Pic* start_, Pic* end_, Pic* corner1_);
 	/**
 	 * @brief Construct a new Connect Line object
 	 * 起点和终点之间拐弯两次，corner1、2为拐弯点
@@ -59,7 +58,7 @@ public:
 	 * @param corner1_ 拐弯点1
 	 * @param corner2_ 拐弯点2
 	 */
-	ConnectLine(Pic* start_, Pic* end_, Pic* corner1_, Pic* corner2_); 
+	ConnectLine(Pic* start_, Pic* end_, Pic* corner1_, Pic* corner2_);
 
 	/**
 	 * @brief Destroy the Connect Line object
@@ -91,5 +90,4 @@ public:
 	 * @return false 没有
 	 */
 	bool has(Pic* a);
-	
 };

@@ -1,7 +1,6 @@
 #include "SelectScene.h"
 #include "Control.h"
 #include "GameScene.h"
-static int bgnow = 0;
 extern Control* now;
 
 SelectScene::SelectScene(Scene* last_) :last{ last_ }
@@ -10,10 +9,10 @@ SelectScene::SelectScene(Scene* last_) :last{ last_ }
 }
 
 void SelectScene::update() {
-	bgnow++;
-	if (bgnow == 49)bgnow = 0;
+	now->bgnow++;
+	if (now->bgnow == 49)now->bgnow = 0;
 	char* s = new char[50];
-	sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", bgnow);
+	sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", now->bgnow);
 	now->putImage(s, 0, 0, 960, 640);
 	delete[] s;
 	now->putImage("./Pic/chooseTitle.png", 290, 20, 387, 111);

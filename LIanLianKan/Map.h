@@ -55,7 +55,7 @@ private:
 	Pic* getPicdown(Pic* a);/*获取“下方”图标*/
 	Pic* getPicleft(Pic* a);/*获取“左方”图标*/
 	Pic* getPicright(Pic* a);/*获取“右方”图标*/
-	
+
 	/*获取Pic十字链路的可用Pic*/
 	void getAcross(Pic* aa, std::vector<Pic*>& v, bool extend);
 
@@ -72,11 +72,11 @@ private:
 	void updateMatchedlist();
 public:
 	/**
-	 * @brief x方向图标个数 
+	 * @brief x方向图标个数
 	 */
 	int m;
 	/**
-	 * @brief y方向图标个数 
+	 * @brief y方向图标个数
 	 */
 	int n;
 
@@ -87,13 +87,13 @@ public:
 
 	/**
 	 * @brief 存放所有ConnectLine对象
-	 * 
+	 *
 	 */
 	std::list<ConnectLine* > line_list;
 
 	/**
 	 * @brief Construct a new Map object
-	 * 
+	 *
 	 * @param _m x方向图标个数
 	 * @param _n y方向图标个数
 	 * @param totalkind 图标种类数
@@ -103,44 +103,44 @@ public:
 
 	/**
 	 * @brief Destroy the Map object
-	 * 
+	 *
 	 */
 	~Map();
 
 	/**
 	 * @brief Set the Connect Line object
-	 * 
-	 * @param line_ 
+	 *
+	 * @param line_
 	 */
 	void setConnectLine(ConnectLine* line_);
 	/**
 	 * @brief Get the Connect Line object
-	 * 
-	 * @return ConnectLine* 
+	 *
+	 * @return ConnectLine*
 	 */
 	ConnectLine* getConnectLine();
 
 	/**
 	 * @brief 随机排列
-	 * 
+	 *
 	 * 重新排列所有Pic的位置并生成新的MatchedList*
 	 */
 	void RandomOrder();
 
 	/**
 	 * @brief 判断是否能够连接
-	 * 
+	 *
 	 * 通过Matchedlist判断两个图标是否能够“连连看”
 	 * @param a 图标1
 	 * @param b 图标2
 	 * @return true 可以匹配，并更新匹配列表
-	 * @return false 
+	 * @return false
 	 */
 	bool isMatch(Pic* a, Pic* b);
 
 	/**
 	 * @brief 判断地图中是否还能进行匹配.
-	 * 
+	 *
 	 * 通过判断matchedlist是否为空就可以知道地图中是否还能匹配
 	 * @return 能否匹配
 	 */
@@ -148,25 +148,25 @@ public:
 
 	/**
 	 * @brief 绘画地图
-	 * 
+	 *
 	 * 处理ConnectLine绘画+地图中的每一个图标
 	 */
 	void draw();
 
 	/**
 	 * @brief 开启提示
-	 * 
+	 *
 	 */
 	void openHelp();
 	/**
 	 * @brief 关闭提示
-	 * 
+	 *
 	 */
 	void closeHelp();
 
 	/**
 	 * @brief 判断是否完成游戏
-	 * 
+	 *
 	 * @return true 全部消除了
 	 * @return false 还有没有消除的
 	 */
@@ -174,14 +174,14 @@ public:
 
 	/**
 	 * @brief Get the First Matched Pair
-	 * 
-	 * @return std::pair<Pic*, Pic*> 
+	 *
+	 * @return std::pair<Pic*, Pic*>
 	 */
 	std::pair<Pic*, Pic*> getFirstMatchedPair();
 
 	/**
 	 * @brief 判断地图是否能够点击
-	 * 
+	 *
 	 * @return true 地图准备好了，可以点击
 	 * @return false 地图没有准备，不能点击
 	 */
@@ -189,7 +189,7 @@ public:
 
 	/**
 	 * @brief 返回地图中(x,y)的图标
-	 * 
+	 *
 	 * @param x 横坐标
 	 * @param y 纵坐标
 	 * @return Pic* 地图中(x,y)的图标
@@ -198,9 +198,7 @@ public:
 
 	/**
 	 * @brief 重力效果
-	 * 
+	 *
 	 */
 	void ifneeddown();
-	
-
 };

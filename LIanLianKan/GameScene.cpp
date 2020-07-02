@@ -13,7 +13,7 @@ extern int autoSpeedIndicator;
 
 /**
  * @brief Construct a new Game Scene object
- * 
+ *
  * @param scene_last_ 上一个场景（主场景
  * @param m 地图x方向图标个数
  * @param n 地图y方向图标个数
@@ -33,7 +33,7 @@ GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level_
 
 /**
  * @brief Destroy the Game Scene object
- * 
+ *
  */
 GameScene::~GameScene()
 {
@@ -42,7 +42,7 @@ GameScene::~GameScene()
 
 /**
  * @brief 更新画面
- * 
+ *
  * 按顺序从底层到顶层逐一更新画面
  */
 void GameScene::update()
@@ -184,7 +184,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 
 /**
  * @brief 鼠标移动功能
- * 
+ *
  * @param x 当前鼠标的x
  * @param y 当前鼠标的y
  */
@@ -235,7 +235,7 @@ int GameScene::getMousePositionOnMap(Sint32 x, Sint32 y)
 
 /**
  * @brief auto模式自动玩
- * 
+ *
  * @return true 游戏已完成
  * @return false 游戏未完成
  */

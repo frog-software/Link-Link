@@ -1,7 +1,6 @@
 #include "AboutScene.h"
 #include "Control.h"
 extern Control* now;
-static int bgnow = 0;
 static int count1 = 0;
 static int count2 = 0;
 
@@ -11,10 +10,10 @@ AboutScene::AboutScene(Scene* last_) :last{ last_ }
 }
 
 void AboutScene::update() {
-	bgnow++;
-	if (bgnow == 49)bgnow = 0;
+	now->bgnow++;
+	if (now->bgnow == 49)now->bgnow = 0;
 	char* s = new char[50];
-	sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", bgnow);
+	sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", now->bgnow);
 	now->putImage(s, 0, 0, 960, 640);
 	delete[] s;
 	now->putImage("./Pic/Set/home.png", 455, 560, 50, 50);
@@ -44,7 +43,6 @@ void AboutScene::update() {
 		now->putImage("./Pic/about4.2.png", point[9], 350, 214, 176);
 		now->putImage("./Pic/about4.1.png", point[10], 280, 80, 100);
 		now->putImage("./Pic/aboutWords4.png", point[11], 170, 480, 320);
-
 	}
 	if (1 == about) {
 		for (int i = 0; i < 12; i++) {
@@ -123,5 +121,4 @@ void AboutScene::onMouse(Sint32 x, Sint32 y) {
 	}
 }
 void AboutScene::onMouseMotion(Sint32 x, Sint32 y) {
-
 }

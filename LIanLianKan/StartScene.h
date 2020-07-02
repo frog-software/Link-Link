@@ -4,8 +4,6 @@
 
 class StartScene :public Scene {
 private:
-	/*动态背景的当前帧数.*/
-	int bgnow = 0;
 	/*暂存UI按钮图片路径的字符数组.*/
 	char* background_pic = new char[50];
 public:
