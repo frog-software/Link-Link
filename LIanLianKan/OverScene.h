@@ -18,7 +18,10 @@ private:
 	std::vector<int> rank;
 	/* 最多存储/显示的分数记录个数 */
 	const int MAX_SCORES_NUM = 5;
+	/*上个场景（主菜单 */
 	Scene* last_scene;
+	/*是否超时*/
+	bool tle;
 public:
 	OverScene(Scene* last_scene_, time_t t, int level);
 	void update();
