@@ -61,7 +61,7 @@ public:
 	*/
 	std::vector<Pic*>map;
 	/*构建m*n的地图*/
-	Map(int _m, int _n);
+	Map(int _m, int _n, int totalkind);
 
 	/*析构函数*/
 	~Map();

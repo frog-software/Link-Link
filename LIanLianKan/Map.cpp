@@ -138,7 +138,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
  * \param _m  地图行数
  * \param _n  地图列数
  */
-Map::Map(int _m, int _n) :m{ _m + 2 }, n{ _n + 2 }
+Map::Map(int _m, int _n, int totalkind) :m{ _m + 2 }, n{ _n + 2 }
 {
 	/*
 	每种图形需要成对出现
@@ -149,7 +149,7 @@ Map::Map(int _m, int _n) :m{ _m + 2 }, n{ _n + 2 }
 	for (int i = 1; i <= _m; i++)
 		for (int j = 1; j <= _n; j++) {
 			if (t > 0)t = -t;
-			else t = now->getRand() % 20 + 1;
+			else t = now->getRand() % totalkind + 1;
 			map.push_back(new Pic{ abs(t),i,j });
 		}
 	/*生成周围一圈不存在的“哨兵”*/
