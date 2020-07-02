@@ -1,6 +1,10 @@
 #pragma once
 #include "Control.h"
-
+/**
+ * @brief 选关页面
+ *
+ * 六个关卡的选择
+ */
 class SelectScene :public Scene {
 private:
 	Scene* last = nullptr;

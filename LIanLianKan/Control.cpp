@@ -7,17 +7,11 @@
  *********************************************************************/
 
 #include "Control.h"
-#include "GameScene.h"
 #include "StartScene.h"
 #include <cstdlib>
 #include <ctime>
 #include <deque>
 #include <random>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_main.h>
-#include <SDL_mixer.h>
-#include <SDL_ttf.h>
 
 namespace fs = std::filesystem;
 extern Control* now;

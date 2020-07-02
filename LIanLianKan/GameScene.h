@@ -6,6 +6,11 @@
 #include <ctime>
 #include <list>
 
+/**
+ * @brief 游戏页面
+ *
+ * 游戏正式运行的所有操作
+ */
 class GameScene :public Scene {
 private:
 

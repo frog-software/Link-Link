@@ -1,6 +1,5 @@
 #include "Control.h"
 #include "SetScene.h"
-#include "GameScene.h"
 extern Control* now;
 
 /**

@@ -1,8 +1,5 @@
 #include "OverScene.h"
 #include "Control.h"
-#include "StartScene.h"
-#include <SDL.h>
-#include <SDL_image.h>
 
 extern Control* now;
 

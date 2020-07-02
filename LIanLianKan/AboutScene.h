@@ -1,6 +1,11 @@
 #pragma once
 #include "Scene.h"
 
+/**
+ * @brief 关于界面
+ *
+ * 显示制作人员名单+帮助页面
+ */
 class AboutScene :public Scene {
 private:
 	Scene* last = nullptr;

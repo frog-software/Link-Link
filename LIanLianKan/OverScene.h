@@ -20,7 +20,7 @@ private:
 	/*暂存分数的字符数组.*/
 	char buff[50];
 	/*分数榜*/
-	std::vector<int> rank;
+	std::vector<time_t> rank;
 	/* 最多存储/显示的分数记录个数 */
 	const int MAX_SCORES_NUM = 5;
 	/*上个场景（主菜单 */

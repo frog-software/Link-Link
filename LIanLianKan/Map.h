@@ -20,7 +20,9 @@
 const int N = 20;
 
 /**
- * 地图类.
+ * @brief 地图类
+ *
+ * 游戏界面引用地图类进行游戏
  */
 class Map {
 private:

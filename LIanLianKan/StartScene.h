@@ -2,6 +2,11 @@
 
 #include"Scene.h"
 
+/**
+ * @brief 开始页面
+ *
+ * 进入游戏的入口
+ */
 class StartScene :public Scene {
 private:
 	/*暂存UI按钮图片路径的字符数组.*/

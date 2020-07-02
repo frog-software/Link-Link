@@ -1,6 +1,11 @@
 #pragma once
 #include"Scene.h"
 
+/**
+ * @brief 设置页面
+ *
+ * 设置音量大小
+ */
 class SetScene :public Scene {
 private:
 	Scene* last = nullptr;/*上一个页面*/

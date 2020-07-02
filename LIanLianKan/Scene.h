@@ -1,5 +1,10 @@
 #pragma once
 #include <SDL_stdinc.h>
+/**
+ * @brief 页面类的抽象类
+ *
+ * 所有的Scene都继承于此
+ */
 class Scene {
 public:
 	/**

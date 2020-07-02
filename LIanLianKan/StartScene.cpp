@@ -1,6 +1,5 @@
 #include "StartScene.h"
 #include "Control.h"
-#include "GameScene.h"
 #include "SetScene.h"
 #include "SelectScene.h"
 #include "AboutScene.h"
