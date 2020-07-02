@@ -105,7 +105,7 @@ void AboutScene::update() {
 	}
 }
 void AboutScene::onMouse(Sint32 x, Sint32 y) {
-	if (x >= 455 && x <= 505 && y >= 560 && y <= 610) {
+	if (x >= 455 && x <= 505 && y >= 560 && y <= 610 && isDone == true) {
 		now->scene = last;
 		delete this;
 	}
