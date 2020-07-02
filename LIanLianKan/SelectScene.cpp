@@ -99,7 +99,7 @@ void SelectScene::onMouse(Sint32 x, Sint32 y) {
 		delete this;
 	}
 	if (x >= 672 && x <= 864 && y >= 150 && y <= 280 && now->level >= 3) {
-		now->scene = new GameScene(last, 10, 7, 10, 3, false);
+		now->scene = new GameScene(last, 10, 7, 10, 3, true);
 		delete this;
 	}
 	if (x >= 96 && x <= 288 && y >= 380 && y <= 510 && now->level >= 4) {
