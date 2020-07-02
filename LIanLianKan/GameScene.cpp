@@ -13,11 +13,11 @@ extern int autoSpeedIndicator;
 
 /**
  * @brief Construct a new Game Scene:: Game Scene object
- * Éú³ÉÒ»¸ömĞĞnÁĞµÄµØÍ¼
- * @param m µØÍ¼x·½ÏòÍ¼±ê¸öÊı
- * @param n µØÍ¼y·½ÏòÍ¼±ê¸öÊı
+ * ç”Ÿæˆä¸€ä¸ªmè¡Œnåˆ—çš„åœ°å›¾
+ * @param m åœ°å›¾xæ–¹å‘å›¾æ ‡ä¸ªæ•°
+ * @param n åœ°å›¾yæ–¹å‘å›¾æ ‡ä¸ªæ•°
  */
-GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind) :scene_last{ scene_last_ }
+GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind, int level, bool gravity) :scene_last{ scene_last_ }
 {
 	map = new Map{ m,n ,totalkind };
 
@@ -37,15 +37,15 @@ GameScene::~GameScene()
 }
 
 /**
- * @brief ¸üĞÂ»­Ãæ
- * °´Ë³Ğò´Óµ×²ãµ½¶¥²ãÖğÒ»¸üĞÂ»­Ãæ
+ * @brief æ›´æ–°ç”»é¢
+ * æŒ‰é¡ºåºä»åº•å±‚åˆ°é¡¶å±‚é€ä¸€æ›´æ–°ç”»é¢
  */
 
 void GameScene::update()
 {
-	/*»æÖÆ»­Ãæµ×²ã¶¯»­.*/
+	/*ç»˜åˆ¶ç”»é¢åº•å±‚åŠ¨ç”».*/
 	now->putImage("./Pic/Game.png", 0, 0, 960, 640);
-	/*»æÖÆ»­Ãæ°´Å¥*/
+	/*ç»˜åˆ¶ç”»é¢æŒ‰é’®*/
 	now->putImage("./Pic/Set/home.png", 890, 100, 50, 50);
 	now->putImage("./Pic/main.png", 867, 155, 127, 37);
 	now->putImage("./Pic/Set/cogwheel.png", 890, 200, 50, 50);
@@ -68,7 +68,7 @@ void GameScene::update()
 		count++;
 	}
 
-	/*»æÖÆÍ¼±ê¾ØÕó*/
+	/*ç»˜åˆ¶å›¾æ ‡çŸ©é˜µ*/
 	while (map->anyMatch() == false && map->isWin() == false)
 		map->RandomOrder();
 	map->draw();
@@ -101,44 +101,44 @@ void GameScene::update()
 }
 
 /**
- * @brief ÅĞ¶¨Êó±ê²Ù×÷
+ * @brief åˆ¤å®šé¼ æ ‡æ“ä½œ
  *
- * @param x Êó±êµã»÷µÄx
- * @param y Êó±êµã»÷µÄy
+ * @param x é¼ æ ‡ç‚¹å‡»çš„x
+ * @param y é¼ æ ‡ç‚¹å‡»çš„y
  */
 void GameScene::onMouse(Sint32 x, Sint32 y)
 {
-	/*¶ÔÓÚÍ¼±êµÄÅĞ¶Ï*/
+	/*å¯¹äºå›¾æ ‡çš„åˆ¤æ–­*/
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
 	if (now->pause == 0 && linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
 		now->playSound(2, "./Sound/Touch.wav");
 		if (last == nullptr) {
-			/*ÕâÊÇµÚÒ»´Î°´Í¼±ê£¬ÔòÍ¼±ê¼Ó¿ò*/
+			/*è¿™æ˜¯ç¬¬ä¸€æ¬¡æŒ‰å›¾æ ‡ï¼Œåˆ™å›¾æ ‡åŠ æ¡†*/
 			last = map->map[linearMousePositionOnMap];
 			last->setIsStroke(true);
 		}
 		else if (map->isMatch(last, map->map[linearMousePositionOnMap]) == false) {
-			/*Èç¹ûÎŞ·¨Æ¥Åä£¬ÔòÇĞ»»¼Ó¿òµÄÍ¼±ê*/
+			/*å¦‚æœæ— æ³•åŒ¹é…ï¼Œåˆ™åˆ‡æ¢åŠ æ¡†çš„å›¾æ ‡*/
 			last->setIsStroke(false);
 			last = map->map[linearMousePositionOnMap];
 			last->setIsStroke(true);
 		}
 		else {
-			/*Èç¹ûÍê³ÉÆ¥Åä£¬ÄÇÃ´ÒªÇå³ılast£¨ÆäËû²Ù×÷ÔÚÆ¥Åäº¯ÊıÖĞÒÑÍê³É*/
+			/*å¦‚æœå®ŒæˆåŒ¹é…ï¼Œé‚£ä¹ˆè¦æ¸…é™¤lastï¼ˆå…¶ä»–æ“ä½œåœ¨åŒ¹é…å‡½æ•°ä¸­å·²å®Œæˆ*/
 			last = nullptr;
 		}
 		//	printf("%d %d\n", map->map[linearMousePositionOnMap]->getX(), map->map[linearMousePositionOnMap]->getY());
 	}
 
-	/*¹¦ÄÜ°´¼üµÄÅĞ¶Ï*/
+	/*åŠŸèƒ½æŒ‰é”®çš„åˆ¤æ–­*/
 	if (x >= 890 && x <= 940 && y >= 100 && y <= 150) {
 		now->scene = scene_last;
 		delete this;
-		//ÕâÀï·µ»ØÖ÷²Ëµ¥.
+		//è¿™é‡Œè¿”å›ä¸»èœå•.
 	}
 	if (x >= 890 && x <= 940 && y >= 200 && y <= 250) {
-		//ÕâÀï½øÈëÉèÖÃ½çÃæ
+		//è¿™é‡Œè¿›å…¥è®¾ç½®ç•Œé¢
 		new SetScene(this);
 		pauseCounter();
 		now->pause = 1;
@@ -149,20 +149,20 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 	if (x >= 890 && x <= 940 && y >= 400 && y <= 450) {
 		now->click = 5;
 		map->openHelp();
-		//ÕâÀïÊÇÌáÊ¾¹¦ÄÜ.
+		//è¿™é‡Œæ˜¯æç¤ºåŠŸèƒ½.
 	}
 	if (x >= 890 && x <= 940 && y >= 500 && y <= 550) {
 		now->click = 6;
-		//ÕâÀïÊÇÖØÅÅ¹¦ÄÜ.
+		//è¿™é‡Œæ˜¯é‡æ’åŠŸèƒ½.
 		map->RandomOrder();
 	}
 	if (1 == now->pause) {
 		this->pauseCounter();
-		//ÕâÀïÊÇÔİÍ£¹¦ÄÜ.
+		//è¿™é‡Œæ˜¯æš‚åœåŠŸèƒ½.
 	}
 	if (0 == now->pause) {
 		this->startCounter();
-		//ÕâÀïÊÇÈ¡ÏûÔİÍ£¹¦ÄÜ.
+		//è¿™é‡Œæ˜¯å–æ¶ˆæš‚åœåŠŸèƒ½.
 	}
 }
 
