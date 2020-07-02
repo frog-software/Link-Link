@@ -19,7 +19,7 @@ extern int autoSpeedIndicator;
  */
 GameScene::GameScene(Scene* scene_last_, int m, int n, int totalkind) :scene_last{ scene_last_ }
 {
-	map = new Map{ m,n ,totalkind };
+	map = new Map{ m,n ,totalkind,true };
 
 	// start timer
 	startCounter();
@@ -80,7 +80,7 @@ void GameScene::update()
 	now->xyprintf(870, 50, buff, 40);
 
 	// Auto mode /////
-	if (now->pause == false && hasEnabledAutoMode)
+	if (map->getReady() && hasEnabledAutoMode)
 	{
 		if (dynamic_cast<GameScene*>(now->scene)->map->isWin())
 		{
@@ -110,7 +110,7 @@ void GameScene::onMouse(Sint32 x, Sint32 y)
 {
 	/*对于图标的判断*/
 	int linearMousePositionOnMap = getMousePositionOnMap(x, y);
-	if (now->pause == 0 && linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
+	if (map->getReady() && linearMousePositionOnMap >= 0 && map->map[linearMousePositionOnMap]->getValid())
 	{
 		now->playSound(2, "./Sound/Touch.wav");
 		if (last == nullptr) {

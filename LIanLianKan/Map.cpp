@@ -138,7 +138,7 @@ bool Map::canMatch(Pic* a, Pic* b, bool erase)
  * \param _m  地图行数
  * \param _n  地图列数
  */
-Map::Map(int _m, int _n, int totalkind) :m{ _m + 2 }, n{ _n + 2 }
+Map::Map(int _m, int _n, int totalkind, bool gravity_) :m{ _m + 2 }, n{ _n + 2 }, gravity{ gravity_ }
 {
 	/*
 	每种图形需要成对出现
@@ -269,12 +269,13 @@ bool Map::isMatch(Pic* a, Pic* b)
 			this->canMatch(a, b, true);
 			a->setIsStroke(true);
 			b->setIsStroke(true);
-			a->setIsVisible(false);
-			b->setIsVisible(false);
-			matchedlist.clear();
-			updateMatchedlist();
-			a->setIsVisible(true);
-			b->setIsVisible(true);
+			if (gravity == false) {
+				a->setIsVisible(false);
+				b->setIsVisible(false);
+				updateMatchedlist();
+				a->setIsVisible(true);
+				b->setIsVisible(true);
+			}
 			now->playSound(2, "./Sound/Got.wav");
 			return true;
 		}
@@ -315,6 +316,7 @@ void Map::draw()
 	while (line_list.empty() == false && line_list.front()->cnt == 0) {
 		delete line_list.front();
 		line_list.pop_front();
+		ifneeddown();
 	}
 
 	for (auto p : map)p->draw();
@@ -353,6 +355,42 @@ bool Map::canbepath(Pic* a)
 		if (i->has(a))return true;
 	}
 	return !a->getIsVisible();
+}
+
+bool Map::getReady()
+{
+	if (now->pause == true)return false;
+	if (gravity == false)return true;
+	if (gravity == true)return line_list.empty();
+	return false;
+}
+
+Pic* Map::at(int x, int y)
+{
+	if (x >= 0 && x < m && y >= 0 && y < n)return map[x * n + y];
+	else return nullptr;
+}
+
+void Map::ifneeddown()
+{
+	if (gravity == false)return;
+	for (int i = m - 2; i > 0; i--)
+		for (int j = n - 2; j > 1; j--)
+			if (at(i, j)->getIsVisible() == false && at(i, j)->getKind())
+				this->swap(at(i, j), at(i, j - 1));
+	for (int i = m - 2; i > 0; i--)
+		for (int j = n - 2; j > 1; j--)
+			if (at(i, j)->getIsVisible() == false && at(i, j)->getKind())
+				this->swap(at(i, j), at(i, j - 1));
+	updateMatchedlist();
+}
+
+void Map::swap(Pic* a, Pic* b)
+{
+	std::swap(*a, *b);
+	int tx = b->getX(), ty = b->getY();
+	b->setX(a->getX()); a->setX(tx);
+	b->setY(a->getY()); a->setY(ty);
 }
 
 /**
