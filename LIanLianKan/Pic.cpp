@@ -11,7 +11,7 @@
 
 #include "Pic.h"
 #include "Control.h"
-extern Control* now;
+extern Control *now;
 
 int Pic::width = 50;
 int Pic::height = 50;
@@ -25,7 +25,7 @@ int Pic::height = 50;
  * @param _x 在地图中的第几行
  * @param _y 在地图中的第几列
  */
-Pic::Pic(int _kind, int _x, int _y) :x{ _x }, y{ _y }, isVisible{ true }, isStroke{ false }, kind{ _kind }
+Pic::Pic(int _kind, int _x, int _y) : x{ _x }, y{ _y }, isVisible{ true }, isStroke{ false }, kind{ _kind }
 {
 }
 
@@ -36,7 +36,7 @@ Pic::Pic(int _kind, int _x, int _y) :x{ _x }, y{ _y }, isVisible{ true }, isStro
  */
 int Pic::getX() const
 {
-	return x;
+    return x;
 }
 /**
  * @brief 设置横坐标
@@ -45,7 +45,7 @@ int Pic::getX() const
  */
 void Pic::setX(int x)
 {
-	this->x = x;
+    this->x = x;
 }
 
 /**
@@ -55,7 +55,7 @@ void Pic::setX(int x)
  */
 int Pic::getY() const
 {
-	return y;
+    return y;
 }
 
 /**
@@ -65,7 +65,7 @@ int Pic::getY() const
  */
 void Pic::setY(int y)
 {
-	this->y = y;
+    this->y = y;
 }
 
 /**
@@ -75,7 +75,7 @@ void Pic::setY(int y)
  */
 int Pic::getKind() const
 {
-	return kind;
+    return kind;
 }
 
 /**
@@ -87,7 +87,7 @@ int Pic::getKind() const
  */
 bool Pic::getIsVisible() const
 {
-	return isVisible;
+    return isVisible;
 }
 
 /**
@@ -97,7 +97,7 @@ bool Pic::getIsVisible() const
  */
 void Pic::setIsVisible(bool isVisible)
 {
-	this->isVisible = isVisible;
+    this->isVisible = isVisible;
 }
 
 /**
@@ -109,7 +109,7 @@ void Pic::setIsVisible(bool isVisible)
  */
 bool Pic::getIsStroke() const
 {
-	return isStroke;
+    return isStroke;
 }
 
 /**
@@ -119,7 +119,7 @@ bool Pic::getIsStroke() const
  */
 void Pic::setIsStroke(bool isStroke)
 {
-	this->isStroke = isStroke;
+    this->isStroke = isStroke;
 }
 
 /**
@@ -131,7 +131,7 @@ void Pic::setIsStroke(bool isStroke)
  */
 bool Pic::getValid() const
 {
-	return kind > 0 && isVisible == true;
+    return kind > 0 && isVisible == true;
 }
 
 /**
@@ -144,12 +144,24 @@ bool Pic::getValid() const
  */
 void Pic::draw()
 {
-	if (this->isVisible == false)return;
-	char* s = new char[100];
-	if (this->isStroke == false) sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
-	else sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
-	now->putImage(s, x * width, y * height, width, height);
-	delete[] s;
+    if (this->isVisible == false)
+    {
+        return;
+    }
+
+    char *s = new char[100];
+
+    if (this->isStroke == false)
+    {
+        sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
+    }
+    else
+    {
+        sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
+    }
+
+    now->putImage(s, x * width, y * height, width, height);
+    delete[] s;
 }
 
 /**
@@ -159,8 +171,14 @@ void Pic::draw()
  * \param b 与之相比较的图标
  * \return 按坐标大小排序
  */
-bool Pic::operator<(const Pic& b)
+bool Pic::operator<(const Pic &b)
 {
-	if (this->x != b.x)return this->x > b.x;
-	else return this->y > b.y;
+    if (this->x != b.x)
+    {
+        return this->x > b.x;
+    }
+    else
+    {
+        return this->y > b.y;
+    }
 }
