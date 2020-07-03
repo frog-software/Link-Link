@@ -111,11 +111,12 @@ void GameScene::update()
 		{
 			hasEnabledAutoMode = false;
 		}
-		if (count_auto < autoSpeed[autoSpeedIndicator]) { count_auto++; }
-		else {
-			count_auto = 0;
-			dynamic_cast<GameScene*>(now->scene)->autoPlay();
-		}
+		else
+			if (count_auto < autoSpeed[autoSpeedIndicator]) { count_auto++; }
+			else {
+				count_auto = 0;
+				dynamic_cast<GameScene*>(now->scene)->autoPlay();
+			}
 	}
 	//////////////////
 
