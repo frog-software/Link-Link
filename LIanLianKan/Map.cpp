@@ -368,7 +368,7 @@ void Map::closeHelp()
 bool Map::isWin()
 {
 	for (auto i : map)
-		if (i->getIsVisible())return false;
+		if (i->getIsVisible() && canbepath(i)==false)return false;
 	return true;
 }
 
