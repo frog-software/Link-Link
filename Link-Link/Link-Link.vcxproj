@@ -173,7 +173,7 @@
     <ClInclude Include="StartScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="LIanLianKan.rc" />
+    <ResourceCompile Include="Link-Link.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Pic\title.ico" />

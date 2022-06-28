@@ -1,17 +1,23 @@
 /*****************************************************************/ /**
- * \file   Control.cpp
- * \brief  Control类的定义
- * Control类的函数定义
- * \author FrogDar
- * \date   June 2020
- *********************************************************************/
+                                                                     * \file
+                                                                     *Control.cpp
+                                                                     * \brief
+                                                                     *Control类的定义
+                                                                     * Control类的函数定义
+                                                                     * \author
+                                                                     *FrogDar
+                                                                     * \date
+                                                                     *June 2020
+                                                                     *********************************************************************/
 
 #include "Control.h"
-#include "StartScene.h"
+
 #include <cstdlib>
 #include <ctime>
 #include <deque>
 #include <random>
+
+#include "StartScene.h"
 
 namespace fs = std::filesystem;
 extern Control *now;
@@ -22,7 +28,7 @@ bool hasEnabledAutoMode = false;
 /**
  * @brief 自动模式的速度选择数组.
  */
-int autoSpeed[] = { 20, 10, 5, 2 };
+int autoSpeed[] = {20, 10, 5, 2};
 /**
  * @brief 自动模式的速度选择下标.
  */
@@ -36,12 +42,13 @@ int autoSpeedIndicator = 0;
  * @param _width 窗口宽度
  * @param _height 窗口高度
  */
-Control::Control(int _width, int _height) : width{ _width }, height{ _height }, scene{ nullptr }
-{
+Control::Control(int _width, int _height)
+    : width{_width}, height{_height}, scene{nullptr} {
     /*初始化SDL环境*/
     SDL_Init(SDL_INIT_EVERYTHING);
     /*初始化窗口*/
-    window = SDL_CreateWindow("LianLianKan", 100, 100, width, height, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Link-Link", 100, 100, width, height,
+                              SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_Surface *surface = IMG_Load("./Pic/icon.png");
     SDL_SetWindowIcon(window, surface);
@@ -49,7 +56,8 @@ Control::Control(int _width, int _height) : width{ _width }, height{ _height }, 
 
     /*初始化SDL的音频拓展*/
     Mix_Init(127);
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_CHANNELS, 2048);
+    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_CHANNELS,
+                  2048);
     /*初始化SDL的字体拓展*/
     TTF_Init();
 
@@ -64,10 +72,8 @@ Control::Control(int _width, int _height) : width{ _width }, height{ _height }, 
  * 释放SDL的各项资源
  * 释放指针资源
  */
-Control::~Control()
-{
-    for (auto i : Textures)
-    {
+Control::~Control() {
+    for (auto i : Textures) {
         SDL_DestroyTexture(i.second);
     }
 
@@ -87,21 +93,20 @@ Control::~Control()
  *
  * 程序控制逻辑的主体部分
  */
-void Control::mainLoop()
-{
+void Control::mainLoop() {
     /*显示“加载资源中”*/
     SDL_RenderClear(renderer);
     this->putImage("./Pic/pre.png", 0, 0, width, height);
     SDL_RenderPresent(renderer);
 
     /*加载程序资源文件（音频*/
-    Initmywavs(fs::path{ "./Sound" });
+    Initmywavs(fs::path{"./Sound"});
 
     /*播放背景音乐*/
     this->playSound(1, "./Sound/bgm.mp3", 0);
 
     /*加载程序资源文件（图片*/
-    Initmypngs(fs::path{ "./Pic" });
+    Initmypngs(fs::path{"./Pic"});
 
     /*初始界面为StartScene*/
     this->scene = new StartScene();
@@ -115,58 +120,51 @@ void Control::mainLoop()
     /*单次刷新缓冲计数器*/
     int cnt;
 
-    while (!quit)
-    {
+    while (!quit) {
         /*记录当前时间（为了控制帧率*/
         Uint64 start = SDL_GetPerformanceCounter();
 
         /*单次刷新最多执行20个事件*/
         cnt = 20;
 
-        while (SDL_PollEvent(&e) != 0 && --cnt)
-        {
+        while (SDL_PollEvent(&e) != 0 && --cnt) {
             //用户选择退出
-            if (e.type == SDL_QUIT)
-            {
+            if (e.type == SDL_QUIT) {
                 quit = true;
             }
 
             /*用户按下鼠标*/
-            if (e.type == SDL_MOUSEBUTTONDOWN)
-            {
+            if (e.type == SDL_MOUSEBUTTONDOWN) {
                 scene->onMouse(e.button.x, e.button.y);
             }
 
             /*用户移动鼠标*/
-            if (e.type == SDL_MOUSEMOTION)
-            {
+            if (e.type == SDL_MOUSEMOTION) {
                 scene->onMouseMotion(e.motion.x, e.motion.y);
             }
 
             /*用户按下键盘*/
-            if (e.type == SDL_KEYDOWN)
-            {
+            if (e.type == SDL_KEYDOWN) {
                 // Auto mode /////
 
                 /*将当前按键加入缓冲队列并只保留四个按键*/
                 keyCodeBuffer.push_back(e.key.keysym.sym);
 
-                if (keyCodeBuffer.size() > 4)
-                {
+                if (keyCodeBuffer.size() > 4) {
                     keyCodeBuffer.pop_front();
                 }
 
                 /*如果按下的是auto，则反转自动模式*/
-                if (keyCodeBuffer.size() == 4 && keyCodeBuffer[0] == SDLK_a && keyCodeBuffer[1] == SDLK_u && keyCodeBuffer[2] == SDLK_t &&keyCodeBuffer[3] == SDLK_o)
-                {
+                if (keyCodeBuffer.size() == 4 && keyCodeBuffer[0] == SDLK_a &&
+                    keyCodeBuffer[1] == SDLK_u && keyCodeBuffer[2] == SDLK_t &&
+                    keyCodeBuffer[3] == SDLK_o) {
                     hasEnabledAutoMode = !hasEnabledAutoMode;
                 }
 
                 /*如果按下的是s，调整自动模式的速度*/
-                if (keyCodeBuffer.size() > 3 && keyCodeBuffer[3] == SDLK_s)
-                {
-                    if ((++autoSpeedIndicator) >= sizeof(autoSpeed) / sizeof(int))
-                    {
+                if (keyCodeBuffer.size() > 3 && keyCodeBuffer[3] == SDLK_s) {
+                    if ((++autoSpeedIndicator) >=
+                        sizeof(autoSpeed) / sizeof(int)) {
                         autoSpeedIndicator = 0;
                     }
                 }
@@ -180,11 +178,11 @@ void Control::mainLoop()
 
         /*为控制帧率为60，手动delay剩余的时间*/
         Uint64 end = SDL_GetPerformanceCounter();
-        float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
+        float elapsedMS =
+            (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
 
         /*16.666f约等于60fps*/
-        if (elapsedMS < 16.666f)
-        {
+        if (elapsedMS < 16.666f) {
             SDL_Delay(static_cast<int>(floor(16.666f - elapsedMS)));
         }
     }
@@ -200,18 +198,16 @@ void Control::mainLoop()
  * @param width 需要绘制的图片宽度
  * @param height 需要绘制的图片的高度
  */
-void Control::putImage(std::string path, int x, int y, int width, int height)
-{
+void Control::putImage(std::string path, int x, int y, int width, int height) {
     /*如果没有画过这张图片，则加载并记忆化*/
-    if (Textures[path] == nullptr)
-    {
+    if (Textures[path] == nullptr) {
         SDL_Surface *surface = IMG_Load(path.c_str());
         Textures[path] = SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
     }
 
     auto &texture = Textures[path];
-    SDL_Rect box = { x, y, width, height };
+    SDL_Rect box = {x, y, width, height};
     SDL_RenderCopy(renderer, texture, NULL, &box);
 }
 
@@ -223,8 +219,7 @@ void Control::putImage(std::string path, int x, int y, int width, int height)
  * @param path 音乐的路径
  * @param cnt 播放次数，0为背景音乐(无限次)
  */
-void Control::playSound(int channel, std::string path, int cnt)
-{
+void Control::playSound(int channel, std::string path, int cnt) {
     Mix_PlayChannel(channel, Sounds[path], cnt - 1);
 }
 
@@ -233,26 +228,21 @@ void Control::playSound(int channel, std::string path, int cnt)
  *
  * @param channel 1表示bgm频道 2表示音效频道
  */
-void Control::addVolume(int channel)
-{
-    if (1 == channel)
-    {
+void Control::addVolume(int channel) {
+    if (1 == channel) {
         volm1 += 0.25;
 
-        if (volm1 > 1)
-        {
+        if (volm1 > 1) {
             volm1 = 1;
         }
 
         Mix_Volume(channel, (int)(volm1 * MIX_MAX_VOLUME));
     }
 
-    if (2 == channel)
-    {
+    if (2 == channel) {
         volm2 += 0.25;
 
-        if (volm2 > 1)
-        {
+        if (volm2 > 1) {
             volm2 = 1;
         }
 
@@ -265,26 +255,21 @@ void Control::addVolume(int channel)
  *
  * @param channel 1表示bgm频道 2表示音效频道
  */
-void Control::decVolume(int channel)
-{
-    if (1 == channel)
-    {
+void Control::decVolume(int channel) {
+    if (1 == channel) {
         volm1 -= 0.25;
 
-        if (volm1 < 0)
-        {
+        if (volm1 < 0) {
             volm1 = 0;
         }
 
         Mix_Volume(channel, (int)(volm1 * MIX_MAX_VOLUME));
     }
 
-    if (2 == channel)
-    {
+    if (2 == channel) {
         volm2 -= 0.25;
 
-        if (volm2 < 0)
-        {
+        if (volm2 < 0) {
             volm2 = 0;
         }
 
@@ -297,30 +282,21 @@ void Control::decVolume(int channel)
  *
  * @return SDL_Renderer* Renderer的指针
  */
-SDL_Renderer *Control::getRenderer()
-{
-    return renderer;
-}
+SDL_Renderer *Control::getRenderer() { return renderer; }
 
 /**
  * @brief Get the Volm1 object
  *
  * @return double 背景音乐的音量
  */
-double Control::getVolm1() const
-{
-    return volm1;
-}
+double Control::getVolm1() const { return volm1; }
 
 /**
  * @brief Get the Volm2 object
  *
  * @return double 音效的音量
  */
-double Control::getVolm2() const
-{
-    return volm2;
-}
+double Control::getVolm2() const { return volm2; }
 
 /**
  * @brief Get the Quit object
@@ -328,29 +304,20 @@ double Control::getVolm2() const
  * @return true 退出游戏
  * @return false 继续游戏
  */
-bool Control::getQuit() const
-{
-    return quit;
-}
+bool Control::getQuit() const { return quit; }
 /**
  * @brief Set the Quit object
  *
  * @param quit_ 更改的退出标志的状态
  */
-void Control::setQuit(bool quit_)
-{
-    quit = quit_;
-}
+void Control::setQuit(bool quit_) { quit = quit_; }
 
 /**
  * @brief 获取随机数
  *
  * @return int 返回一个随机数
  */
-int Control::getRand()
-{
-    return std::rand();
-}
+int Control::getRand() { return std::rand(); }
 
 /**
  * @brief 输出文字信息.
@@ -360,17 +327,15 @@ int Control::getRand()
  * @param c 输出内容
  * @param size 字号大小
  */
-void Control::xyprintf(int x, int y, const char *c, int size = 20)
-{
-    if (Fonts.find(size) == Fonts.end())
-    {
+void Control::xyprintf(int x, int y, const char *c, int size = 20) {
+    if (Fonts.find(size) == Fonts.end()) {
         Fonts[size] = TTF_OpenFont("./MyFont.ttf", size);
     }
 
     auto &font = Fonts[size];
-    SDL_Color color = { 2, 2, 2, 255 };
+    SDL_Color color = {2, 2, 2, 255};
     SDL_Surface *surface = TTF_RenderText_Blended(font, c, color);
-    SDL_Rect box = { x, y, surface->w, surface->h };
+    SDL_Rect box = {x, y, surface->w, surface->h};
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_RenderCopy(renderer, texture, NULL, &box);
     SDL_DestroyTexture(texture);
@@ -383,22 +348,16 @@ void Control::xyprintf(int x, int y, const char *c, int size = 20)
 * 采用cpp17标准，递归加载
 * @param strPath 加载路径
 */
-void Control::Initmypngs(fs::path strPath)
-{
-    for (auto &fe : fs::directory_iterator(strPath))
-    {
+void Control::Initmypngs(fs::path strPath) {
+    for (auto &fe : fs::directory_iterator(strPath)) {
         auto fp = fe.path();
         auto fFiename = fp.filename();
 
-        if (fs::is_directory(fe))
-        {
-            if (fFiename != "." && fFiename != "..")
-            {
+        if (fs::is_directory(fe)) {
+            if (fFiename != "." && fFiename != "..") {
                 Initmypngs(fp);
             }
-        }
-        else if (fs::is_regular_file(fp))
-        {
+        } else if (fs::is_regular_file(fp)) {
             now->putImage(fp.generic_string().c_str(), 0, 0, 100, 100);
         }
     }
@@ -410,23 +369,18 @@ void Control::Initmypngs(fs::path strPath)
  * 采用cpp17标准，递归加载
  * @param strPath 加载路径
  */
-void Control::Initmywavs(fs::path strPath)
-{
-    for (auto &fe : fs::directory_iterator(strPath))
-    {
+void Control::Initmywavs(fs::path strPath) {
+    for (auto &fe : fs::directory_iterator(strPath)) {
         auto fp = fe.path();
         auto fFiename = fp.filename();
 
-        if (fs::is_directory(fe))
-        {
-            if (fFiename != "." && fFiename != "..")
-            {
+        if (fs::is_directory(fe)) {
+            if (fFiename != "." && fFiename != "..") {
                 Initmywavs(fp);
             }
-        }
-        else if (fs::is_regular_file(fp))
-        {
-            Sounds[fp.generic_string()] = Mix_LoadWAV(fp.generic_string().c_str());
+        } else if (fs::is_regular_file(fp)) {
+            Sounds[fp.generic_string()] =
+                Mix_LoadWAV(fp.generic_string().c_str());
         }
     }
 }

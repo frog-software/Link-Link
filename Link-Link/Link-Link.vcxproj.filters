@@ -94,7 +94,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="LIanLianKan.rc">
+    <ResourceCompile Include="Link-Link.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
