@@ -153,11 +153,11 @@ void Pic::draw()
 
     if (this->isStroke == false)
     {
-        sprintf_s(s, 100, "./Pic/icons/icon%d.png", kind);
+        sprintf(s, "./Pic/icons/icon%d.png", kind);
     }
     else
     {
-        sprintf_s(s, 100, "./Pic/icons/icon%d_.png", kind);
+        sprintf(s, "./Pic/icons/icon%d_.png", kind);
     }
 
     now->putImage(s, x * width, y * height, width, height);

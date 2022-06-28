@@ -140,9 +140,9 @@ void GameScene::update()
     // display timer
     now->xyprintf(870, 5, "Time", 40);
     char buff[50];
-    sprintf_s(buff, 50, "%4lld", getTimer());
+    sprintf(buff, "%4lld", getTimer());
     now->xyprintf(850, 50, buff, 30);
-    sprintf_s(buff, 50, "/%3d", timelimit);
+    sprintf(buff, "/%3d", timelimit);
     now->xyprintf(890, 50, buff, 30);
 
     // Auto mode /////

@@ -12,8 +12,8 @@ extern Control *now;
  */
 OverScene::OverScene(Scene *last_scene_, time_t t, int level) : last_scene{ last_scene_ }
 {
-    sprintf_s(buff, 50, "%4llds", t);
-    sprintf_s(background_pic, 50, "./Pic/endgame.png");
+    sprintf(buff, "%4llds", t);
+    sprintf(background_pic, "./Pic/endgame.png");
 
     /*ÅÐ¶ÏÊÇ·ñ³¬Ê±*/
     tle = false;
@@ -147,7 +147,7 @@ void OverScene::update()
     }
 
     char *s = new char[50];
-    sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", now->bgnow);
+    sprintf(s, "./Pic/bgvideo/bgvideo%02d.png", now->bgnow);
     now->putImage(s, 0, 0, 960, 640);
     delete[] s;
 
@@ -199,10 +199,10 @@ void OverScene::onMouseMotion(Sint32 x, Sint32 y)
 {
     if (x >= 390 && x <= 580 && y >= 520 && y <= 570)
     {
-        sprintf_s(background_pic, 50, "./Pic/endgame_stroke1.png");
+        sprintf(background_pic, "./Pic/endgame_stroke1.png");
     }
     else
     {
-        sprintf_s(background_pic, 50, "./Pic/endgame.png");
+        sprintf(background_pic, "./Pic/endgame.png");
     }
 }

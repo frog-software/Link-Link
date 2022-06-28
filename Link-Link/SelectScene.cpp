@@ -29,7 +29,7 @@ void SelectScene::update()
     }
 
     char *s = new char[50];
-    sprintf_s(s, 50, "./Pic/bgvideo/bgvideo%02d.png", now->bgnow);
+    sprintf(s, "./Pic/bgvideo/bgvideo%02d.png", now->bgnow);
     now->putImage(s, 0, 0, 960, 640);
     delete[] s;
 
