@@ -1,7 +1,5 @@
 #include"Control.h"
-#include<SDL.h>
 Control *now = nullptr;
-
 /**
  * @brief ³ÌÐòÈë¿Ú
  *

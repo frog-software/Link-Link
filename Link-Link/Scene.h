@@ -1,5 +1,10 @@
 #pragma once
-#include <SDL_stdinc.h>
+#if defined(_MSC_VER)
+    #include <SDL_stdinc.h>
+#else
+    #include <SDL2/SDL_stdinc.h>
+#endif
+
 /**
  * @brief 页面类的抽象类
  *
