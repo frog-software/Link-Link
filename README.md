@@ -43,7 +43,7 @@
 
 #### 编译软件
 
-进入 `src` 文件夹后，直接运行写好的 `Makefile` 文件：
+进入 `Link-Link` 文件夹后，直接运行写好的 `Makefile` 文件：
 
 ```shell
 make
