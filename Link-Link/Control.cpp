@@ -1,14 +1,10 @@
-/*****************************************************************/ /**
-                                                                     * \file
-                                                                     *Control.cpp
-                                                                     * \brief
-                                                                     *Control类的定义
-                                                                     * Control类的函数定义
-                                                                     * \author
-                                                                     *FrogDar
-                                                                     * \date
-                                                                     *June 2020
-                                                                     *********************************************************************/
+/*********************************************************************
+ * \file Control.cpp
+ * \brief Control类的定义
+ * Control类的函数定义
+ * \author FrogDar
+ * \date June 2020
+ *********************************************************************/
 
 #include "Control.h"
 
@@ -81,6 +77,9 @@ Control::~Control() {
     SDL_DestroyWindow(window);
     TTF_Quit();
     Mix_CloseAudio();
+    for (auto i : Sounds) {
+        Mix_FreeChunk(i.second);
+    }
     Mix_Quit();
     SDL_Quit();
 
